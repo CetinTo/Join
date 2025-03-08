@@ -1,0 +1,149 @@
+
+.main-div {
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+
+    flex-direction: column;
+    width: 100%;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.header {
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.164);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.main-header {
+    height: 96px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    font-size: 20px;
+    font-weight: 400;
+    color: #2a3647;
+}
+
+.header-right-side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 104px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-right-side img {
+    transition: transform 0.1s ease-in-out;
+}
+
+.header-right-side img:hover {
+    transform: scale(1.2);
+}
+
+.account {
+    width: 56px;
+    height: 56px;
+    border: 3px solid #2a3647;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #28abe2;
+    font-size: 32px;
+    font-weight: 700;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.account:hover {
+    background-color: #e9e9e996;
+    cursor: pointer;
+}
+
+.header-Logo {
+    display: none;
+}
+
+@media (max-width: 925px) {
+    .headline-header{
+        display: none;
+    }
+
+    .main-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 100%;
+        flex: 1;
+    }
+    .main-header {
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+    }
+
+   .headline-header {
+        display: none;
+    }
+
+    .header-right-side {
+        width: 100%;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .account {
+        width: 48px;
+        height: 48px;
+        font-size: 28px;
+    }
+
+    .header-Logo {
+        height: 39px;
+        width: 32px;
+        display: block;
+    }
+}
+
+@media (max-width: 440px) {
+    .main-header {
+        height: 64px;
+        font-size: 16px; 
+        /* padding: 10px 0; */
+    }
+
+    .header-right-side {
+        gap: 8px;
+       
+    }
+
+    .account {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+    }
+
+    .header-Logo {
+            display: block;
+            width: 32px;
+            height: 39px
+        }
+
+    .header {
+        /* padding: 10px; */
+    }
+}
+
+
+

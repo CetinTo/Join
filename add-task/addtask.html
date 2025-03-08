@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik+Vinyl&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../img/capa.png" type="image/png" />
+    <link rel="stylesheet" href="../styles/header.css" />
+    <link rel="stylesheet" href="../styles/side-menu.css" />
+    <link rel="stylesheet" href="../styles/standard.css" />
+    <link rel="stylesheet" href="../styles/profile-dropdown.css" />
+    <link rel="stylesheet" href="../add-task/addtaskstyles/add-task-style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/de.js"></script>
+    <script src="../add-task/scripts/scripts.js" defer></script>
+    <script src="./scripts/contacts.js"></script>
+    <script src="./scripts/addTask.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="side-menu">
+      <div class="logo-content-container">
+        <div class="logo">
+          <img src="../img/capa_white.png" alt="Join.Logo" class="logo" />
+        </div>
+        <div class="menu-content">
+          <div class="menu-content-div">
+            <a href="../index.html"><img src="../img/icon/summary.png" alt="summary" />Summary</a>
+          </div>
+          <div class="selected-menu">
+            <a href="./addtask.html"><img src="../img/icon/add_task.png" alt="add_task" /> Add Task</a>
+          </div>
+          <div class="menu-content-div">
+            <a href="../board/board.html"><img src="../img/icon/board.png" alt="board" />Board</a>
+          </div>
+          <div class="menu-content-div">
+            <a href="../contact/contacts.html"><img src="../img/icon/contacts.png" alt="contacts" />Contacts</a>
+          </div>
+        </div>
+      </div>
+      <div class="policy-container">
+        <div class="policy-container-div">
+          <div><a href="./resources/private-policy/privacy-policy.html">Privacy Policy</a></div>
+          <div><a href="./resources/legal-notice/legal-notice.html">Legal Notice</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="main-div">
+      <div class="header">
+        <div class="main-header">
+          <div class="header-logo-none-resp">
+            <img class="header-Logo" src="../img/capa.png" alt />
+          </div>
+          <div class="headline-header">Kanban Project Management Tool</div>
+          <div class="header-right-side">
+            <div>
+              <a href="../resources/help/help.html"><img src="../img/icon/help.png" alt="help" /></a>
+            </div>
+            <div class="account">
+              <div>G</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dropdown-menu">
+        <div class="dropdown-content">
+          <div class="dropdown-content-div">
+            <div class="dropdown-content-div-text">
+              <a href="../resources/legal-notice/legal-notice.html"><div>Legal notice</div></a>
+            </div>
+          </div>
+          <div class="dropdown-content-div">
+            <div class="dropdown-content-div-text">
+              <a href="../resources/private-policy/privacy-policy.html"><div>Privacy Policy</div></a>
+            </div>
+          </div>
+          <div class="dropdown-content-div">
+            <div class="dropdown-content-div-text">
+              <a href="../login-signup/login.html"><div>Logout</div></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="main-section">
+        <div class="headline-div">
+          <h1>Add Task</h1>
+        </div>
+        <div class="main-form-div">
+          <div class="form-div">
+            <form class="form-left">
+              <div class="flrow">
+                <span>Title<required-field>*</required-field></span>
+                <input type="text" class="input" placeholder="Enter a title" />
+              </div>
+              <div class="flrow">
+                <span>Description</span>
+                <textarea placeholder="Enter a Description" class="description"></textarea>
+              </div>
+              <div class="flrow">
+                <span>Assigned to</span>
+                <select class="select-contact" style="display: none;">
+                  <option value="" disabled selected>Select contacts to assign</option>
+                </select>
+                <div class="custom-dropdown">
+                  <div class="dropdown-search-container">
+                    <input type="text" class="dropdown-search" placeholder="Select to assign" onclick="toggleDropdown()" />
+                    <img src="../img/arrow_drop_down.png" alt="Search Icon" class="search-icon" onclick="toggleDropdown()" />
+                    <img src="../img/arrow_drop_down_aktive.png" alt="Search Icon" class="search-icon-active" onclick="toggleDropdown()" />
+                  </div>
+                  <div class="dropdown-list"></div>
+                  <div class="assigned-to-profiles-container"></div>
+                </div>
+              </div>
+            </form>
+            <hr />
+            <form class="form-right">
+              <div class="flrow">
+                <span>Due date<required-field>*</required-field></span>
+                <div class="date-input-container">
+                  <input type="text" id="date-input" class="date-input" placeholder="dd/mm/yyyy" />
+                  <img src="../img/icon/event.png" alt="Calendar Icon" class="calendar-icon" onclick="openDatePicker()" />
+                </div>
+              </div>
+              <div class="flrow">
+                <span>Prio</span>
+                <div class="priority-container">
+                  <div class="priority-button-urgent" onclick="setPriority('urgent')">
+                    Urgent <img src="../img/icon-urgent.png" alt="urgent-icon" class="urgent-icon-active" />
+                  </div>
+                  <div class="priority-button-medium" onclick="setPriority('medium')">
+                    Medium <img src="../img/icon-medium.png" alt="" class="medium-vector" />
+                  </div>
+                  <div class="priority-button-low" onclick="setPriority('low')">
+                    Low <img src="../img/icon-low.png" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div class="flrow">
+                <span>Category<required-field>*</required-field></span>
+                <select class="select-task" style="display: none;">
+                  <option value="" disabled selected>Select task category</option>
+                  <option value="todo">Technical Task</option>
+                  <option value="inprogress">User Story</option>
+                </select>
+                <div class="category-dropdown" tabindex="0">
+                  <div class="category-selected">Select task category</div>
+                  <img src="../img/arrow_drop_down.png" alt="Dropdown Icon" class="dropdown-icon" />
+                  <div class="category-options">
+                    <div class="category-item" data-value="Technical task">Technical Task</div>
+                    <div class="category-item" data-value="User Story">User Story</div>
+                  </div>
+                </div>
+              </div>
+              <div class="subtask-container">
+                <span>Subtasks</span>
+                <div class="subtask-wrapper">
+                  <input class="subtask" type="text" placeholder="Add new subtask" />
+                  <div class="subtask-icons-div" style="display: none;">
+                    <img src="../img/subtask-delete.png" alt="Delete Subtask" class="subtask-icon delete-icon" />
+                    <hr class="subtask-hr" />
+                    <img src="../img/subtask-check.png" alt="Check Subtask" class="subtask-icon check-icon" />
+                  </div>
+                  <img src="../img/icon/add.png" alt="Add Subtask" class="subtask-icon add-icon" id="addSubtask" />
+                </div>
+                <div class="subtasks-scroll-container"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="footer-cover-div">
+          <div class="footer-mid-div">
+            <div>
+              <div class="dn-925px">
+                <span><required-field>*</required-field>This field is required</span>
+              </div>
+            </div>
+            <div class="footer-btn">
+              <div class="clear-btn">Clear x</div>
+              <div class="create-btn">Create <img src="../img/icon/check.png" alt="" /></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".clear-btn").forEach((item) => {
+          item.addEventListener("click", function () {
+            location.reload();
+          });
+        });
+      });
+
+      document.querySelector(".account").addEventListener("click", function (event) {
+        event.stopPropagation();
+        document.querySelector(".dropdown-menu").classList.toggle("show");
+      });
+
+      document.addEventListener("click", function (event) {
+        const dropdown = document.querySelector(".dropdown-menu");
+        if (!dropdown.contains(event.target) && dropdown.classList.contains("show")) {
+          dropdown.classList.remove("show");
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const subtaskInput = document.querySelector(".subtask");
+        const addIcon = document.querySelector(".add-icon");
+        const iconsDiv = document.querySelector(".subtask-icons-div");
+        const deleteIcon = document.querySelector(".delete-icon");
+        const checkIcon = document.querySelector(".check-icon");
+
+        subtaskInput.addEventListener("focus", function () {
+          addIcon.style.display = "none";
+          iconsDiv.style.display = "flex";
+        });
+
+        subtaskInput.addEventListener("blur", function () {
+          if (!this.value) {
+            addIcon.style.display = "block";
+            iconsDiv.style.display = "none";
+          }
+        });
+
+        deleteIcon.addEventListener("click", function () {
+          subtaskInput.value = "";
+          addIcon.style.display = "block";
+          iconsDiv.style.display = "none";
+          subtaskInput.focus();
+        });
+
+        checkIcon.addEventListener("click", function () {
+          const subtaskText = subtaskInput.value.trim();
+          if (subtaskText) {
+            const newSubtask = document.createElement("div");
+            newSubtask.className = "added-subtasks";
+            newSubtask.innerHTML = `
+              <div class="flexrow">
+                <div>•</div>
+                <div class="subtask-added-tasks">${subtaskText}</div>
+              </div>
+              <div class="added-subtask-icons">
+                <div><img src="../img/pen.png" alt="pen"></div>
+                <hr class="subtask-hr">
+                <div class="trash-icon"><img src="../img/trash.png" alt="trash"></div>
+              </div>
+            `;
+            const trashIcon = newSubtask.querySelector(".trash-icon");
+            trashIcon.addEventListener("click", function () {
+              newSubtask.remove();
+              validateForm();
+            });
+            const scrollContainer = document.querySelector(".subtasks-scroll-container");
+            scrollContainer.appendChild(newSubtask);
+            subtaskInput.value = "";
+            addIcon.style.display = "block";
+            iconsDiv.style.display = "none";
+            validateForm();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1045 @@
+.form-div-floating-edit {
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    flex-direction: column;
+    height: 100%;
+    
+}
+
+.main-section-floating-edit{
+    width:525px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: rgb(255, 255, 255);
+    height:931px;
+    /* width: 1116px; */
+    padding: 20px;
+    border-radius: 30px;
+    border: 1px solid #D1d1d1;
+    opacity: 0;
+    transform: translate(100vw, -50%);
+    animation: slideIn 0.2s ease-out forwards;
+}
+
+.headline-floating-edit h1{
+    margin-top:144px;
+}
+
+.floating-edit-task-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    scroll-behavior: smooth;
+}
+
+.floating-edit-task-container::-webkit-scrollbar {
+    width: 6px; 
+}
+
+.floating-edit-task-container::-webkit-scrollbar-thumb {
+    background: #afafaf;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.floating-edit-task-container::-webkit-scrollbar-thumb:hover {
+    background: #28abe2; 
+    cursor: pointer;
+}
+
+.floating-edit-task-container::-webkit-scrollbar-track {
+    background: #ddd;
+}
+
+
+.footer-mid-div-floating-edit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: 146px;
+}
+
+.footer-btn-floating-edit {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.create-btn-floating-edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 86px;
+    height: 56px;
+    background-color: #2a3647;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.0s ease-in-out;
+    box-shadow: none;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: center;
+    gap: 8px;
+}
+
+.create-btn-floating-edit:hover {
+    background-color: #28abe2;
+    box-shadow: 0 5px 10px rgba(40, 171, 226, 0.2);
+    transform: translateY(-0.5px);
+}
+
+.footer-edit-floating-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+
+.priority-button-urgentFloating {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 136px;
+    height: 56px;
+    color: #000000;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+    background-clip: padding-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: box-shadow 0.1s ease;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.priority-button-urgentFloating:hover {
+    box-shadow: 1px 4px 0px 1px rgba(0, 0, 0, 0.2);
+}
+
+.priority-button-urgentFloating.active {
+    background-color: #ff3d01;
+    border-color: #999;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.priority-button-mediumFloating {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 136px;
+    height: 56px;
+    color: #000000;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+    background-clip: padding-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: box-shadow 0.1s ease;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.priority-button-mediumFloating:hover {
+    box-shadow: 1px 4px 0px 1px rgba(0, 0, 0, 0.2);
+
+}
+
+.priority-button-mediumFloating.active {
+    background-color: #fea800;
+    border-color: #999;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.priority-button-lowFloating {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 136px;
+    height: 56px;
+    color: #000000;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+    background-clip: padding-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: box-shadow 0.1s ease;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.priority-button-lowFloating:hover {
+    box-shadow: 1px 4px 0px 1px rgba(0, 0, 0, 0.2);
+}
+
+.priority-button-lowFloating.active {
+    background-color: #79e229;
+    border-color: #999;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.medium-vector {
+    filter: brightness(0) saturate(100%) invert(74%) sepia(99%) saturate(748%) hue-rotate(330deg) brightness(97%) contrast(101%);
+}
+
+.priority-button-mediumFloating.active img{
+    filter: invert(0) brightness(10);
+}
+
+.priority-button-urgentFloating.active img,
+.priority-button-lowFloating.active img {
+    filter: invert(0.1) brightness(10);
+}
+
+.headline-div-modal-edit {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: 100px;
+    
+}
+
+.assigned-to-profile-bubble{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    gap: 12px;
+}
+
+.subtask-floating-edit-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* text-align: center; */
+    padding: 3px;
+}
+
+.subtask-floating-edit-container:hover{
+    background-color: #2a36473e;
+    border-radius: 8px;
+}
+
+.subtask-floating-edit-container:hover img {
+    filter: invert(0%) brightness(100%);
+    cursor: pointer;
+}
+
+.subtask-floating-edit-container:hover img:hover {
+    filter: invert(57%) sepia(92%) saturate(925%) hue-rotate(170deg) brightness(97%) contrast(105%);    cursor: pointer;
+}
+
+.subtask-floating-edit-container img{
+    filter: invert(100%) brightness(200%);
+    padding-right: 12px;
+}
+
+.subtasks-floating-edit{
+    font-size: 18px;
+}
+
+.headline-div-modal-edit img:hover{
+    background-color: rgba(128, 128, 128, 0.603);
+    cursor: pointer;
+    border-radius: 10px;
+    height: 17px;
+    width: 17px;
+    
+}
+
+
+/* **************************************************************************** */
+/* **************************************************************************** */
+/* **************************************************************************** */
+/* **************************************************************************** */
+/* **************************************************************************** */
+
+
+
+
+
+
+.input-edit {
+    height: 48px;
+    border-radius: 10px;
+    border: 1px solid #D1d1d1;
+    background-color: #ffffff;
+    padding-left: 12px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+.input-edit:focus {
+    border: 1px solid #28abe2;
+    outline: none;
+}
+
+.input-edit::placeholder {
+    color: #D1d1d1;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+
+
+.description-edit {
+    height: 120px;
+    resize: none;
+    border: 1px solid #D1d1d1;
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding-left: 12px;
+    padding-top: 12px;
+    font-size: 20px;
+    font-family: inter;
+}
+
+.description-edit:focus {
+    border: 1px solid #28abe2;
+    outline: none;
+}
+
+.description-edit::placeholder {
+    color: #D1d1d1;
+    font-size: 20px;
+}
+
+
+.custom-dropdown-edit {
+    position: relative;
+    width: 100%;
+    font-size: 16px;
+}
+
+.custom-dropdown-edit.active .dropdown-list-edit {
+    display: block;
+}
+
+
+.close-modal-div-x {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+.close-modal-div-x img {
+    padding-top: 24px;
+    padding-right: 24px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}   
+
+.close-modal-div-x img:hover {
+    filter: brightness(0) saturate(100%) invert(34%) sepia(100%) saturate(748%) hue-rotate(162deg) brightness(97%) contrast(101%);
+}
+
+.headline-div {
+    width: 90%;
+}
+
+
+
+.main-form-div {
+    max-height: 1000px;
+    height: 65%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+
+.form-lef-edit {
+    width: 48%;
+    height: auto;
+}
+
+.dropdown-search-edit {
+    width: 99%;
+    padding: 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
+    height: 24px;
+}
+
+
+.dropdown-search-container-edit {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.dropdown-search-edit:focus {
+    border: 1px solid #28abe2;
+}
+
+
+.search-icon-edit {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: block;
+    padding-right: 8px;
+}
+
+.search-icon-active-edit {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: none;
+}
+
+.dropdown-list-edit div.selected {
+    background-color: #2a3547 !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 16px;
+    height: 46px;
+}
+
+.dropdown-list-edit div.selected img {
+    filter: invert(1) brightness(10);
+}
+
+.dropdown-list-edit div.selected .contact-name {
+    color: white !important;
+}
+
+.dropdown-list-edit div.selected .contact-initials-edit {
+    color: white !important;
+}
+
+.custom-dropdown-edit.active .dropdown-list-edit {
+    display: block;
+}
+
+.dropdown-list-edit::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-list-edit::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.dropdown-list-edit::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 10px;
+}
+
+.dropdown-list-edit::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+}
+
+
+.dropdown-list-edit {
+    display: none;
+    position: fixed;
+    width: 31%;
+    max-width: 400px;
+    background: white;
+    border: 1px solid #28abe2;
+    border-radius: 5px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.form-right-edit {
+    width: 48%;
+    height: auto;
+    gap: 24px;
+}
+
+
+.date-input-container-edit {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+
+.date-input-edit {
+    flex: 1;
+    padding-right: 30px;
+    color: #999;
+    font-size: 20px;
+    font-weight: 400;
+    color: black;
+    padding-left: 12px;
+}
+
+.calendar-icon-edit {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+}
+
+.priority-container-edit {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 8px;
+}
+
+
+.priority-button-urgent-edit {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 136px;
+    height: 56px;
+    color: #000000;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+    background-clip: padding-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: box-shadow 0.1s ease;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.priority-button-urgent-edit:hover {
+    box-shadow: 1px 4px 0px 1px rgba(0, 0, 0, 0.2);
+}
+
+.priority-button-urgent-edit.active {
+    background-color: #ff3d01;
+    border-color: #999;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+
+.priority-button-urgent-edit.active img,
+.priority-button-low-edit.active img {
+    filter: invert(1) brightness(10);
+}
+
+
+
+.priority-button-medium-edit {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 136px;
+    height: 56px;
+    color: #000000;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+    background-clip: padding-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: box-shadow 0.1s ease;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.priority-button-medium-edit:hover {
+    box-shadow: 1px 4px 0px 1px rgba(0, 0, 0, 0.2);
+}
+
+.priority-button-medium-edit.active {
+    background-color: #fea800;
+    border-color: #999;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.priority-button-medium-edit.active img {
+    filter: invert(0) brightness(10);
+}
+
+.medium-vector-edit {
+    filter: brightness(0) saturate(100%) invert(74%) sepia(99%) saturate(748%) hue-rotate(330deg) brightness(97%) contrast(101%);
+}
+
+
+.priority-button-low-edit {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 136px;
+    height: 56px;
+    color: #000000;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25);
+    background-clip: padding-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: box-shadow 0.1s ease;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.priority-button-low-edit:hover {
+    box-shadow: 1px 4px 0px 1px rgba(0, 0, 0, 0.2);
+}
+
+.priority-button-low-edit.active {
+    background-color: #79e229;
+    border-color: #999;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.select-task-edit {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    height: 48px;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    background-color: #ffffff;
+    font-size: 20px;
+    font-weight: 400;
+    padding-left: 12px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+
+
+.select-task-edit:focus {
+    border: 1px solid #28abe2;
+    outline: none;
+    background-color: #f0f8ff;
+}
+
+.select-task-edit option:disabled {
+    border: 1px solid #28abe2;
+    font-style: italic;
+}
+
+.select-task-edit option:hover {
+    background-color: white !important;
+    color: black !important;
+}
+
+
+
+.category-dropdown-edit {
+    position: relative;
+    width: 94%;
+    /* max-width: 300px; */
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    background-color: white;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.category-dropdown-edit:focus {
+    border: 1px solid #28abe2;
+}
+
+.category-dropdown-edit {
+    position: relative;
+    width: 250px;
+    border: 1px solid #ccc;
+    /* padding: 10px; */
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.category-selected-edit {
+    font-weight: 400;
+    color: black;
+    font-family: inter;
+}
+
+
+
+.category-options-edit {
+    z-index: 10;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #b6b6b6;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(148, 103, 103, 0.1);
+}
+
+.category-item-edit {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.category-item-edit:hover {
+    background-color: #00000012;
+    color: black;
+}
+
+.subtasks-scroll-container-edit {
+    min-height: 50px;  
+    max-height: 50px;  
+    overflow-y: auto;  
+    margin-top: 10px;
+    padding-right: 10px;
+    width: 100%;
+}
+
+
+.dropdown-icon-edit {
+    transition: 0.3s;
+    padding-right: 12px;
+}
+
+.dropdown-item-edit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+
+.dropdown-item-edit.selected {
+    background-color: #2a3547 !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 16px;
+    height: 46px;
+}
+
+.dropdown-item-edit.selected .contact-name {
+    color: white !important;
+}
+
+.category-options-edit {
+    z-index: 10;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #b6b6b6;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(148, 103, 103, 0.1);
+}
+
+
+.category-item-edit {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.category-item-edit:hover {
+    background-color: #00000012;
+    color: black;
+}
+
+
+
+.subtasks-scroll-container-edit {
+    min-height: 50px;  
+    max-height: 50px;  
+    overflow-y: auto;  
+    margin-top: 10px;
+    padding-right: 10px;
+    width: 100%;
+}
+
+
+.subtasks-scroll-container-edit::-webkit-scrollbar {
+    width: 4px;
+}
+
+.subtasks-scroll-container-edit::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.subtasks-scroll-container-edit::-webkit-scrollbar-thumb {
+    background: #A8A8A8;
+    border-radius: 4px;
+}
+
+.subtasks-scroll-container-edit::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.added-subtasks-edit {
+    margin-bottom: 8px;
+}
+
+.subtask-wrapper-edit {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.subtask-edit {
+    width: 100%;
+    padding-right: 20px;
+}
+
+.add-icon-edit {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.subtask-icons-div-edit {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+    align-items: center;
+    gap: 8px;
+}
+
+.subtask-container-edit {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.subtask-wrapper-edit {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+
+
+.subtask-icons-div-edit {
+    padding-right: 20px;
+    position: absolute;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.subtask-icon-edit {
+    cursor: pointer;
+}
+
+.subtask-hr-edit {
+    width: 1px;
+    height: 20px;
+    background-color: #ccc;
+    border: none;
+}
+
+.delete-icon-edit {
+    right: 40px;
+}
+
+.check-icon-edit {
+    right: 70px;
+}
+
+.subtask-edit:focus {
+    border: 1px solid #28abe2;
+    outline: none;
+}
+
+.subtask-edit::placeholder {
+    color: #D1d1d1;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.added-subtasks-edit {
+    height:20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.added-subtasks-edit:hover {
+    background-color: rgba(182, 182, 182, 0.234);
+}
+
+.added-subtasks-edit img {
+    display: hidden;
+}
+
+.added-subtasks-edit img:hover {
+    display: block;
+}
+
+.added-subtask-icons-edit {
+    padding-right: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 6px;
+}
+
+.added-subtask-icons-edit img {
+    cursor: pointer;
+}
+
+.added-subtask-icons-edit {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.added-subtasks-edit:hover .added-subtask-icons-edit {
+    opacity: 1;
+}
+
+.added-subtask-icons-edit img {
+    cursor: pointer;
+}
+
+
+
+.footer-edit-floating-container {
+    width: 73%;
+    max-width: 976px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1100px;
+}
+
+.footer-mid-div-edit {
+    padding-left: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 976px;
+}
+
+
+.footer-btn-edit {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 309px;
+}
+
+
+.create-btn-edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 183px;
+    height: 56px;
+    background-color: #2a3647;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.0s ease-in-out;
+    box-shadow: none;
+    font-size: 21px;
+    font-weight: 700px;
+    text-align: center;
+    gap: 8px;
+    cursor: pointer;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.create-btn-edit:hover {
+    background-color: #28abe2;
+    box-shadow: 0 5px 10px rgba(40, 171, 226, 0.2);
+    transform: translateY(-0.5px);
+}
+
+
+
+.color-red { background-color: #ff0000; }
+.color-blue { background-color: #0000ff; }
+
+.contact-initials-edit {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 35px;
+    color: white;
+  }
