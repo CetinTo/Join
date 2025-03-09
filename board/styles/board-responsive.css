@@ -710,4 +710,27 @@ h1 {
     .header-right-side{
         padding-right:0;
     }
+
+
+    .main-section-task-overlay{
+        width:358px !important;
+        height:auto !important;
+        min-height: 659px;
+    }
+
+    .w445{
+        width:300px !important;
+    }
+
+
+    .edit-modal-container{
+        width:358px !important;
+        height: 659px !important;
+    }
+
+    .form-input,
+    .form-textarea{
+        width:88% !important;
+    }
+
 }

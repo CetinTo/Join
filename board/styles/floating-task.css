@@ -378,7 +378,7 @@
     .main-section-task-overlay {
         width: 90%; /* Breite relativ zum Viewport */
         max-width: 450px; /* Maximale Breite begrenzen */
-        height: 900; /* Höhe an den Inhalt anpassen */
+        height: 900px; /* Höhe an den Inhalt anpassen */
         max-height: 83vh; /* Maximale Höhe begrenzen */
     }
 
