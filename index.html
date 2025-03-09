@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="./styles/profile-dropdown.css" />
     <link rel="stylesheet" href="../contact/styles/contacts.css" />
     <title>Document</title>
+    <script src="./script/user.js"></script>
     <script src="./script/indexCounter.js"></script>
+    <script src="./script/logout.js"></script>
   </head>
   <body>
     <div class="side-menu">
@@ -96,7 +98,7 @@
           <div class="dropdown-content-div">
             <div class="dropdown-content-div-text">
               <div>
-                <a href="./login-signup/login.html">Logout</a>
+                <a href="./login-signup/login.html" onclick="logout()">Logout</a>
               </div>
             </div>
           </div>
@@ -166,9 +168,11 @@
             <div class="greeting-section-container">
               <div class="greeting-section">
                 <div>Good morning,</div>
-                <name-span>Guest</name-span>
+                <!-- Statt <name-span>, nutze z.B. ein <span> mit Klasse oder ID -->
+                <name-span class="username-span ">Guest</name-span>
               </div>
             </div>
+            
           </div>
         </div>
       </div>
