@@ -7,7 +7,7 @@ h1 {
 
 .board-main {
     width: 100%;                
-    max-width: 1240px;         
+    max-width: 1317px;         
     padding-left: 64px;
     box-sizing: border-box;      
     display: flex;
@@ -23,7 +23,8 @@ h1 {
     align-items: center;
     flex-direction: row;
     width: 1208px;
-    padding-left: 64px;
+    /* padding-left: 64px; */
+    
 }
 
 
@@ -95,8 +96,10 @@ h1 {
     max-width: 1208px;
     padding-right: 64px;
     padding-left: 64px;
-    flex-wrap: wrap;
-    gap:24px
+    /* flex-wrap: wrap; */
+    gap:24px;
+    /* overflow:scroll;
+    overflow-x:hidden; */
 
 }
 
@@ -418,3 +421,10 @@ h6 {
     margin-bottom: 20px;
 }
 
+@media screen and (max-width:768px){
+    .tasks-headline{
+        width:92%;
+        padding-left:12px;
+
+    }
+}

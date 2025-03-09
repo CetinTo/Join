@@ -128,4 +128,18 @@ async function loadTaskCounterFromFirebase() {
       });
     }
   });
+
+
+
+  // viewport 
+
+  // Setzt die Variable beim Laden und bei Resize
+function setViewportHeight() {
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+window.addEventListener('resize', setViewportHeight);
+setViewportHeight();
+
   
