@@ -215,6 +215,43 @@
     transform: translateY(-0,5px); 
   }
 
+  .btn.sign-up-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .success-animation {
+    position: fixed;
+    left: 50%;
+    /* Start: außerhalb des Bildschirms (unten) */
+    top: 100vh;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    /* Animation: 3 Sekunden, ease-in-out, keine Wiederholung */
+    animation: slideInOut 3s ease-in-out forwards;
+  }
+  
+  @keyframes slideInOut {
+    0% {
+      top: 100vh;
+      opacity: 0;
+    }
+    20% {
+      top: 50vh;  /* in die Mitte des Bildschirms */
+      opacity: 1;
+    }
+    80% {
+      top: 50vh;  /* in der Mitte bleiben */
+      opacity: 1;
+    }
+    100% {
+      top: 100vh;  /* wieder nach unten verschieben */
+      opacity: 0;
+    }
+  }
+  
+
 @media (max-width: 925px) {
   .login-modal {
     width: 90%;
