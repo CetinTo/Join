@@ -111,3 +111,21 @@ async function loadTaskCounterFromFirebase() {
     loadAwaitFeedbackTaskCounterFromFirebase();
   });
   
+
+
+
+  // greeting sectin ***************************************
+  document.addEventListener('DOMContentLoaded', () => {
+    const greetingText = document.querySelector('.greeting-section');
+    if (greetingText && window.innerWidth <= 1230) {
+      greetingText.addEventListener('animationend', (e) => {
+        if (e.animationName === 'slideText') {
+          const greetingContainer = document.querySelector('.greeting-section-container');
+          if (greetingContainer) {
+            greetingContainer.style.display = 'none';
+          }
+        }
+      });
+    }
+  });
+  

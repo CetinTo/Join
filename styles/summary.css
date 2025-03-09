@@ -204,6 +204,22 @@
     overflow: hidden;
 }
 
+@media (min-width: 1231px) {
+    .greeting-section-container {
+      /* Stelle sicher, dass der Container im normalen Flow bleibt */
+      position: relative;  /* statt fixed */
+      width: auto;         /* passt sich dem Layout an */
+      height: auto;        /* natürliche Höhe */
+      background: transparent;
+      animation: none;      /* keine Animation */
+      overflow: visible;    /* falls Inhalte außerhalb angezeigt werden sollen */
+      /* Optional: Abstand (Margin) hinzufügen, um den Container passend neben der To-do-Section zu positionieren */
+      margin: 20px 0;
+    }
+  }
+  
+
+
 .to-do-third-section {
     display: flex;
     justify-content: space-between;
@@ -270,7 +286,11 @@ name-span {
 
 @media (max-width:1230px){
     .greeting-section{
-        font-size:2vw;
+        font-size:2rem;
+        width: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .name-span{
@@ -281,7 +301,7 @@ name-span {
 @media (max-width:1050px){
 
     .greeting-section{
-        display: none;
+        /* display: none; */
     }
 
 
@@ -432,7 +452,7 @@ name-span {
     }
 
     .greeting-section {
-       display: none;
+       /* display: none; */
     } 
 
   
@@ -571,7 +591,7 @@ name-span {
     }
 
     .greeting-section {
-        display: none;
+        /* display: none; */
     }
 
     .headline-span {
@@ -605,3 +625,61 @@ name-span {
 
 }
 
+
+@media (min-width: 1231px) {
+    .greeting-section-container {
+      position: fixed;  
+      left: 58rem;
+      background: transparent;
+      animation: none;
+    }
+  }
+/* Für Bildschirme unter 1230px: Greeting-Bereich als Fullscreen-Overlay */
+/* Fullscreen-Overlay nur für kleine Bildschirme */
+/* Für Bildschirme unter 1230px: Fullscreen-Overlay */
+/* Für Bildschirme unter 1230px: Fullscreen-Overlay */
+/* Für Bildschirme unter 1230px: Static weißer Hintergrund */
+/* Für Bildschirme unter 1230px: Fullscreen-Overlay */
+@media (max-width: 1230px) {
+    .greeting-section-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      /* Kein Animationseffekt für den Container */
+    }
+
+    .greeting-section {
+        /* Überschreibt ggf. andere Animationen */
+        animation: slideText 2s ease forwards;
+      }
+    
+
+  }
+  
+  /* Keyframes für die Textanimation */
+  @keyframes slideText {
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    20% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    80% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+  
