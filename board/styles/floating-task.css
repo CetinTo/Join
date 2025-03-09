@@ -13,20 +13,18 @@
     align-items: center;
     flex-direction: column;
     position: fixed;
-    top: 9%;
-    left: 32%;
-    transform: translate(-50%, -50%);
+    top: 50%; /* Oberkante des Modals in der Mitte des Viewports */
+    left: 50%; /* Linke Kante des Modals in der Mitte des Viewports */
+    transform: translate(-50%, -50%); /* Modal um die Hälfte seiner eigenen Größe verschieben */
     z-index: 1000;
-    background-color: rgb(255, 255, 255);
-    height:83vh;
-    width: 500px;
+    background-color: #fff;
+    height: 83vh; /* Höhe des Modals */
+    width: 525px; /* Breite des Modals */
     padding: 20px;
     border-radius: 30px;
     border: 1px solid #D1d1d1;
-    opacity: 0;
-    transform: translate(100vw, -50%);
-    animation: slideIn 0.2s ease-out forwards;
-    max-height: 900px;
+    box-sizing: border-box; /* Padding und Border in der Breite/Höhe berücksichtigen */
+    overflow-y: none; /* Scrollen, falls der Inhalt zu groß ist */
 }
 
 @keyframes slideIn {
@@ -375,3 +373,18 @@
     display: none;
   }
   
+
+  @media screen and (max-width: 1099px) {
+    .main-section-task-overlay {
+        width: 90%; /* Breite relativ zum Viewport */
+        max-width: 450px; /* Maximale Breite begrenzen */
+        height: 900; /* Höhe an den Inhalt anpassen */
+        max-height: 83vh; /* Maximale Höhe begrenzen */
+    }
+
+
+    .w445{
+        width: 352px;
+    }
+
+  }
