@@ -733,4 +733,26 @@ h1 {
         width:88% !important;
     }
 
+
+}
+
+
+@media (max-width:400px){
+    .main-section-task-overlay{
+        width:250px !important;
+        height: 500px !important;
+        min-height: 0 ;
+    }
+
+    .resp-title{
+        font-size:24px;
+    }
+
+    .w445{
+        width:206px !important;
+    }
+
+    .assigned-to-container{
+        height: auto !important;
+    }
 }

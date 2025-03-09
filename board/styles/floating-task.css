@@ -321,9 +321,13 @@
 
 @media screen and (max-width: 380px) {
     .main-section-task-overlay {
-        height: 100vh;
-        width: 100vh;
-        box-sizing: content-box;
+        /* height: 100vh;
+        width: 100vh; */
+        /* box-sizing: content-box; */
+    }
+
+    .w445{
+        width:256px !important;
     }
 
     .priority-select-group{
@@ -385,6 +389,10 @@
 
     .w445{
         width: 352px;
+    }
+
+    .edit-modal-container{
+        width:458px !important;
     }
 
   }
