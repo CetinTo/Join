@@ -601,6 +601,15 @@ h1 {
     .board-bar-item{
         width:100%;
     }
+
+    .assigned-to-container{
+        padding-left:54px;
+    } 
+
+    .flexrow{
+        padding-left:0 !important;
+    }
+
 }
 
 @media (max-width:650px){
@@ -746,13 +755,17 @@ h1 {
         width:88% !important;
     }
 
+    .assigned-to-container{
+        height:113px !important;
+    }
+
 
 }
 
 
 @media (max-width:400px){
     .main-section-task-overlay{
-        width:250px !important;
+        width:300px !important;
         height: 500px !important;
         min-height: 0 ;
     }
@@ -762,10 +775,52 @@ h1 {
     }
 
     .w445{
-        width:206px !important;
+        width:266px !important;
     }
 
     .assigned-to-container{
-        height: auto !important;
+        /* height: auto !important; */
+        height:120px !important;
     }
+
+    .flexrow{
+        padding-left:0 !important;
+        /* gap:39px !important ; */
+    }
+
+    .card-label-technical-task-modal h4{
+        font-size: 19px !important;
+        width:135px !important ;
+        height:28px !important ;
+    }
+
+    .main-section-task-overlay span{
+        font-size:16px !important ;
+        padding-bottom:4px !important ;
+    }
+
+    .assigned-to-div{
+        height:135px !important;
+    }
+
+    .medium{
+        padding-left:26px !important ;
+    }
+
+
+    .subtask-container{
+        height: auto !important; ;
+    }
+
+
+}
+
+@media (max-width: 315px){
+    .main-section-task-overlay{
+        width:280px !important;
+        height:477px !important;
+        left:49% !important;
+    }
+
+    
 }
