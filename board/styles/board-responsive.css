@@ -582,7 +582,6 @@ h1 {
 
 @media (max-width: 1100px){
     .board-header{
-        /* justify-content:flex-start; */
         gap:16%;
     }
 
@@ -590,17 +589,7 @@ h1 {
         font-size:32px;
     }
 
-    .header-right-side{
-        /* padding-right:32px; */
-    }
 
-    .main-header{
-        /* padding-left:32px; */
-    }
-
-    .header{
-        /* justify-content:flex-start; */
-    }
 
     .board-bar-item{
         width:100%;

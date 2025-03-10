@@ -320,11 +320,7 @@
 
 
 @media screen and (max-width: 380px) {
-    .main-section-task-overlay {
-        /* height: 100vh;
-        width: 100vh; */
-        /* box-sizing: content-box; */
-    }
+
 
     .w445{
         width:256px !important;
