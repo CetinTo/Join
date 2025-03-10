@@ -1093,6 +1093,12 @@ hr {
     }
 }
 
+@media (max-width: 925px){
+    .main-section{
+        overflow: scroll;
+    }
+}
+
 @media (max-width: 440px) {
     h1 {
         font-size: 36px;
