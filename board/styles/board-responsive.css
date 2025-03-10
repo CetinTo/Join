@@ -586,6 +586,10 @@ h1 {
         gap:16%;
     }
 
+    .task-modal-headline h1 {
+        font-size:32px;
+    }
+
     .header-right-side{
         /* padding-right:32px; */
     }
@@ -770,6 +774,16 @@ h1 {
         min-height: 0 ;
     }
 
+    .task-modal-headline h1 {
+        font-size:17px;
+    }
+
+    .card-label-user-story-modal h4{
+        width:120px !important;
+        height:26px !important;
+        font-size:18px !important;
+    }
+
     .resp-title{
         font-size:24px;
     }
@@ -818,7 +832,7 @@ h1 {
 @media (max-width: 315px){
     .main-section-task-overlay{
         width:280px !important;
-        height:477px !important;
+        height:500px !important;
         left:49% !important;
     }
 
