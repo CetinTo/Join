@@ -327,10 +327,7 @@
     }
 
     
-    .close-modal-button-edit,
-    .close-modal-button {
-        /* filter: brightness(0) invert(1);  */
-    }
+    
 }
 
 @media (max-width: 440px) {
@@ -645,9 +642,7 @@
 }
 
 @media (max-width: 768px) {
-    .modal-overlay-edit .profile-img-circle {
-        /* margin: 0 auto; */
-    }
+   
     
     .modal-overlay-edit .close-btn-div {
         top: 15px;
@@ -1044,5 +1039,188 @@
     .Contacts {
         width: auto; 
         padding: 0; 
+    }
+}
+
+/* Responsive Anpassungen für das Add-Contact-Modal */
+@media screen and (max-width: 480px) {
+  .modal-overlay-edit,
+  .add-contact-modal {
+    width: 100%;
+    border-radius: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .add-contact-modal h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .add-contact-modal .form-group {
+    width: 100%;
+  }
+
+  .add-contact-modal input {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 8px;
+    border-radius: 8px;
+  }
+
+  .create-contact-btn {
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 8px;
+    margin-top: 15px;
+  }
+}
+
+/* Extra kleine Bildschirme (bis 310px) */
+@media screen and (max-width: 310px) {
+  .add-contact-modal {
+    padding: 15px;
+  }
+
+  .add-contact-modal h2 {
+    font-size: 20px;
+  }
+
+  .profile-badge {
+    width: 80px;
+    height: 80px;
+    font-size: 20px;
+    margin: 0 auto 15px;
+  }
+
+  .add-contact-modal .form-group {
+    margin-bottom: 8px;
+  }
+
+  .add-contact-modal input {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .create-contact-btn {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+}
+
+/* Footer-Navigation für mobile Ansicht */
+.footer-navigation {
+    display: none; /* Standardmäßig versteckt */
+}
+
+@media (max-width: 925px) {
+    /* Container für die gesamte Kontaktansicht */
+    .contacts-main-section {
+        padding-bottom: 80px; /* Platz für das Fußmenü */
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+    
+    /* Footer-Navigation */
+    .footer-navigation {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        background-color: #2A3647;
+        z-index: 1000;
+        justify-content: space-around;
+        align-items: center;
+    }
+    
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    
+    .nav-item img {
+        width: 24px;
+        height: 24px;
+        margin-bottom: 5px;
+    }
+    
+    .nav-item.active {
+        color: #29ABE2;
+    }
+    
+    /* Add-Contact Button über dem Footer */
+    .Contact-button {
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        z-index: 999;
+    }
+    
+    /* Kontaktliste anpassen */
+    .Contacts {
+        width: 100%;
+        padding: 0 15px;
+        box-shadow: none;
+    }
+    
+    .ContactsSection {
+        width: 100%;
+        height: calc(100vh - 180px);
+    }
+    
+    /* Kontaktdetails für Mobile */
+    .contact-selected .Contacts {
+        display: none !important;
+    }
+    
+    .contact-selected .headline-contact {
+        width: 100%;
+        padding: 15px;
+    }
+    
+    /* Aktionsbutton für Mobile */
+    .contact-action-button {
+        bottom: 100px;
+    }
+    
+    .contact-action-popup {
+        bottom: 160px;
+    }
+}
+
+@media (max-width: 310px) {
+    .footer-navigation {
+        height: 70px;
+    }
+    
+    .nav-item {
+        font-size: 12px;
+    }
+    
+    .nav-item img {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .Contact-button {
+        bottom: 90px;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .contact-action-button {
+        bottom: 90px;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .contacts-main-section {
+        padding-bottom: 70px;
     }
 }

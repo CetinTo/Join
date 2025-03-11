@@ -318,17 +318,7 @@ name-span {
     }
 }
 
-@media (max-width:1050px){
 
-    .greeting-section{
-        /* display: none; */
-    }
-
-    .logo-content-container-bottom{
-        /* display:none; */
-    }
-
-}
 
 
 @media (max-width: 925px) {
@@ -493,10 +483,7 @@ name-span {
         padding: 0px 0px 0px 0px;
     }
 
-    .greeting-section {
-       /* display: none; */
-    } 
-
+    
   
     .hr2 {
         display: flex;
@@ -638,9 +625,7 @@ name-span {
         
     }
 
-    .greeting-section {
-        /* display: none; */
-    }
+    
 
     .headline-span {
         display: none;
@@ -682,12 +667,7 @@ name-span {
       animation: none;
     }
   }
-/* Für Bildschirme unter 1230px: Greeting-Bereich als Fullscreen-Overlay */
-/* Fullscreen-Overlay nur für kleine Bildschirme */
-/* Für Bildschirme unter 1230px: Fullscreen-Overlay */
-/* Für Bildschirme unter 1230px: Fullscreen-Overlay */
-/* Für Bildschirme unter 1230px: Static weißer Hintergrund */
-/* Für Bildschirme unter 1230px: Fullscreen-Overlay */
+
 @media (max-width: 1230px) {
     .greeting-section-container {
       position: fixed;
