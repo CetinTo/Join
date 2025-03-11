@@ -631,6 +631,38 @@ h4{
     }
 }
 
+
+@media (max-width:1200px){
+    .side-menu{
+        display: none;
+    }
+
+    .side-menu-bottom{
+        display:block;
+        position: absolute;
+        bottom:0;
+        width: 100vw;
+    }
+
+    .menu-content-bottom{
+        height:64px;
+    }
+
+    .bottom-menu a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .menu-content-div{
+        width: 70px;
+        height: 63px;
+        border-radius: 8px;
+    }
+}
+
+
 @media screen and (max-width: 440px) {
     .add-contact-modal {
         width: 320px;
