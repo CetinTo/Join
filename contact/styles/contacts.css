@@ -164,6 +164,9 @@
     background-color: #f9f9f9;
 }
 
+.contacts_headline-resp{
+    display: none;
+}
 
 
 @media screen and (max-width: 1235px) {
@@ -177,6 +180,9 @@
         width:60px;
     }
 
+    .return-button-contacts{
+        display: block;
+    }
 
     .selected-profile-main{
         flex-wrap: wrap;

@@ -68,10 +68,12 @@ function displayContactDetails(contact, contactId, selectedElement) {
   if (!detailsSection) return;
   cleanupMenus();
   
-  // Blende die Kontakte-Liste aus (verstecke .Contacts-body)
-  const contactsBody = document.querySelector('.Contacts-body');
-  if (contactsBody) {
-    contactsBody.style.display = 'none';
+  // Nur unter 1200px die Kontakte-Liste ausblenden
+  if (window.innerWidth < 1200) {
+    const contactsBody = document.querySelector('.Contacts-body');
+    if (contactsBody) {
+      contactsBody.style.display = 'none';
+    }
   }
   
   document.querySelector('.contacts-main-section').classList.add('contact-selected');
@@ -266,10 +268,12 @@ function showContactDetails(contact) {
 }
 
 function backToContactList() {
-  // Blende die Kontakte-Liste wieder ein (.Contacts-body anzeigen)
-  const contactsBody = document.querySelector('.Contacts-body');
-  if (contactsBody) {
-    contactsBody.style.display = 'block';
+  // Nur unter 1200px wird .Contacts-body wieder eingeblendet
+  if (window.innerWidth < 1200) {
+    const contactsBody = document.querySelector('.Contacts-body');
+    if (contactsBody) {
+      contactsBody.style.display = 'block';
+    }
   }
   document.querySelector('.contacts-main-section').classList.remove('contact-selected');
 }
