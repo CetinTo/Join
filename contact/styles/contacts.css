@@ -173,11 +173,20 @@
     .contacts_headline {
       flex-direction: column;
       flex-wrap: wrap;
+      display: none;
     }
 
     .contacts_headline hr {
         height:3px;
         width:60px;
+    }
+
+    .contacts_headline-resp{
+        display: block;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
     }
 
     .return-button-contacts{

@@ -414,6 +414,12 @@ h4{
     pointer-events: none; 
 }
 
+@media screen and (max-width:1200px){
+    .return-button-contacts{
+        display:block;
+    }
+}
+
 @media screen and (max-width: 925px) {
 
     .add-contact-modal {
