@@ -192,7 +192,7 @@
     justify-content: space-between;
     align-items: flex-start;
     flex-direction: column;
-    height:208px ;
+    height:auto !important;
 }
 
 .profile-names{
@@ -320,11 +320,7 @@
 
 
 @media screen and (max-width: 380px) {
-    .main-section-task-overlay {
-        /* height: 100vh;
-        width: 100vh; */
-        /* box-sizing: content-box; */
-    }
+
 
     .w445{
         width:256px !important;
@@ -336,9 +332,9 @@
 
 
     .edit-modal-container{
-        width:100% !important;
-        height: 100% !important;
-        border-radius: 0 !important;
+        width:300px !important;
+        height: 500px !important;
+        min-height: 0 ;
         box-sizing: content-box !important;
     }
     
@@ -392,7 +388,7 @@
     }
 
     .edit-modal-container{
-        width:458px !important;
+        width: 458px ;
     }
 
   }

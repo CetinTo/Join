@@ -209,6 +209,10 @@
     .edit-modal-footer {
         padding: 16px;
     }
+
+    .priority-select-group{
+        flex-direction: column;
+    }
     
     .form-input,
     .form-textarea {

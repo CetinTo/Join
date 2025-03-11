@@ -335,8 +335,8 @@
       </div>
       <div class="flexrow w445 priority-text-modal">
         <span>Priority:</span>
-        <div class="flexrow medium">
-          <span id="modalPriorityText"></span>
+        <div class="flexrow medium  ">
+          <span id="modalPriorityText" class="priority-text-modal"></span>
           <img id="modalPriorityIcon" src="../img/medium-icon-orange.png" alt="medium-icon">
         </div>
       </div>
@@ -357,7 +357,7 @@
     </div>
   </div>
   <div class="edit-modal-overlay" id="editTaskModal" onclick="closeEditModal()" style="display: none;">
-    <div class="edit-modal-container" onclick="event.stopPropagation()">
+    <div class="edit-modal-container edit-modal-container-resp " onclick="event.stopPropagation()">
       <div class="edit-modal-header">
         <h2 class="edit-modal-title">Edit Task</h2>
         <img src="../img/close-icon.png" alt="Close" class="edit-close-icon" onclick="closeEditModal(event)">
