@@ -719,30 +719,5 @@ h4{
 }
 
 
-@media screen and (max-width: 400px) {
-    .edit-contact-modal{
-        width: 71vw;
-        height: 30rem;
-        box-sizing: border-box;
-        background-size: contain;
-        /* background-repeat: no-repeat; */
-
-    }
 
 
-    
-}
-
-
-@media screen and (max-width: 350px) {
-    .edit-contact-modal{
-        width: 80vw;
-        height: 30rem;
-        box-sizing: border-box;
-        background-size: contain;
-        /* background-repeat: no-repeat; */
-
-
-}
-    
-}
