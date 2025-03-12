@@ -27,6 +27,7 @@ function getInitials(fullName) {
     const contactsSection = document.querySelector(".ContactsSection");
     contactsSection.innerHTML = "";
     let currentLetter = "";
+    
     contactsArray.forEach(([contactId, contact]) => {
       const firstLetter = contact.name.charAt(0).toUpperCase();
       if (firstLetter !== currentLetter) {
@@ -266,4 +267,10 @@ function getInitials(fullName) {
       headlineContact.insertBefore(backButton, headlineContact.firstChild);
     }
   });
+  
+  // ENTFERNEN:
+  // function setupAccountButton() { ... }
+  // function logout() { ... }
+  // document.addEventListener('DOMContentLoaded', function() { ... }) // Der Teil, der setupAccountButton aufruft
+  // window.addEventListener('load', function() { ... }) // Der gesamte Event-Listener für das Dropdown
   
