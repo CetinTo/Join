@@ -11,13 +11,15 @@ a{
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1100;
+    z-index: 9999 !important;
 }
 
 .dropdown-menu.show,
 .dropdown-menu.show-dropdown {
     display: block !important;
     visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 .dropdown-content {
@@ -34,12 +36,28 @@ a{
 }
 
 .dropdown-content-div a {
-    color: #2A3647;
-    text-decoration: none;
-    display: block;
-    font-size: 16px;
+    display: block !important;
+    width: 100% !important;
+    padding: 8px 0 !important;
+    color: #2A3647 !important;
+    text-decoration: none !important;
 }
 
 .account {
-    cursor: pointer;
+    cursor: pointer !important;
+    position: relative;
+    z-index: 1000;
+}
+
+/* Dropdown-Anzeige sicherstellen */
+.dropdown-menu.show {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 10000 !important;
+}
+
+/* Account-Button Styling */
+.account {
+  cursor: pointer !important;
 }
