@@ -181,6 +181,22 @@
         width:60px;
     }
 
+    .contacts-headline-resp-hr {
+        display: block;       /* oder inline-block, je nach Layout-Wunsch */
+        width: 144px;
+        height: 2px;
+        background-color: #29ABE2;  /* statt color */
+        border: none;               /* falls nötig, um Standard-HR-Stile zu überschreiben */
+        margin: 0 auto;             /* zentriert den Balken optional */
+      }
+
+
+    .contacts-headline-resp-content-div h2{
+        margin:0;
+    } 
+
+
+
     .contacts_headline-resp{
         display: block;
         display: flex;
@@ -189,13 +205,22 @@
         flex-direction: row;
     }
 
+    .contacts_headline-resp img {
+        display: none;
+    }
+
     .return-button-contacts{
         display: block;
     }
 
     .selected-profile-main{
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: flex-start;
+        padding-top: 64px;
+    }
+
+    .profile-name-big{
+        font-size: 2rem !important;
     }
 
 
@@ -206,17 +231,29 @@
 
     
     .contact-information-text{
-        width:100% !important;
-        justify-content: center !important;
+        /* width:100% !important; */
+        /* justify-content: center !important; */
         padding-top:64px;
     }
 
     .contact-info-container{
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: flex-start;
+        align-items: flex-start;
         flex-direction: column;
     }
+
+
+    .profile-badge-big{
+        height:80px !important;
+        width: 80px !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        font-size: 32px !important;
+        font-weight: 400 !important;
+    }
+
+
 
 
   }
@@ -313,6 +350,10 @@
         text-align: center; 
     }
 
+    .contacts-headline-resp-hr{
+        margin:0;
+    }
+
     .contacts_headline h2 {
         display: none;
     }
@@ -338,6 +379,10 @@
     .header-Logo {
         height: 39px;
         width: 32px;
+        display: block;
+    }
+
+    .contacts_headline-resp img {
         display: block;
     }
 
