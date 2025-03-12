@@ -420,6 +420,13 @@ h4{
     }
 }
 
+
+@media (min-width:925px){
+    .contacts-body{
+        display: block;
+    }
+}
+
 @media screen and (max-width: 925px) {
 
     .add-contact-modal {
@@ -466,11 +473,14 @@ h4{
 
       .contacts_headline-resp-main-div{
         display:flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
-        width: 100%;
+        width: 90%;
         padding-top:32px;
-        gap:50%;
+        padding-left:3%;
+      }
+
+      .contact-details{
         padding-left:3%;
       }
 

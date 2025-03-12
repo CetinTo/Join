@@ -68,17 +68,23 @@ function displayContactDetails(contact, contactId, selectedElement) {
   if (!detailsSection) return;
   cleanupMenus();
   
-  // Nur unter 1200px die Kontakte-Liste ausblenden
-  if (window.innerWidth < 1200) {
-    const contactsBody = document.querySelector('.Contacts-body');
+  // Kontakte-Liste nur ausblenden, wenn Fensterbreite unter 925px liegt;
+  // über 925px soll die Liste sichtbar bleiben
+  const contactsBody = document.querySelector('.Contacts-body');
+  if (window.innerWidth < 925) {
     if (contactsBody) {
       contactsBody.style.display = 'none';
+    }
+  } else {
+    if (contactsBody) {
+      contactsBody.style.display = 'block';
     }
   }
   
   document.querySelector('.contacts-main-section').classList.add('contact-selected');
   document.querySelectorAll(".contact-list").forEach(item => item.classList.remove("active-contact"));
   selectedElement.classList.add("active-contact");
+  
   detailsSection.innerHTML = `
     <div class="selected-profile-main">
       <div class="profile-badge-big ${getColorClass(contact.name)}">${getInitials(contact.name)}</div>
@@ -268,8 +274,8 @@ function showContactDetails(contact) {
 }
 
 function backToContactList() {
-  // Nur unter 1200px wird .Contacts-body wieder eingeblendet
-  if (window.innerWidth < 1200) {
+  // Hier wird .Contacts-body nur unter 925px wieder eingeblendet
+  if (window.innerWidth < 925) {
     const contactsBody = document.querySelector('.Contacts-body');
     if (contactsBody) {
       contactsBody.style.display = 'block';
@@ -282,5 +288,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const returnImg = document.querySelector('.contacts_headline-resp img[alt="return button"]');
   if (returnImg) {
     returnImg.addEventListener('click', backToContactList);
+  }
+});
+
+// Globaler Resize-Listener, um den Zustand zurückzusetzen, wenn die Breite >= 925px ist
+window.addEventListener('resize', function() {
+  if (window.innerWidth >= 925) {
+    // Stelle sicher, dass die Kontaktliste wieder sichtbar ist
+    const contactsBody = document.querySelector('.Contacts-body');
+    if (contactsBody) {
+      contactsBody.style.display = 'block';
+    }
+    // Entferne den Vollbildmodus der Detailansicht, falls gesetzt
+    document.querySelector('.contacts-main-section').classList.remove('contact-selected');
   }
 });
