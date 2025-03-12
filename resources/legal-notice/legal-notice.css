@@ -33,6 +33,7 @@ main {
     display: flex;
     flex-direction: column;
     overflow: hidden; 
+    min-height: calc(100vh - 200px);
 }
 
 main p {
@@ -43,8 +44,9 @@ main p {
 
 section {
     flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden; 
+    overflow-y: auto; /* Standardmäßig scrollbar machen */
+    overflow-x: hidden;
+    max-height: calc(100vh - 200px); /* Höhe einschränken, um Scrolling zu ermöglichen */
 }
 
 h1, h2, h3 {
@@ -60,7 +62,14 @@ a{
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 61px;
+    font-weight: 700;
+    color: black;
+    margin-top: 100px !important;
+    margin-bottom: 20px;
+    padding-top: 0;
+    line-height: 1.2;
+    clear: both;
 }
 
 h2 {
@@ -85,45 +94,347 @@ ul {
     margin-left: 20px;
 }
 
-h1{
-    font-size:61px;
-    color: black;
-    font-weight: 700;
-}
-
 h4{
     font-weight: 400;
     font-size: 16px;
 }
 
-
-section::-webkit-scrollbar {
-    width: 8px; 
+/* Header optimieren */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: white;
+  display: block;
+  width: 100%;
 }
 
-section::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+/* Scrollbalken nur zwischen 925px und 300px anzeigen */
+@media (max-width: 925px) and (min-width: 300px) {
+  section {
+    overflow-y: scroll; /* Scrollbalken anzeigen in diesem Bereich */
+  }
+  
+  section::-webkit-scrollbar {
+    width: 8px;
+    display: block;
+  }
+  
+  section::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  section::-webkit-scrollbar-thumb {
+    background-color: #28abe2;
+    border-radius: 10px;
+    border: 2px solid #f1f1f1;
+  }
+  
+  /* Firefox */
+  section {
+    scrollbar-width: thin;
+    scrollbar-color: #28abe2 #f1f1f1;
+  }
 }
 
-section::-webkit-scrollbar-thumb {
-    background-color: #28abe2; 
-    border-radius: 10px; 
-    border: 2px solid #f1f1f1; 
+/* Unter 300px keinen Scrollbalken anzeigen */
+@media (max-width: 299px) {
+  section {
+    overflow-y: auto; /* Content scrollbar, aber kein permanenter Balken */
+  }
+  
+  section::-webkit-scrollbar {
+    display: none; /* Webkit-Scrollbalken ausblenden */
+  }
+  
+  section {
+    scrollbar-width: none; /* Firefox-Scrollbalken ausblenden */
+  }
 }
 
-
-section {
-    scrollbar-width: thin; 
-    scrollbar-color: #28abe2 #f1f1f1; 
+/* Styling für den Help-Container */
+.help-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 80px;
+  margin-bottom: 40px;
 }
 
-.header-and-main-container {
-    height: 100vh;
-    width: 100vw;
+.help-container h1 {
+  font-size: 61px;
+  font-weight: 700;
+  margin: 0;
+  color: #000;
+}
+
+.help-container a {
+  height: auto;
+  width: auto;
+  border-radius: 0;
+}
+
+.help-container .return-btn {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+/* Responsive Design für mobile Geräte */
+@media (max-width: 768px) {
+  /* Bestehende Stile beibehalten */
+  .side-menu {
+    display: none;
+  }
+
+  .header-and-main-container {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  /* Header-Anpassungen */
+  .header {
+    width: 100%;
+    padding: 0;
+  }
+
+  .main-header {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+  }
+
+  .main-header > div:first-child {
+    font-size: 16px;
+  }
+
+  /* Logo und Titel anpassen */
+  .logo-container-side-menu-responsive {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-right-side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+ 
 }
 
-p1{
-    color: #28abe2;
+/* Zusätzliche Anpassungen für sehr kleine Bildschirme */
+@media (max-width: 480px) {
+  .main-header {
+    padding: 8px 12px;
+  }
+
+  .main-header > div:first-child {
+    font-size: 14px;
+  }
+
+  .help-container {
+    padding: 0 12px;
+  }
+
+  .help-container h1 {
+    font-size: 24px;
+  }
+
+  h1 {
+    margin-top: 100px !important;
+  }
 }
+
+/* Extra kleine Bildschirme */
+@media (max-width: 320px) {
+  .main-header > div:first-child {
+    font-size: 12px;
+  }
+
+  .help-container h1 {
+    font-size: 20px;
+  }
+
+  h1 {
+    margin-top: 100px !important;
+  }
+}
+
+/* Kanban-Titel ab 925px ausblenden */
+@media (max-width: 925px) {
+    .main-header > div:first-child {
+      display: none;
+    }
+
+    h1 {
+      margin-top: 100px !important;
+    }
+  }
+  
+  /* Styling für das Header-Logo - standardmäßig versteckt */
+  .header-logo {
+    display: none; /* Logo standardmäßig ausblenden */
+    height: 32px;
+    width: auto;
+    margin-right: 16px;
+  }
+  
+  /* Logo ab 925px einblenden, wenn der Titel ausgeblendet wird */
+  @media (max-width: 925px) {
+    .header-logo {
+      display: block; /* Logo anzeigen */
+    }
+  }
+  
+  /* Anpassungen im Header */
+  .header-right-side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .account {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 600;
+  }
+  
+  @media (max-width: 768px) {
+    .header-logo {
+      height: 39px;
+      width: 32px;
+    }
+    
+  
+  }
+
+/* Container für den Hauptinhalt */
+.header-and-main-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile Anpassungen */
+@media (max-width: 925px) {
+  /* Content-Bereich für mobile Navigation anpassen */
+  main {
+    max-height: calc(100vh - 140px); /* Header + Nav Bar berücksichtigen */
+    min-height: auto; /* Entfernen der festen Mindesthöhe */
+  }
+  
+  section {
+    max-height: calc(100vh - 160px); /* Mehr Platz für Scrollbereich */
+  }
+  
+  /* Header weiter optimieren */
+  .header {
+    display: block !important;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+  }
+  
+  .main-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+  }
+}
+
+/* Side-Menu-Anpassungen */
+.side-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Obere und untere Elemente verteilen */
+  height: 100vh; /* Volle Höhe */
+}
+
+.logo-content-container {
+  flex-grow: 0; /* Nicht wachsen */
+}
+
+.policy-container {
+  margin-top: auto; /* Drückt es ans untere Ende */
+  margin-bottom: 32px; /* Abstand nach unten */
+}
+
+/* Side-Menu ab 925px ausblenden statt ab 768px */
+@media (max-width: 925px) {
+  .side-menu {
+    display: none;
+  }
+}
+
+/* Mobile Navigation Bar */
+.mobile-nav-bar {
+  display: none; /* Standardmäßig ausgeblendet */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background-color: #2A3647;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  width: 25%;
+}
+
+.nav-item img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 5px;
+}
+
+/* Mobile Navigation nur im Bereich 925px bis 300px anzeigen */
+@media (max-width: 925px) and (min-width: 300px) {
+  .mobile-nav-bar {
+    display: flex;
+  }
+  
+  /* Content-Bereich Padding hinzufügen, damit er nicht unter der Nav Bar verschwindet */
+  .header-and-main-container {
+    padding-bottom: 80px;
+  }
+  
+  /* Höhe anpassen */
+  main {
+    max-height: calc(100vh - 160px); /* Header + Nav Bar berücksichtigen */
+  }
+}
+
+/* Header in mobiler Ansicht sichtbar machen */
+@media (max-width: 925px) {
+  .header {
+    display: block !important;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+    width: 100%;
+  }
+  
+  .main-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
