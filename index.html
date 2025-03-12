@@ -18,11 +18,13 @@
     <title>Document</title>
     <script src="./script/user.js"></script>
     <script src="./script/indexCounter.js"></script>
-    <script src="./script/logout.js"></script>
+    <script src="../scripts/logout.js"></script>
+    
   </head>
   <body>
     <div class="side-menu">
       <div class="logo-content-container">
+        
         <div class="logo-container-side-menu-responsive">
           <img src="./img/capa_white.png" alt="Join.Logo" class="logo" />
         </div>
@@ -69,7 +71,7 @@
           <div class="headline-header">Kanban Project Management Tool</div>
           <div class="header-right-side">
             <div>
-              <a href="./resources/help/help.html">
+              <a href="./resources/help/help.html" target="_blank">
                 <img src="./img/icon/help.png" alt="" />
               </a>
             </div>
@@ -81,6 +83,13 @@
       </div>
       <div class="dropdown-menu">
         <div class="dropdown-content">
+          <div class="dropdown-content-div">
+            <div class="dropdown-content-div-text">
+              <div>
+                <a href="./resources/help/help.html" target="_blank">Help</a>
+              </div>
+            </div>
+          </div>
           <div class="dropdown-content-div">
             <div class="dropdown-content-div-text">
               <div>
@@ -231,6 +240,45 @@
           dropdown.classList.remove('show');
         }
       });
+    </script>
+    <!-- Direktes Fix für das Dropdown-Menü -->
+    <script>
+      // Warte, bis die Seite vollständig geladen ist
+      window.onload = function() {
+        // Direkter Zugriff auf die Elemente
+        var accountButton = document.querySelector('.account');
+        var dropdownMenu = document.querySelector('.dropdown-menu');
+        
+        // Setze alle vorherigen Event-Listener zurück
+        accountButton.outerHTML = accountButton.outerHTML;
+        
+        // Hole das neue Element nach dem Reset
+        accountButton = document.querySelector('.account');
+        
+        // Füge den Klick-Event hinzu
+        accountButton.addEventListener('click', function(event) {
+          event.stopPropagation();
+          event.preventDefault();
+          console.log('Account-Button wurde geklickt');
+          
+          // Direkte Manipulation der Klassen
+          if (dropdownMenu.style.display === 'block') {
+            dropdownMenu.style.display = 'none';
+          } else {
+            dropdownMenu.style.display = 'block';
+          }
+        });
+        
+        // Klick außerhalb schließt das Dropdown
+        document.addEventListener('click', function() {
+          dropdownMenu.style.display = 'none';
+        });
+        
+        // Verhindere, dass Klicks innerhalb des Dropdowns es schließen
+        dropdownMenu.addEventListener('click', function(event) {
+          event.stopPropagation();
+        });
+      };
     </script>
   </body>
 </html>

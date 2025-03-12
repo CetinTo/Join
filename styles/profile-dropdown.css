@@ -4,49 +4,58 @@ a{
 }
 
 .dropdown-menu {
-    background-color: #2a3647;
-    color: #cdcdcd;
-    height: 158px;
-    width: 150px;
-    border-radius: 20px 0 20px 20px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 10px;
+    display: none;
     position: absolute;
-    top: 96px; 
-    right: 64px;
-    transition: top 0.3s ease-in-out;
-    z-index: 1;
-    visibility: hidden;
+    top: 70px;
+    right: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10000;
 }
 
-.dropdown-menu.show {
-    visibility: visible;
+.dropdown-menu.show,
+.dropdown-menu.show-dropdown {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 .dropdown-content {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: column;
+    padding: 10px 0;
 }
 
-.dropdown-content-div div {
-    height: 46px;
-    width: 130px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding-left: 8px;
-    padding-right: 0;
+.dropdown-content-div {
+    padding: 8px 20px;
+    transition: background-color 0.2s;
 }
 
-.dropdown-content-div div:hover {
-    background-color: #2a4a7a;
-    color: #cdcdcd;
+.dropdown-content-div:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdown-content-div a {
+    display: block !important;
+    width: 100% !important;
+    padding: 8px 0 !important;
+    color: #2A3647 !important;
+    text-decoration: none !important;
+}
+
+.account {
     cursor: pointer;
+}
+
+/* Dropdown-Anzeige sicherstellen */
+.dropdown-menu.show {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 10000 !important;
+}
+
+/* Account-Button Styling */
+.account {
+  cursor: pointer !important;
 }
