@@ -1033,6 +1033,7 @@ hr {
 
     .main-section {
         justify-content: flex-start !important;
+        height:78vh !important;
     }
 
     .date-input {
