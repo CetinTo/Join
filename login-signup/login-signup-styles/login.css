@@ -18,6 +18,10 @@ a{
   color: #2a3647;
 }
 
+.header-text-bottom {
+  display: none !important;
+}
+
 
 .logo-container {
   position: absolute;
@@ -222,6 +226,7 @@ header {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
 }
 
 .button-group {
@@ -360,8 +365,11 @@ footer a:hover{
   .login-modal {
     height: 480px;
     width: 90%;
-      padding: 0px; 
+    padding: 0px; 
+     
   }
+
+
 
   .input-group input {
      width: 80%;
@@ -371,6 +379,13 @@ footer a:hover{
   .login-btn, .guest-btn {
       font-size: 18px; 
   }
+
+  .sign-up-text-div h2{
+    font-size: 24px !important;
+  }
+
+
+
 }
 
 @media (max-width: 500px) {
@@ -394,5 +409,14 @@ footer a:hover{
     flex-direction: column;
     align-items: center;
   }
+
+  .header-text{
+    display: none;
+  }
+
+  .header-text-bottom {
+    display: block !important;
+  }
+
 }
 

@@ -422,6 +422,10 @@
         flex-direction: column;
         height: calc(100vh - 160px);
     }
+
+    .edit-delete-img-div{
+        display: none !important;
+    }
     
     .Contacts {
         width: 100%;

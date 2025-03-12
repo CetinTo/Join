@@ -254,11 +254,23 @@
 
 @media (max-width: 925px) {
   .login-modal {
-    width: 90%;
-    max-width: 598px;
+    width: 100%;
+    /* max-width: 598px; */
     height: auto;
-    min-height: 630px;
+    min-height: 568px;
     padding: 15px;
+  }
+
+  .center-container{
+    /* width:50%; */
+  }
+
+  .sign-up-text-div{
+    width:50%;
+  }
+
+  .sign-up-text-div h2{
+    font-size: 26px !important;
   }
 
   .modal-div {
@@ -272,10 +284,16 @@
   }
 
   .input-group input {
-    width: 80%;
+    width: 346px;
+    height:28px;
+
   }
   .login-modal h2::after{
     width: 100px;
+  }
+
+  .sign-up-modal-header{
+    width:88%;
   }
 }
 
@@ -283,6 +301,7 @@
   .login-modal {
     border-radius: 30px;
     padding: 10px;
+    min-height:500px;
   }
 
   .login-modal h2 {
@@ -310,10 +329,22 @@
     font-size: 12px;
   }
 
+  .input-group input{
+    width:269px;
+    height:20px;
+  }
+
   .sign-up-btn {
     width: 100%;
     font-size: 18px;
   }
+
+  .logo-small{
+    width: 80px;
+    height: 90px;
+  }
+
+
 }
 
 
