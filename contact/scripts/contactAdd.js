@@ -115,21 +115,88 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   
     function openEditModal(contact, contactId) {
+      console.log("Öffne Edit-Modal für:", contact, contactId);
+      
+      // Modal anzeigen
       const modal = document.querySelector(".modal-overlay-edit");
+      if (!modal) {
+        console.error("Modal-Overlay nicht gefunden!");
+        return;
+      }
+      
       modal.style.display = "flex";
       modal.classList.add("show-modal");
       
-      // Eingabefelder mit Kontaktdaten füllen
-      document.querySelector(".modal-overlay-edit input[placeholder='Name']").value = contact.name || "";
-      document.querySelector(".modal-overlay-edit input[placeholder='Email']").value = contact.email || "";
-      document.querySelector(".modal-overlay-edit input[placeholder='Telefonnummer']").value = contact.phone || "";
+      // Eingabefelder füllen
+      const nameInput = document.querySelector(".modal-overlay-edit input[placeholder='Name']");
+      const emailInput = document.querySelector(".modal-overlay-edit input[placeholder='Email']");
+      const phoneInput = document.querySelector(".modal-overlay-edit input[placeholder='Phone']");
       
-      // Save-Button-Event-Listener einrichten
+      if (nameInput && emailInput && phoneInput) {
+        nameInput.value = contact.name || "";
+        emailInput.value = contact.email || "";
+        phoneInput.value = contact.phone || "";
+      } else {
+        console.error("Eingabefelder nicht gefunden!");
+      }
+      
+      // Profilbadge mit Initialen und Farbe setzen
+      const profileBadge = document.getElementById('edit-contact-initials');
+      console.log("Profile Badge Element:", profileBadge);
+      
+      if (profileBadge) {
+        // Initialen setzen
+        const initials = getInitials(contact.name);
+        console.log("Generierte Initialen:", initials);
+        profileBadge.textContent = initials;
+        
+        // Farbklasse anwenden
+        profileBadge.className = 'profile-badge-big';
+        
+        // Farbklasse hinzufügen
+        const colorClass = getColorClass(contact.name);
+        console.log("Generierte Farbklasse:", colorClass);
+        profileBadge.classList.add(colorClass);
+      } else {
+        console.error("Profile Badge Element nicht gefunden!");
+      }
+      
+      // Save-Button konfigurieren
       const saveBtn = document.querySelector(".save-btn");
-      saveBtn.dataset.contactId = contactId;
+      if (saveBtn) {
+        saveBtn.dataset.contactId = contactId;
+        
+        // Event-Listener für Save-Button
+        saveBtn.onclick = function() {
+          const name = nameInput.value.trim();
+          const email = emailInput.value.trim();
+          const phone = phoneInput.value.trim();
+          
+          if (!name || !email || !phone) {
+            alert("Bitte alle Felder ausfüllen");
+            return;
+          }
+          
+          updateContactInFirebase(contactId, { name, email, phone });
+          closeEditModal();
+        };
+      }
       
-      // Event-Listener direkt hier hinzufügen
-      saveBtn.addEventListener("click", saveEditedContact);
+      // Delete-Button konfigurieren
+      const deleteBtn = document.querySelector(".delete-btn");
+      if (deleteBtn) {
+        deleteBtn.dataset.contactId = contactId;
+        deleteBtn.onclick = function() {
+          deleteContact(contactId);
+          closeEditModal();
+        };
+      }
+      
+      // Close-Button konfigurieren
+      const closeBtn = document.querySelector(".close-modal-button-edit");
+      if (closeBtn) {
+        closeBtn.onclick = closeEditModal;
+      }
     }
   
     closeEditModalBtn.addEventListener("click", function () {
@@ -143,12 +210,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   
     function closeEditModal() {
-      modalOverlayEdit.classList.remove("show-modal");
-      modalOverlayEdit.classList.add("hide-modal");
+      const modal = document.querySelector(".modal-overlay-edit");
+      if (!modal) return;
+      
+      modal.classList.remove("show-modal");
+      modal.classList.add("hide-modal");
       setTimeout(() => {
-        modalOverlayEdit.style.display = "none";
-        modalOverlayEdit.classList.remove("hide-modal");
+        modal.style.display = "none";
+        modal.classList.remove("hide-modal");
       }, 300);
     }
   });
+  
+  /**
+   * Hilfsfunktion zum Generieren von Initialen aus einem Namen
+   */
+  function getInitials(name) {
+    if (!name) return "";
+    const parts = name.split(" ");
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  }
   
