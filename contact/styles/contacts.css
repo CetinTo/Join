@@ -1292,3 +1292,119 @@
         padding-bottom: 70px;
     }
 }
+
+/* Zurücksetzen der Modal-Styles */
+.edit-contact-modal {
+  display: flex;
+  background-color: white;
+  border-radius: 30px;
+  width: 90%;
+  max-width: 1200px;
+  height: 594px;
+  overflow: hidden;
+}
+
+.modal-left-side {
+  width: 30%;
+  background-color: #2A3647;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 66px 20px;
+}
+
+.modal-header-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-header-left h2 {
+  font-size: 48px;
+  margin: 0;
+}
+
+.horizontal-line-modal {
+  width: 80px;
+  height: 3px;
+  background-color: #29ABE2;
+  margin-bottom: 60px;
+}
+
+.modal-right-side {
+  flex: 1;
+  padding: 50px;
+  position: relative;
+}
+
+.close-btn-div {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+}
+
+.close-modal-button-edit {
+  cursor: pointer;
+}
+
+.profile-img-input-div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.input-and-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.input-div {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footer-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.delete-btn-modal, .save-btn-modal {
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.delete-btn-modal {
+  background-color: white;
+  color: #2A3647;
+  border: 1px solid #2A3647;
+}
+
+.save-btn-modal {
+  background-color: #2A3647;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-badge-big {
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 47px;
+  color: white;
+  margin-bottom: 32px;
+}

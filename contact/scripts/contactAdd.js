@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
       successPopup.classList.remove("slide-in");
       successPopup.classList.add("slide-out");
       setTimeout(() => successPopup.remove(), 500);
-    }, 1500);
+    }, 2000);
   }
   
   async function saveContactToFirebase() {
@@ -114,11 +114,22 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   
-    function openEditModal() {
-      modalOverlayEdit.style.display = "flex";
-      setTimeout(() => {
-        modalOverlayEdit.classList.add("show-modal");
-      }, 10);
+    function openEditModal(contact, contactId) {
+      const modal = document.querySelector(".modal-overlay-edit");
+      modal.style.display = "flex";
+      modal.classList.add("show-modal");
+      
+      // Eingabefelder mit Kontaktdaten füllen
+      document.querySelector(".modal-overlay-edit input[placeholder='Name']").value = contact.name || "";
+      document.querySelector(".modal-overlay-edit input[placeholder='Email']").value = contact.email || "";
+      document.querySelector(".modal-overlay-edit input[placeholder='Telefonnummer']").value = contact.phone || "";
+      
+      // Save-Button-Event-Listener einrichten
+      const saveBtn = document.querySelector(".save-btn");
+      saveBtn.dataset.contactId = contactId;
+      
+      // Event-Listener direkt hier hinzufügen
+      saveBtn.addEventListener("click", saveEditedContact);
     }
   
     closeEditModalBtn.addEventListener("click", function () {
