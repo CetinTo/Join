@@ -737,7 +737,7 @@
 .close-btn-div {
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 40px;
     cursor: pointer;
     z-index: 1000;
 }
