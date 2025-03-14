@@ -228,40 +228,34 @@
         }
       });
     </script>
-    <!-- Direktes Fix für das Dropdown-Menü -->
+    
     <script>
-      // Warte, bis die Seite vollständig geladen ist
+      
       window.onload = function() {
-        // Direkter Zugriff auf die Elemente
+        
         var accountButton = document.querySelector('.account');
         var dropdownMenu = document.querySelector('.dropdown-menu');
         
-        // Setze alle vorherigen Event-Listener zurück
         accountButton.outerHTML = accountButton.outerHTML;
-        
-        // Hole das neue Element nach dem Reset
+      
         accountButton = document.querySelector('.account');
-        
-        // Füge den Klick-Event hinzu
+       
         accountButton.addEventListener('click', function(event) {
           event.stopPropagation();
           event.preventDefault();
           console.log('Account-Button wurde geklickt');
           
-          // Direkte Manipulation der Klassen
           if (dropdownMenu.style.display === 'block') {
             dropdownMenu.style.display = 'none';
           } else {
             dropdownMenu.style.display = 'block';
           }
         });
-        
-        // Klick außerhalb schließt das Dropdown
+
         document.addEventListener('click', function() {
           dropdownMenu.style.display = 'none';
         });
-        
-        // Verhindere, dass Klicks innerhalb des Dropdowns es schließen
+
         dropdownMenu.addEventListener('click', function(event) {
           event.stopPropagation();
         });
