@@ -114,88 +114,47 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   
-    function openEditModal(contact, contactId) {
-      console.log("Öffne Edit-Modal für:", contact, contactId);
+    function openEditModal(contact) {
+      console.log("Öffne Edit-Modal für:", contact.firstName, contact.lastName);
       
-      // Modal anzeigen
-      const modal = document.querySelector(".modal-overlay-edit");
-      if (!modal) {
-        console.error("Modal-Overlay nicht gefunden!");
-        return;
+      // Modal öffnen
+      document.querySelector('.modal-overlay-edit').style.display = 'flex';
+      
+      // Profilbild einfügen
+      const profileImgCircle = document.querySelector('.edit-contact-modal .profile-img-circle');
+      if (profileImgCircle) {
+        // Vorhandenes profile-img-circle Element anpassen
+        profileImgCircle.style.display = 'none';
+        
+        // Erzeuge profile-badge-big direkt neben profile-img-circle
+        const profileBadge = document.createElement('div');
+        profileBadge.className = `profile-badge-big profile-badge-${contact.color || 'orange'}`;
+        profileBadge.textContent = getInitials(contact.firstName, contact.lastName);
+        profileBadge.id = 'edit-contact-badge';
+        profileBadge.style.position = 'relative';
+        profileBadge.style.margin = '0 auto';
+        profileBadge.style.marginTop = '50px';
+        
+        // Füge Badge nach dem profile-img-circle Element ein
+        profileImgCircle.parentNode.insertBefore(profileBadge, profileImgCircle.nextSibling);
+        
+        console.log("Profile Badge Element erstellt:", profileBadge);
+      } else {
+        console.log("Profile Image Circle nicht gefunden!");
       }
       
-      modal.style.display = "flex";
-      modal.classList.add("show-modal");
-      
-      // Eingabefelder füllen
-      const nameInput = document.querySelector(".modal-overlay-edit input[placeholder='Name']");
-      const emailInput = document.querySelector(".modal-overlay-edit input[placeholder='Email']");
-      const phoneInput = document.querySelector(".modal-overlay-edit input[placeholder='Phone']");
+      // Eingabefelder aktualisieren
+      const nameInput = document.querySelector('.edit-contact-modal input[placeholder="Name"]');
+      const emailInput = document.querySelector('.edit-contact-modal input[placeholder="Email"]');
+      const phoneInput = document.querySelector('.edit-contact-modal input[placeholder="Telefonnummer"]');
       
       if (nameInput && emailInput && phoneInput) {
-        nameInput.value = contact.name || "";
-        emailInput.value = contact.email || "";
-        phoneInput.value = contact.phone || "";
+        nameInput.value = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
+        emailInput.value = contact.email || '';
+        phoneInput.value = contact.phone || '';
+        console.log("Eingabefelder aktualisiert.");
       } else {
-        console.error("Eingabefelder nicht gefunden!");
-      }
-      
-      // Profilbadge mit Initialen und Farbe setzen
-      const profileBadge = document.getElementById('edit-contact-initials');
-      console.log("Profile Badge Element:", profileBadge);
-      
-      if (profileBadge) {
-        // Initialen setzen
-        const initials = getInitials(contact.name);
-        console.log("Generierte Initialen:", initials);
-        profileBadge.textContent = initials;
-        
-        // Farbklasse anwenden
-        profileBadge.className = 'profile-badge-big';
-        
-        // Farbklasse hinzufügen
-        const colorClass = getColorClass(contact.name);
-        console.log("Generierte Farbklasse:", colorClass);
-        profileBadge.classList.add(colorClass);
-      } else {
-        console.error("Profile Badge Element nicht gefunden!");
-      }
-      
-      // Save-Button konfigurieren
-      const saveBtn = document.querySelector(".save-btn");
-      if (saveBtn) {
-        saveBtn.dataset.contactId = contactId;
-        
-        // Event-Listener für Save-Button
-        saveBtn.onclick = function() {
-          const name = nameInput.value.trim();
-          const email = emailInput.value.trim();
-          const phone = phoneInput.value.trim();
-          
-          if (!name || !email || !phone) {
-            alert("Bitte alle Felder ausfüllen");
-            return;
-          }
-          
-          updateContactInFirebase(contactId, { name, email, phone });
-          closeEditModal();
-        };
-      }
-      
-      // Delete-Button konfigurieren
-      const deleteBtn = document.querySelector(".delete-btn");
-      if (deleteBtn) {
-        deleteBtn.dataset.contactId = contactId;
-        deleteBtn.onclick = function() {
-          deleteContact(contactId);
-          closeEditModal();
-        };
-      }
-      
-      // Close-Button konfigurieren
-      const closeBtn = document.querySelector(".close-modal-button-edit");
-      if (closeBtn) {
-        closeBtn.onclick = closeEditModal;
+        console.log("Eingabefelder nicht gefunden!");
       }
     }
   
@@ -223,12 +182,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   
   /**
-   * Hilfsfunktion zum Generieren von Initialen aus einem Namen
+   * Hilfsfunktion zum Extrahieren der Initialen
    */
-  function getInitials(name) {
-    if (!name) return "";
-    const parts = name.split(" ");
-    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  function getInitials(firstName, lastName) {
+    const firstInitial = firstName ? firstName.charAt(0).toUpperCase() : '';
+    const lastInitial = lastName ? lastName.charAt(0).toUpperCase() : '';
+    return firstInitial + lastInitial;
   }
   

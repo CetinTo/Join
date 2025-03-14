@@ -17,12 +17,39 @@
     <link rel="stylesheet" href="../styles/profile-dropdown.css" />
     <link rel="stylesheet" href="../contact/styles/contacts.css" />
     <link rel="stylesheet" href="../contact/styles/contacts-section.css" />
+    <link rel="stylesheet" href="../contact/styles/edit-contact-modal.css" />
     <script src="./scripts/contacts.js"></script>
     <script src="./scripts/contactAdd.js"></script>  
     <script src="../script/user.js"></script>
     <script src="../script/logout.js"></script>
     <script src="../script/dropdown.js"></script>
     <title>Join</title>
+    <style>
+      /* Ausblenden des profile-img-circle nur im Edit-Modal */
+      .edit-contact-modal .profile-img-circle {
+        display: none !important;
+      }
+
+      /* Sicherstellen, dass das profile-badge-big im Edit-Modal angezeigt wird */
+      .edit-contact-modal .profile-badge-big {
+        position: relative;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 20px;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        font-size: 47px;
+        font-weight: 500;
+        color: white;
+      }
+
+      /* Weitere CSS-Regeln wie oben... */
+    </style>
   </head>
   <body>
     <div class="side-menu">
@@ -73,7 +100,7 @@
           <div class="headline-header">Kanban Project Management Tool</div>
           <div class="header-right-side">
             <div>
-              <a href="../resources/help/help.html">
+              <a href="./resources/help/help.html">
                 <img src="../img/icon/help.png" alt="" />
               </a>
             </div>
@@ -190,33 +217,38 @@
     </div>
     <div class="modal-overlay-edit">
       <div class="edit-contact-modal">
-        <div class="edit-modal-header">
-          <h1>Edit contact</h1>
-          <div class="blue-underline"></div>
-          <img src="../img/close-icon.png" alt="close" class="close-modal-button-edit">
-        </div>
-        
-        <div class="edit-modal-content">
-          <div class="profile-badge-big" id="edit-contact-initials"></div>
-          
-          <div class="edit-form">
-            <div class="input-container">
-              <input type="text" placeholder="Name" />
-              <img src="../img/icon/person.png" class="input-icon" />
-            </div>
-            <div class="input-container">
-              <input type="email" placeholder="Email" />
-              <img src="../img/icon/mail.png" class="input-icon" />
-            </div>
-            <div class="input-container">
-              <input type="tel" placeholder="Phone" />
-              <img src="../img/icon/phone.png" class="input-icon" />
-            </div>
+        <div></div>
+        <div class="modal-left-side"></div>
+        <div class="add-contact-modal-input-section">
+          <div class="close-btn-div">
+            <img src="../img/close-icon.png" alt="close button" class="close-modal-button-edit" />
           </div>
-          
-          <div class="edit-buttons">
-            <button class="delete-btn">Delete</button>
-            <button class="save-btn">Save <img src="../img/icon/check.png" alt=""></button>
+          <div class="profile-img-input-div">
+            <div class="profile-img-circle">
+              <img src="../img/person.png" alt="" />
+            </div>
+            <div class="input-and-buttons">
+              <div class="input-div">
+                <div class="input-container">
+                  <input type="text" placeholder="Name" />
+                  <img src="../img/icon/person.png" class="input-icon" />
+                </div>
+                <div class="input-container">
+                  <input type="email" placeholder="Email" />
+                  <img src="../img/icon/mail.png" class="input-icon" />
+                </div>
+                <div class="input-container">
+                  <input type="tel" placeholder="Telefonnummer" />
+                  <img src="../img/icon/phone.png" class="input-icon" />
+                </div>
+              </div>
+              <div class="footer-buttons">
+                <button class="delete-btn delete-btn-modal">Delete</button>
+                <button class="save-btn save-btn-modal">
+                  Save <img src="../img/icon/check.png" alt="" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -226,9 +258,7 @@
 
     <div class="side-menu-bottom">
       <div class="logo-content-container-bottom">
-        <!-- <div class="logo-container-side-menu-responsive">
-          <img src="./img/capa_white.png" alt="Join.Logo" class="logo" />
-        </div> -->
+       
         <div class="menu-content-bottom">
           <div class="bottom-menu">
             <a href="../index.html">
@@ -252,25 +282,13 @@
           </div>
         </div>
       </div>
-      <!-- <div class="policy-container">
-        <div class="policy-container-div">
-          <div>
-            <a href="./resources/private-policy/privacy-policy.html">Privacy Policy</a>
-          </div>
-          <div>
-            <a href="./resources/legal-notice/legal-notice.html">Legal Notice</a>
-          </div>
-        </div>
-      </div> -->
+  
     </div>
 
 
     
-    <script src="../script/user.js"></script>
-    <script src="../script/logout.js"></script>
-    <script src="../script/dropdown.js"></script>
-    <script src="./scripts/contacts.js"></script>
-    <script src="./scripts/contactAdd.js"></script>
+    <script src="../contact/scripts/contacts.js"></script>
+    <script src="../contact/scripts/contactAdd.js"></script>
     <!-- Footer-Navigation für Mobile -->
     <div class="footer-navigation">
         <a href="../summary.html" class="nav-item">
@@ -290,69 +308,5 @@
             <span>Contacts</span>
         </a>
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Direkter Zugriff auf die Elemente mit Klassen statt IDs
-        const accountButton = document.querySelector('.account');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
-        
-        if (accountButton && dropdownMenu) {
-          console.log('Account-Button und Dropdown-Menü gefunden');
-          
-          // Event-Listener für Klick auf Account-Button
-          accountButton.addEventListener('click', function(event) {
-            console.log('Account-Button wurde geklickt');
-            event.stopPropagation();
-            dropdownMenu.classList.toggle('show-dropdown');
-          });
-          
-          // Event-Listener für Klick außerhalb des Dropdown-Menüs
-          document.addEventListener('click', function(event) {
-            if (!dropdownMenu.contains(event.target) && !accountButton.contains(event.target)) {
-              dropdownMenu.classList.remove('show-dropdown');
-            }
-          });
-        } else {
-          console.error('Account-Button oder Dropdown-Menü nicht gefunden!');
-          if (!accountButton) console.error('Account-Button nicht gefunden');
-          if (!dropdownMenu) console.error('Dropdown-Menü nicht gefunden');
-        }
-      });
-    </script>
-    <script>
-      // Direktes Script für den Account-Button
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log("Inline-Script wird ausgeführt...");
-        
-        const accountButton = document.querySelector('.account');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
-        
-        console.log("Account-Button (inline):", accountButton);
-        console.log("Dropdown-Menü (inline):", dropdownMenu);
-        
-        if (accountButton && dropdownMenu) {
-          // Entfernen Sie alle bestehenden Event-Listener
-          const newAccountButton = accountButton.cloneNode(true);
-          accountButton.parentNode.replaceChild(newAccountButton, accountButton);
-          
-          // Fügen Sie einen neuen Event-Listener hinzu
-          newAccountButton.addEventListener('click', function(event) {
-            console.log('Account-Button wurde geklickt (inline)');
-            event.stopPropagation();
-            dropdownMenu.classList.toggle('show-dropdown');
-            console.log("Dropdown-Klassen nach Toggle (inline):", dropdownMenu.className);
-          });
-          
-          // Event-Listener für Klick außerhalb des Dropdown-Menüs
-          document.addEventListener('click', function(event) {
-            if (!dropdownMenu.contains(event.target) && !newAccountButton.contains(event.target)) {
-              dropdownMenu.classList.remove('show-dropdown');
-            }
-          });
-        } else {
-          console.error('Account-Button oder Dropdown-Menü nicht gefunden! (inline)');
-        }
-      });
-    </script>
   </body>
 </html>
