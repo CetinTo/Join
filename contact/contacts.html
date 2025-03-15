@@ -17,11 +17,39 @@
     <link rel="stylesheet" href="../styles/profile-dropdown.css" />
     <link rel="stylesheet" href="../contact/styles/contacts.css" />
     <link rel="stylesheet" href="../contact/styles/contacts-section.css" />
+    <link rel="stylesheet" href="../contact/styles/edit-contact-modal.css" />
     <script src="./scripts/contacts.js"></script>
     <script src="./scripts/contactAdd.js"></script>  
     <script src="../script/user.js"></script>
     <script src="../script/logout.js"></script>
+    <script src="../script/dropdown.js"></script>
     <title>Join</title>
+    <style>
+      /* Ausblenden des profile-img-circle nur im Edit-Modal */
+      .edit-contact-modal .profile-img-circle {
+        display: none !important;
+      }
+
+      /* Sicherstellen, dass das profile-badge-big im Edit-Modal angezeigt wird */
+      .edit-contact-modal .profile-badge-big {
+        position: relative;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 20px;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        font-size: 47px;
+        font-weight: 500;
+        color: white;
+      }
+
+      /* Weitere CSS-Regeln wie oben... */
+    </style>
   </head>
   <body>
     <div class="side-menu">
@@ -232,26 +260,14 @@
             </div>
           </div>
         </div>
-
-
-
-
-
-        
       </div>
-
-      
-
-
     </div>
 
 
 
     <div class="side-menu-bottom">
       <div class="logo-content-container-bottom">
-        <!-- <div class="logo-container-side-menu-responsive">
-          <img src="./img/capa_white.png" alt="Join.Logo" class="logo" />
-        </div> -->
+       
         <div class="menu-content-bottom">
           <div class="bottom-menu">
             <a href="../index.html">
@@ -275,16 +291,7 @@
           </div>
         </div>
       </div>
-      <!-- <div class="policy-container">
-        <div class="policy-container-div">
-          <div>
-            <a href="./resources/private-policy/privacy-policy.html">Privacy Policy</a>
-          </div>
-          <div>
-            <a href="./resources/legal-notice/legal-notice.html">Legal Notice</a>
-          </div>
-        </div>
-      </div> -->
+  
     </div>
 
 

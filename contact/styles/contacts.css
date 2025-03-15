@@ -516,14 +516,6 @@
         display: none !important;
     }
     
-    .contacts_headline {
-        /* display: flex;
-        align-items: center;
-        position: relative;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #D1D1D1;
-        margin-bottom: 20px; */
-    }
     
     .contacts_headline h2 {
         display: block !important;

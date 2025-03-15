@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
       successPopup.classList.remove("slide-in");
       successPopup.classList.add("slide-out");
       setTimeout(() => successPopup.remove(), 500);
-    }, 1500);
+    }, 2000);
   }
   
   async function saveContactToFirebase() {
@@ -114,11 +114,48 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   
-    function openEditModal() {
-      modalOverlayEdit.style.display = "flex";
-      setTimeout(() => {
-        modalOverlayEdit.classList.add("show-modal");
-      }, 10);
+    function openEditModal(contact) {
+      console.log("Öffne Edit-Modal für:", contact.firstName, contact.lastName);
+      
+      // Modal öffnen
+      document.querySelector('.modal-overlay-edit').style.display = 'flex';
+      
+      // Profilbild einfügen
+      const profileImgCircle = document.querySelector('.edit-contact-modal .profile-img-circle');
+      if (profileImgCircle) {
+        // Vorhandenes profile-img-circle Element anpassen
+        profileImgCircle.style.display = 'none';
+        
+        // Erzeuge profile-badge-big direkt neben profile-img-circle
+        const profileBadge = document.createElement('div');
+        profileBadge.className = `profile-badge-big profile-badge-${contact.color || 'orange'}`;
+        profileBadge.textContent = getInitials(contact.firstName, contact.lastName);
+        profileBadge.id = 'edit-contact-badge';
+        profileBadge.style.position = 'relative';
+        profileBadge.style.margin = '0 auto';
+        profileBadge.style.marginTop = '50px';
+        
+        // Füge Badge nach dem profile-img-circle Element ein
+        profileImgCircle.parentNode.insertBefore(profileBadge, profileImgCircle.nextSibling);
+        
+        console.log("Profile Badge Element erstellt:", profileBadge);
+      } else {
+        console.log("Profile Image Circle nicht gefunden!");
+      }
+      
+      // Eingabefelder aktualisieren
+      const nameInput = document.querySelector('.edit-contact-modal input[placeholder="Name"]');
+      const emailInput = document.querySelector('.edit-contact-modal input[placeholder="Email"]');
+      const phoneInput = document.querySelector('.edit-contact-modal input[placeholder="Telefonnummer"]');
+      
+      if (nameInput && emailInput && phoneInput) {
+        nameInput.value = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
+        emailInput.value = contact.email || '';
+        phoneInput.value = contact.phone || '';
+        console.log("Eingabefelder aktualisiert.");
+      } else {
+        console.log("Eingabefelder nicht gefunden!");
+      }
     }
   
     closeEditModalBtn.addEventListener("click", function () {
@@ -132,12 +169,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   
     function closeEditModal() {
-      modalOverlayEdit.classList.remove("show-modal");
-      modalOverlayEdit.classList.add("hide-modal");
+      const modal = document.querySelector(".modal-overlay-edit");
+      if (!modal) return;
+      
+      modal.classList.remove("show-modal");
+      modal.classList.add("hide-modal");
       setTimeout(() => {
-        modalOverlayEdit.style.display = "none";
-        modalOverlayEdit.classList.remove("hide-modal");
+        modal.style.display = "none";
+        modal.classList.remove("hide-modal");
       }, 300);
     }
   });
+  
+  /**
+   * Hilfsfunktion zum Extrahieren der Initialen
+   */
+  function getInitials(firstName, lastName) {
+    const firstInitial = firstName ? firstName.charAt(0).toUpperCase() : '';
+    const lastInitial = lastName ? lastName.charAt(0).toUpperCase() : '';
+    return firstInitial + lastInitial;
+  }
   

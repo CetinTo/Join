@@ -1,0 +1,43 @@
+/* Ausblenden des profile-img-circle nur im Edit-Modal */
+.edit-contact-modal .profile-img-circle {
+  display: none !important;
+}
+
+/* Sicherstellen, dass das profile-badge-big im Edit-Modal angezeigt wird */
+.edit-contact-modal .profile-badge-big {
+  position: relative;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  font-size: 47px;
+  font-weight: 500;
+  color: white;
+}
+
+/* Anpassung der Positionierung nach dem Ausblenden des profile-img-circle */
+.edit-contact-modal .profile-img-input-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Weitere Edit-Modal spezifische Anpassungen */
+.edit-contact-modal .input-and-buttons {
+  width: 100%;
+}
+
+/* Fix für das Modal in responsiven Ansichten */
+@media (max-width: 460px) {
+  .edit-contact-modal .profile-badge-big {
+    width: 80px;
+    height: 80px;
+    font-size: 30px;
+  }
+} 

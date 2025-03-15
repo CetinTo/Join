@@ -250,43 +250,15 @@ document.addEventListener("DOMContentLoaded", loadContactsFromFirebase);
 
 // Diese Funktion (showContactDetails) scheint eine alternative Darstellung zu sein.
 // Falls du sie nicht mehr brauchst, kannst du sie entfernen.
-function showContactDetails(contact) {
-  const contactDetails = document.querySelector('.contact-details');
-  if (contactDetails) {
-    contactDetails.innerHTML = `
-      <div class="contact-info">
-        <div class="contact-header">
-          <div class="contact-initials">${getInitials(contact.name)}</div>
-          <div class="contact-name-info">
-            <h2>${contact.name}</h2>
-            <div class="contact-actions">
-              <button class="edit-btn" onclick="editContact(${contact.id})">
-                <img src="../img/icon/edit.png" alt="Edit">
-                Edit
-              </button>
-              <button class="delete-btn" onclick="deleteContact(${contact.id})">
-                <img src="../img/icon/delete.png" alt="Delete">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="contact-information">
-          <h3>Contact Information</h3>
-          <div class="contact-email">
-            <p>Email</p>
-            <a href="mailto:${contact.email}">${contact.email}</a>
-          </div>
-          <div class="contact-phone">
-            <p>Phone</p>
-            <a href="tel:${contact.phone}">${contact.phone}</a>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-  document.querySelector('.contacts-main-section').classList.add('contact-selected');
-  document.querySelector('.headline-contact').classList.remove('d-none3');
+function showContactDetails(contactId) {
+  const contact = contacts[contactId];
+  if (!contact) return;
+  
+  // Wenn auf den Edit-Button geklickt wird
+  document.querySelector('.edit-contact-btn').addEventListener('click', function() {
+    console.log("Edit-Button geklickt für Kontakt:", contact, contactId); // Debug-Ausgabe
+    openEditModal(contact, contactId);
+  });
 }
 
 function backToContactList() {

@@ -807,11 +807,6 @@ h4{
     }
 
 
-    .modal-left-side{
-        /* display: none; */
-       /* height:459px */
-    }
-
     .profile-img-circle{
         align-items: flex-end;
         /* margin-bottom:24px; */
@@ -832,10 +827,6 @@ h4{
 
     .input-container {
         width: 330px;
-    }
-
-    .close-modal-button{
-        /* right:60px; */
     }
 }
 
@@ -869,9 +860,7 @@ h4{
         border-radius: 8px;
     }
 
-    .contacts_headline-resp{
-        /* display:none; */
-    }
+    
 }
 
 

@@ -38,22 +38,13 @@ main {
 
 main p {
     padding-top: 2px;
-    /* padding-left: 18px; */
     margin: 0; 
-}
-
-section {
-    flex: 1;
-    overflow-y: auto; /* Standardmäßig scrollbar machen */
-    overflow-x: hidden;
-    max-height: calc(100vh - 200px); /* Höhe einschränken, um Scrolling zu ermöglichen */
 }
 
 h1, h2, h3 {
     color: #2a3647;
     margin: 0; 
 }
-
 
 a{
     height: 32px;
@@ -99,7 +90,6 @@ h4{
     font-size: 16px;
 }
 
-/* Header optimieren */
 .header {
   position: sticky;
   top: 0;
@@ -109,10 +99,9 @@ h4{
   width: 100%;
 }
 
-/* Scrollbalken nur zwischen 925px und 300px anzeigen */
 @media (max-width: 925px) and (min-width: 300px) {
   section {
-    overflow-y: scroll; /* Scrollbalken anzeigen in diesem Bereich */
+    overflow-y: scroll;
   }
   
   section::-webkit-scrollbar {
@@ -130,35 +119,31 @@ h4{
     border: 2px solid #f1f1f1;
   }
   
-  /* Firefox */
   section {
     scrollbar-width: thin;
     scrollbar-color: #28abe2 #f1f1f1;
   }
 }
 
-/* Unter 300px keinen Scrollbalken anzeigen */
 @media (max-width: 299px) {
   section {
-    overflow-y: auto; /* Content scrollbar, aber kein permanenter Balken */
+    overflow-y: auto;
   }
   
   section::-webkit-scrollbar {
-    display: none; /* Webkit-Scrollbalken ausblenden */
+    display: none;
   }
   
   section {
-    scrollbar-width: none; /* Firefox-Scrollbalken ausblenden */
+    scrollbar-width: none;
   }
 }
 
-/* Styling für den Help-Container */
 .help-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 80px;
-  margin-bottom: 40px;
 }
 
 .help-container h1 {
@@ -180,9 +165,7 @@ h4{
   cursor: pointer;
 }
 
-/* Responsive Design für mobile Geräte */
 @media (max-width: 768px) {
-  /* Bestehende Stile beibehalten */
   .side-menu {
     display: none;
   }
@@ -193,7 +176,6 @@ h4{
     min-height: 100vh;
   }
 
-  /* Header-Anpassungen */
   .header {
     width: 100%;
     padding: 0;
@@ -210,7 +192,6 @@ h4{
     font-size: 16px;
   }
 
-  /* Logo und Titel anpassen */
   .logo-container-side-menu-responsive {
     width: 32px;
     height: 32px;
@@ -221,11 +202,8 @@ h4{
     align-items: center;
     gap: 10px;
   }
-
- 
 }
 
-/* Zusätzliche Anpassungen für sehr kleine Bildschirme */
 @media (max-width: 480px) {
   .main-header {
     padding: 8px 12px;
@@ -248,7 +226,6 @@ h4{
   }
 }
 
-/* Extra kleine Bildschirme */
 @media (max-width: 320px) {
   .main-header > div:first-child {
     font-size: 12px;
@@ -263,76 +240,66 @@ h4{
   }
 }
 
-/* Kanban-Titel ab 925px ausblenden */
 @media (max-width: 925px) {
-    .main-header > div:first-child {
-      display: none;
-    }
-
-    h1 {
-      margin-top: 100px !important;
-    }
+  .main-header > div:first-child {
+    display: none;
   }
-  
-  /* Styling für das Header-Logo - standardmäßig versteckt */
+
+  h1 {
+    margin-top: 100px !important;
+  }
+}
+
+.header-logo {
+  display: none;
+  height: 32px;
+  width: auto;
+  margin-right: 16px;
+}
+
+@media (max-width: 925px) {
   .header-logo {
-    display: none; /* Logo standardmäßig ausblenden */
-    height: 32px;
-    width: auto;
-    margin-right: 16px;
+    display: block;
   }
-  
-  /* Logo ab 925px einblenden, wenn der Titel ausgeblendet wird */
-  @media (max-width: 925px) {
-    .header-logo {
-      display: block; /* Logo anzeigen */
-    }
-  }
-  
-  /* Anpassungen im Header */
-  .header-right-side {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .account {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-weight: 600;
-  }
-  
-  @media (max-width: 768px) {
-    .header-logo {
-      height: 39px;
-      width: 32px;
-    }
-    
-  
-  }
+}
 
-/* Container für den Hauptinhalt */
+.header-right-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .header-logo {
+    height: 39px;
+    width: 32px;
+  }
+}
+
 .header-and-main-container {
   height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Mobile Anpassungen */
 @media (max-width: 925px) {
-  /* Content-Bereich für mobile Navigation anpassen */
   main {
-    max-height: calc(100vh - 140px); /* Header + Nav Bar berücksichtigen */
-    min-height: auto; /* Entfernen der festen Mindesthöhe */
+    max-height: calc(100vh - 140px);
+    min-height: auto;
   }
   
   section {
-    max-height: calc(100vh - 160px); /* Mehr Platz für Scrollbereich */
+    max-height: calc(100vh - 160px);
   }
   
-  /* Header weiter optimieren */
   .header {
     display: block !important;
     position: sticky;
@@ -349,33 +316,30 @@ h4{
   }
 }
 
-/* Side-Menu-Anpassungen */
 .side-menu {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Obere und untere Elemente verteilen */
-  height: 100vh; /* Volle Höhe */
+  justify-content: space-between;
+  height: 100vh;
 }
 
 .logo-content-container {
-  flex-grow: 0; /* Nicht wachsen */
+  flex-grow: 0;
 }
 
 .policy-container {
-  margin-top: auto; /* Drückt es ans untere Ende */
-  margin-bottom: 32px; /* Abstand nach unten */
+  margin-top: auto;
+  margin-bottom: 32px;
 }
 
-/* Side-Menu ab 925px ausblenden statt ab 768px */
 @media (max-width: 925px) {
   .side-menu {
     display: none;
   }
 }
 
-/* Mobile Navigation Bar */
 .mobile-nav-bar {
-  display: none; /* Standardmäßig ausgeblendet */
+  display: none;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -403,24 +367,20 @@ h4{
   margin-bottom: 5px;
 }
 
-/* Mobile Navigation nur im Bereich 925px bis 300px anzeigen */
 @media (max-width: 925px) and (min-width: 300px) {
   .mobile-nav-bar {
     display: flex;
   }
   
-  /* Content-Bereich Padding hinzufügen, damit er nicht unter der Nav Bar verschwindet */
   .header-and-main-container {
     padding-bottom: 80px;
   }
   
-  /* Höhe anpassen */
   main {
-    max-height: calc(100vh - 160px); /* Header + Nav Bar berücksichtigen */
+    max-height: calc(100vh - 160px);
   }
 }
 
-/* Header in mobiler Ansicht sichtbar machen */
 @media (max-width: 925px) {
   .header {
     display: block !important;
