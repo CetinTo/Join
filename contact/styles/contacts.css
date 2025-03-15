@@ -1134,6 +1134,44 @@
     border-radius: 8px;
     margin-top: 15px;
   }
+
+  .add-contact-modal-input-section{
+    width:100% !important;
+    height:346px !important;
+  }
+
+  .input-icon{
+    bottom:22px;
+  }
+  
+  .add-contact-modal{
+    height:650px !important;
+  }
+   
+  .footer-buttons{
+    padding-top:20px !important;
+  }
+
+  .input-container input{
+    height:20px !important;
+  }
+
+  .profile-img-circle{
+    height:100px !important;
+    width:100px !important;
+    top:225px !important;
+  }
+
+  .add-contact-content-div{
+    padding: 0 32px !important;
+  }
+
+  .input-container{
+    width:296px !important; 
+  }
+
+
+
 }
 
 /* Extra kleine Bildschirme (bis 310px) */
@@ -1252,6 +1290,11 @@
     .contact-action-popup {
         bottom: 160px;
     }
+
+    .clear-btn{
+        display: none;
+      }
+
 }
 
 @media (max-width: 310px) {
