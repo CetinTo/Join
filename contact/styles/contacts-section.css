@@ -915,6 +915,24 @@ h4{
         width: 300px;
     }
 
+    .input-container{
+        width:230px !important;
+    }
+
+    .input-container input{
+        height: 12px !important;
+    }
+
+    .input-div {
+        padding-top:32px;
+    }
+
+    .create-btn{
+        width: 150px;
+        height: 40px;
+        font-size: 16px;
+    }
+
 
     
 }
