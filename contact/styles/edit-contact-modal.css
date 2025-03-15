@@ -24,13 +24,13 @@
 /* Anpassung der Positionierung nach dem Ausblenden des profile-img-circle */
 .edit-contact-modal .profile-img-input-div {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 }
 
 /* Weitere Edit-Modal spezifische Anpassungen */
 .edit-contact-modal .input-and-buttons {
-  width: 100%;
+  width: 60%;
 }
 
 /* Fix für das Modal in responsiven Ansichten */

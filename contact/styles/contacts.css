@@ -755,7 +755,7 @@
 .modal-overlay-edit .close-btn-div {
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 44px;
 }
 
 .modal-overlay-edit .close-modal-button-edit {
@@ -828,7 +828,7 @@
         display: block !important;
     }
 
-    .profile-img-circle img {
+    .img {
         width: 35px;
         height: 35px;
     }

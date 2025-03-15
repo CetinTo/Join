@@ -430,6 +430,7 @@ h4{
 .input-container {
     position: relative;
     display: flex;
+    justify-content: center;
     align-items: center;
     width: 100%;
 }
@@ -752,7 +753,7 @@ h4{
 @media screen and (max-width:1330px){
     .edit-contact-modal{
         /* background-image: url(../../img/contactmodal/Screenshot\ 2025-02-27\ 190028_Edited.png); */
-        width: 396px;
+        width: 760px;
         height: 760px;
     }
 
@@ -803,7 +804,7 @@ h4{
 
 
     .edit-contact-modal{
-        flex-direction: column;
+        /* flex-direction: column; */
     }
 
 
