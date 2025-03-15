@@ -176,13 +176,29 @@ function openEditModal(contact, contactId) {
   const modal = document.querySelector(".modal-overlay-edit");
   modal.style.display = "flex";
   modal.classList.add("show-modal");
-  document.querySelector(".modal-overlay-edit input[placeholder='Name']").value = contact.name || "";
-  document.querySelector(".modal-overlay-edit input[placeholder='Email']").value = contact.email || "";
-  document.querySelector(".modal-overlay-edit input[placeholder='Telefonnummer']").value = contact.phone || "";
+
+  // Felder befüllen
+  modal.querySelector("input[placeholder='Name']").value = contact.name || "";
+  modal.querySelector("input[placeholder='Email']").value = contact.email || "";
+  modal.querySelector("input[placeholder='Telefonnummer']").value = contact.phone || "";
+
+  // Profilkreis dynamisch anpassen
+  const profileImgCircle = modal.querySelector(".profile-img-circle");
+  const initials = getInitials(contact.name);
+  const color = contact.color || '#ccc';
+
+  // Badge mit Initialen + Inline-Style
+  profileImgCircle.innerHTML = `<span>${initials}</span>`;
+  profileImgCircle.style.backgroundColor = color;
+  // ggf. Schriftfarbe setzen, falls nötig:
+  profileImgCircle.style.color = '#fff';
+
   const saveBtn = document.querySelector(".save-btn");
   saveBtn.dataset.contactId = contactId;
+  saveBtn.removeEventListener("click", saveEditedContact); // wichtig, um doppelte Events zu vermeiden
   saveBtn.addEventListener("click", saveEditedContact);
 }
+
 
 async function saveEditedContact(event) {
   const contactId = event.target.dataset.contactId;
