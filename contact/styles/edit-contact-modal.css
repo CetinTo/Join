@@ -1,6 +1,6 @@
 /* Ausblenden des profile-img-circle nur im Edit-Modal */
 .edit-contact-modal .profile-img-circle {
-  display: none !important;
+  /* display: none !important; */
 }
 
 /* Sicherstellen, dass das profile-badge-big im Edit-Modal angezeigt wird */

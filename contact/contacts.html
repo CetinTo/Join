@@ -27,7 +27,7 @@
     <style>
       /* Ausblenden des profile-img-circle nur im Edit-Modal */
       .edit-contact-modal .profile-img-circle {
-        display: none !important;
+        /* display: none !important; */
       }
 
       /* Sicherstellen, dass das profile-badge-big im Edit-Modal angezeigt wird */
@@ -227,7 +227,15 @@
     <div class="modal-overlay-edit">
       <div class="edit-contact-modal">
         <div></div>
-        <div class="modal-left-side"></div>
+        <div class="modal-left-side">
+          <div class="add-contact-content-div">
+            <img src="../img/capa_white.png" alt="">
+            <div>
+                <h1>Edit contact</h1>
+                <hr class="hr-modal-add-new-contact">
+            </div>
+        </div>
+        </div>
         <div class="add-contact-modal-input-section">
           <div class="close-btn-div">
             <img src="../img/close-icon.png" alt="close button" class="close-modal-button-edit" />

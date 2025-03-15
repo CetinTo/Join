@@ -709,7 +709,7 @@ h4{
     transform: translate(50%, -50%);
     width: 1212px;
     height: 592px;
-    background-image: url(../../img/contactmodal/overlay-edit-contact_Edited.png);
+    /* background-image: url(../../img/contactmodal/overlay-edit-contact_Edited.png); */
     background-size: cover;
     background-position: center;
     border-radius: 24px;
@@ -751,7 +751,7 @@ h4{
 
 @media screen and (max-width:1330px){
     .edit-contact-modal{
-        background-image: url(../../img/contactmodal/Screenshot\ 2025-02-27\ 190028_Edited.png);
+        /* background-image: url(../../img/contactmodal/Screenshot\ 2025-02-27\ 190028_Edited.png); */
         width: 396px;
         height: 760px;
     }
