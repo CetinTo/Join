@@ -986,6 +986,11 @@ h4{
         width:90px;
         font-weight: 400;
     }
+
+    .close-modal-button-edit{
+        width: 13px !important;
+        height: 13px !important;
+    }
 }
 
 
@@ -1113,7 +1118,7 @@ h4{
     }
 
     .edit-input-icon{
-        bottom:10px;
+        bottom:10px ;
     }
 
     .edit-input-and-buttons{
@@ -1131,6 +1136,10 @@ h4{
 
     .edit-profile-img-circle{
         margin-top:0;
+    }
+
+    .edit-close-btn-div{
+        right:20px;
     }
 }
 
