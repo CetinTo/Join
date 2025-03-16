@@ -365,6 +365,18 @@ h4{
     border-bottom-right-radius: 24px;
 }
 
+.edit-contact-modal-input-section{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 745px;
+    background-color: rgb(255, 255, 255);
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+
 .add-contact-content-div{
     display: flex;
     justify-content: space-between;
@@ -483,6 +495,27 @@ h4{
 
 @media screen and (max-width: 925px) {
 
+    .edit-contact-modal{
+        flex-direction: column;
+        height:700px !important;
+        width: 480px !important;
+    }
+
+    .edit-contact-modal-input-section{
+        width:480px !important;
+        border-bottom-left-radius: 24px;
+        border-bottom-right-radius: 24px;
+        border-top-right-radius:0 !important;
+    }
+
+    .edit-modal-left-side{
+        width: 500px !important;
+    }
+
+    .edit-input-container{
+        width: 350px !important;
+    }
+
     .add-contact-modal {
         width: 396px;
         height: 700px;
@@ -491,6 +524,10 @@ h4{
         margin: auto;
         display: flex;
         /* background-image: url(../../img/contactmodal/cont-mobil.jpg); */
+      }
+
+      .edit-input-div{
+        width:300px !important;
       }
 
       .modal-left-side h1 {
@@ -718,7 +755,7 @@ h4{
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 4px 6px rgba(54, 54, 54, 0.2);
+    /* box-shadow: 0px 4px 6px rgba(54, 54, 54, 0.2); */
     transition: right 0.3s ease-in-out;
 }
 
@@ -753,17 +790,47 @@ h4{
 @media screen and (max-width:1330px){
     .edit-contact-modal{
         /* background-image: url(../../img/contactmodal/Screenshot\ 2025-02-27\ 190028_Edited.png); */
-        width: 760px;
-        height: 760px;
+        width: 860px;
+        height: 460px;
+    }
+
+    .edit-profile-img-circle{
+        height:90px;
+        width:90px;
+    }
+
+    .edit-contact-modal-input-section{
+        width:100% !important;
+        height:468px !important;
     }
 
     .add-contact-content-div{
         width:82%
     }
 
+    .edit-close-btn-div{
+        top:32px !important;
+    }
+
+    .edit-input-and-buttons{
+        padding-top:64px;
+    }
+
+    .edit-input-container{
+        width:300px ;
+    }
+
     .add-contact-modal-input-section{
         height:468px;
         width:392px;
+        border-top-right-radius: 24px;
+        border-bottom-right-radius: 24px;
+        /* background-color: #778491; */
+    }
+
+    .edit-contact-modal-input-section{
+        height:468px;
+        /* width:392px; */
         border-top-right-radius: 24px;
         border-bottom-right-radius: 24px;
         /* background-color: #778491; */
@@ -803,9 +870,7 @@ h4{
 
 
 
-    .edit-contact-modal{
-        /* flex-direction: column; */
-    }
+
 
 
     .profile-img-circle{
@@ -864,6 +929,61 @@ h4{
     
 }
 
+@media screen and (max-width:560px){
+    .edit-contact-modal{
+        width:347px !important;
+        height: 688px ;
+    }
+
+    .edit-input-and-buttons{
+        width: 100% !important;
+    }
+
+    .edit-input-container{
+        width: 80% !important;
+    }
+
+    .edit-input-div{
+        width:354px !important;
+    }
+
+    .modal-left-side{
+        height:235px;
+    }
+
+    .edit-contact-modal-input-section{
+        height:400px !important;
+    }
+
+    .edit-close-btn-div{
+        top:65px !important;
+    }
+
+    .edit-save-btn-modal{
+        height:41px;
+        width:90px;
+        font-weight: 400;
+    }
+
+    .edit-save-btn-modal:hover{
+        height:41px;
+        width:90px;
+        font-weight: 400;
+    }
+
+    .edit-delete-btn-modal{
+        height:41px;
+        width:90px;
+        font-weight: 400;
+    }
+
+    .edit-delete-btn-modal:hover{
+        height:41px;
+        width:90px;
+        font-weight: 400;
+    }
+}
+
 
 @media screen and (max-width: 430px) {
     .add-contact-modal {
@@ -905,8 +1025,20 @@ h4{
         top:170px !important;
     }
 
+    .edit-profile-img-circle{
+        top:215px !important;
+    }
+
     .input-div{
         padding-top:46px;
+    }
+
+    .edit-input-div{
+        padding-top:76px;
+    }
+
+    .edit-footer-buttons{
+        margin-top:40px;
     }
 
 }
@@ -968,7 +1100,7 @@ h4{
 
 
     .profile-img-circle{
-        /* margin-top: 50px; */
+        margin-top: 50px;
         height: 80px;
         width: 80px;
     }
@@ -1000,6 +1132,27 @@ h4{
 
     .footer-buttons{
         padding-top: 30px !important;
+    }
+
+    .edit-input-icon{
+        bottom:10px;
+    }
+
+    .edit-input-and-buttons{
+        padding-top:32px !important;
+    }
+
+    .edit-input-div{
+        gap:12px;
+    }
+
+    .edit-footer-buttons{
+        padding-bottom:52px !important;
+        /* padding-top:40px !important; */
+    }
+
+    .edit-profile-img-circle{
+        margin-top:0;
     }
 }
 

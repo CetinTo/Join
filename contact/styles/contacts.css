@@ -821,7 +821,7 @@
     .profile-img-circle {
         width: 70px;
         height: 70px;
-        /* margin: 0 auto; */
+        margin: 0 auto;
     }
 
     .contact-action-button{
@@ -843,6 +843,10 @@
     .profile-img-circle img {
         width: 30px;
         height: 30px;
+    }
+
+    .edit-input-and-buttons{
+        padding-top:0 !important;
     }
 }
 
@@ -1107,7 +1111,7 @@
   .modal-overlay-edit,
   .add-contact-modal {
     width: 100%;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     padding: 20px;
     box-sizing: border-box;
   }
