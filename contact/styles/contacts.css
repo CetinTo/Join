@@ -380,6 +380,7 @@
         height: 39px;
         width: 32px;
         display: block;
+        /* display: none; */
     }
 
     .contacts_headline-resp img {

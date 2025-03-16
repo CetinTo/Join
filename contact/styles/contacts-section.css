@@ -698,6 +698,10 @@ h4{
         gap:0;
         justify-content: space-evenly;
     }
+
+    .menu-content-div{
+        height:45px !important;
+    }
    
 }
 
@@ -922,11 +926,12 @@ h4{
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        /* height:45px; */
     }
 
     .menu-content-div{
         width: 70px;
-        height: 63px;
+        height: 60px;
         border-radius: 8px;
     }
 
