@@ -21,7 +21,6 @@ async function loadContactsFromFirebase() {
     const contactsArray = Object.entries(contacts).sort((a, b) => a[1].name.localeCompare(b[1].name));
     renderContacts(contactsArray, contacts);
   } catch (error) {
-    console.error(error);
   }
 }
 
@@ -67,9 +66,6 @@ function displayContactDetails(contact, contactId, selectedElement) {
   const detailsSection = document.querySelector(".contact-details");
   if (!detailsSection) return;
   cleanupMenus();
-  
-  // Kontakte-Liste nur ausblenden, wenn Fensterbreite unter 925px liegt;
-  // über 925px soll die Liste sichtbar bleiben
   const contactsBody = document.querySelector('.Contacts-body');
   if (window.innerWidth < 925) {
     if (contactsBody) {
@@ -80,14 +76,12 @@ function displayContactDetails(contact, contactId, selectedElement) {
       contactsBody.style.display = 'block';
     }
   }
-  
   document.querySelector('.contacts-main-section').classList.add('contact-selected');
   document.querySelectorAll(".contact-list").forEach(item => item.classList.remove("active-contact"));
   selectedElement.classList.add("active-contact");
-  
   detailsSection.innerHTML = `
     <div class="selected-profile-main">
-      <div class="profile-badge-big ${getColorClass(contact.name)}">${getInitials(contact.name)}</div>
+      <div class="profile-badge-big ${getColorClass(contact.name, null)}">${getInitials(contact.name)}</div>
       <div>
         <div class="profile-name-big">${contact.name}</div>
         <div class="edit-delete-img-div">
@@ -168,7 +162,6 @@ async function fetchContact(contactId) {
     if (!response.ok) throw new Error(`Fehler beim Laden: ${response.status} ${response.statusText}`);
     return await response.json();
   } catch (error) {
-    console.error(error);
   }
 }
 
@@ -176,29 +169,20 @@ function openEditModal(contact, contactId) {
   const modal = document.querySelector(".modal-overlay-edit");
   modal.style.display = "flex";
   modal.classList.add("show-modal");
-
-  // Felder befüllen
   modal.querySelector("input[placeholder='Name']").value = contact.name || "";
   modal.querySelector("input[placeholder='Email']").value = contact.email || "";
   modal.querySelector("input[placeholder='Telefonnummer']").value = contact.phone || "";
-
-  // Profilkreis dynamisch anpassen
   const profileImgCircle = modal.querySelector(".profile-img-circle");
   const initials = getInitials(contact.name);
   const color = contact.color || '#ccc';
-
-  // Badge mit Initialen + Inline-Style
   profileImgCircle.innerHTML = `<span>${initials}</span>`;
   profileImgCircle.style.backgroundColor = color;
-  // ggf. Schriftfarbe setzen, falls nötig:
   profileImgCircle.style.color = '#fff';
-
   const saveBtn = document.querySelector(".save-btn");
   saveBtn.dataset.contactId = contactId;
-  saveBtn.removeEventListener("click", saveEditedContact); // wichtig, um doppelte Events zu vermeiden
+  saveBtn.removeEventListener("click", saveEditedContact);
   saveBtn.addEventListener("click", saveEditedContact);
 }
-
 
 async function saveEditedContact(event) {
   const contactId = event.target.dataset.contactId;
@@ -248,21 +232,15 @@ async function deleteContactFromFirebase(contactId) {
 
 document.addEventListener("DOMContentLoaded", loadContactsFromFirebase);
 
-// Diese Funktion (showContactDetails) scheint eine alternative Darstellung zu sein.
-// Falls du sie nicht mehr brauchst, kannst du sie entfernen.
 function showContactDetails(contactId) {
   const contact = contacts[contactId];
   if (!contact) return;
-  
-  // Wenn auf den Edit-Button geklickt wird
   document.querySelector('.edit-contact-btn').addEventListener('click', function() {
-    console.log("Edit-Button geklickt für Kontakt:", contact, contactId); // Debug-Ausgabe
     openEditModal(contact, contactId);
   });
 }
 
 function backToContactList() {
-  // Hier wird .Contacts-body nur unter 925px wieder eingeblendet
   if (window.innerWidth < 925) {
     const contactsBody = document.querySelector('.Contacts-body');
     if (contactsBody) {
@@ -279,15 +257,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Globaler Resize-Listener, um den Zustand zurückzusetzen, wenn die Breite >= 925px ist
 window.addEventListener('resize', function() {
   if (window.innerWidth >= 925) {
-    // Stelle sicher, dass die Kontaktliste wieder sichtbar ist
     const contactsBody = document.querySelector('.Contacts-body');
     if (contactsBody) {
       contactsBody.style.display = 'block';
     }
-    // Entferne den Vollbildmodus der Detailansicht, falls gesetzt
     document.querySelector('.contacts-main-section').classList.remove('contact-selected');
   }
 });

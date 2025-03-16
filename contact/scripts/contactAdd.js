@@ -117,33 +117,26 @@ document.addEventListener("DOMContentLoaded", function () {
     function openEditModal(contact) {
       console.log("Öffne Edit-Modal für:", contact.name);
       
-      // Modal öffnen
       document.querySelector('.modal-overlay-edit').style.display = 'flex';
       
-      // Profilbild einfügen
       const profileImgCircle = document.querySelector('.edit-contact-modal .profile-img-circle');
       if (profileImgCircle) {
-        // Profilbild ausblenden
         profileImgCircle.style.display = 'none';
         
-        // Neues Badge erstellen, das die Initialen (Vor- und Nachname) anzeigt
         const profileBadge = document.createElement('div');
         profileBadge.className = `profile-badge-big profile-badge-${contact.color || 'orange'}`;
-        // Hier wird getInitials aus contacts.js verwendet, das den vollen Namen verarbeitet
         profileBadge.textContent = getInitials(contact.name);
         profileBadge.id = 'edit-contact-badge';
         profileBadge.style.position = 'relative';
         profileBadge.style.margin = '0 auto';
         profileBadge.style.marginTop = '50px';
         
-        // Badge neben dem Profilbild einfügen
         profileImgCircle.parentNode.insertBefore(profileBadge, profileImgCircle.nextSibling);
         console.log("Profile Badge Element erstellt:", profileBadge);
       } else {
         console.log("Profile Image Circle nicht gefunden!");
       }
       
-      // Eingabefelder aktualisieren – hier wird ebenfalls der komplette Name verwendet
       const nameInput = document.querySelector('.edit-contact-modal input[placeholder="Name"]');
       const emailInput = document.querySelector('.edit-contact-modal input[placeholder="Email"]');
       const phoneInput = document.querySelector('.edit-contact-modal input[placeholder="Telefonnummer"]');
@@ -180,13 +173,4 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 300);
     }
   });
-  
-  /**
-   * Hilfsfunktion zum Extrahieren der Initialen
-   */
-  // function getInitials(firstName, lastName) {
-  //   const firstInitial = firstName ? firstName.charAt(0).toUpperCase() : '';
-  //   const lastInitial = lastName ? lastName.charAt(0).toUpperCase() : '';
-  //   return firstInitial + lastInitial;
-  // }
   
