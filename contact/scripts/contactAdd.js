@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   
     function openEditModal(contact) {
-      console.log("Öffne Edit-Modal für:", contact.firstName, contact.lastName);
+      console.log("Öffne Edit-Modal für:", contact.name);
       
       // Modal öffnen
       document.querySelector('.modal-overlay-edit').style.display = 'flex';
@@ -123,33 +123,33 @@ document.addEventListener("DOMContentLoaded", function () {
       // Profilbild einfügen
       const profileImgCircle = document.querySelector('.edit-contact-modal .profile-img-circle');
       if (profileImgCircle) {
-        // Vorhandenes profile-img-circle Element anpassen
+        // Profilbild ausblenden
         profileImgCircle.style.display = 'none';
         
-        // Erzeuge profile-badge-big direkt neben profile-img-circle
+        // Neues Badge erstellen, das die Initialen (Vor- und Nachname) anzeigt
         const profileBadge = document.createElement('div');
         profileBadge.className = `profile-badge-big profile-badge-${contact.color || 'orange'}`;
-        profileBadge.textContent = getInitials(contact.firstName, contact.lastName);
+        // Hier wird getInitials aus contacts.js verwendet, das den vollen Namen verarbeitet
+        profileBadge.textContent = getInitials(contact.name);
         profileBadge.id = 'edit-contact-badge';
         profileBadge.style.position = 'relative';
         profileBadge.style.margin = '0 auto';
         profileBadge.style.marginTop = '50px';
         
-        // Füge Badge nach dem profile-img-circle Element ein
+        // Badge neben dem Profilbild einfügen
         profileImgCircle.parentNode.insertBefore(profileBadge, profileImgCircle.nextSibling);
-        
         console.log("Profile Badge Element erstellt:", profileBadge);
       } else {
         console.log("Profile Image Circle nicht gefunden!");
       }
       
-      // Eingabefelder aktualisieren
+      // Eingabefelder aktualisieren – hier wird ebenfalls der komplette Name verwendet
       const nameInput = document.querySelector('.edit-contact-modal input[placeholder="Name"]');
       const emailInput = document.querySelector('.edit-contact-modal input[placeholder="Email"]');
       const phoneInput = document.querySelector('.edit-contact-modal input[placeholder="Telefonnummer"]');
       
       if (nameInput && emailInput && phoneInput) {
-        nameInput.value = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
+        nameInput.value = contact.name || "";
         emailInput.value = contact.email || '';
         phoneInput.value = contact.phone || '';
         console.log("Eingabefelder aktualisiert.");
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Eingabefelder nicht gefunden!");
       }
     }
-  
+    
     closeEditModalBtn.addEventListener("click", function () {
       closeEditModal();
     });
@@ -184,9 +184,9 @@ document.addEventListener("DOMContentLoaded", function () {
   /**
    * Hilfsfunktion zum Extrahieren der Initialen
    */
-  function getInitials(firstName, lastName) {
-    const firstInitial = firstName ? firstName.charAt(0).toUpperCase() : '';
-    const lastInitial = lastName ? lastName.charAt(0).toUpperCase() : '';
-    return firstInitial + lastInitial;
-  }
+  // function getInitials(firstName, lastName) {
+  //   const firstInitial = firstName ? firstName.charAt(0).toUpperCase() : '';
+  //   const lastInitial = lastName ? lastName.charAt(0).toUpperCase() : '';
+  //   return firstInitial + lastInitial;
+  // }
   
