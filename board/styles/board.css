@@ -199,10 +199,12 @@ h1 {
 
 .placeholder-drag {
     height: 261px;
-    background: rgba(115, 115, 115, 0.322);
+    width:252px;
+    background: rgba(115, 115, 115, 0.068);
     border-radius: 10px;
     margin-bottom: 10px;
-    border-style: dotted;
+    border: 1px dotted #00000070;
+
 }
 
 .task-board-container:hover {
