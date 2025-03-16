@@ -715,6 +715,14 @@
         top: 10px;
         right: 10px;
     }
+
+    .close-btn-div{
+        padding-top:12px;
+    }
+
+    .edit-close-btn-div{
+        padding-top:0;
+    }
     
     .modal-overlay-edit .close-modal-button-edit {
         width: 20px;
@@ -1163,7 +1171,7 @@
   .profile-img-circle{
     height:100px !important;
     width:100px !important;
-    top:225px !important;
+    top:210px !important;
   }
 
   .add-contact-content-div{

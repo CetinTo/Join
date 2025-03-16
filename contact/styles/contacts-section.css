@@ -991,6 +991,14 @@ h4{
         width: 13px !important;
         height: 13px !important;
     }
+
+    .profile-img-circle{
+        top:196px;
+    }
+
+    .edit-profile-img-circle{
+        top:227px;
+    }
 }
 
 
@@ -1083,7 +1091,7 @@ h4{
 
 
     .profile-img-circle{
-        margin-top: 50px;
+        /* margin-top: 50px; */
         height: 80px;
         width: 80px;
     }
