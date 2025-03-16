@@ -283,11 +283,12 @@ h6 {
 }
 
 .empty-state-img {
+    height:64px;
     display: block ;
-    width: 100%;
+    /* width: 100%; */
     max-width: 352px; 
-    margin: 20px auto;
-    opacity: 0.5;
+    /* margin: 20px auto; */
+    /* opacity: 0.5; */
 }
 
 

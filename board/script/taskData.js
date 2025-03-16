@@ -59,8 +59,17 @@ async function updateTaskColumnInFirebase(taskId, newColumn) {
     if (!response.ok) {
       throw new Error(`Fehler beim Updaten der Task-Spalte: ${response.statusText}`);
     }
-  } catch (error) {}
+  } catch (error) {
+    // Fehlerbehandlung (optional)
+  }
 }
+
+// Globaler Klick-Listener, der alle sichtbaren Dropdowns schließt, wenn außerhalb geklickt wird.
+document.addEventListener("click", function(e) {
+  document.querySelectorAll(".move-to-dropdown.visible").forEach(function(dropdown) {
+    dropdown.classList.remove("visible");
+  });
+});
 
 function generateTasks(tasksData) {
   tasksData.forEach(task => {
@@ -127,7 +136,7 @@ function generateTasks(tasksData) {
     const dragDropIcon = taskElement.querySelector('.drag-drop-icon');
     if (dragDropIcon) {
       dragDropIcon.addEventListener("click", function(e) {
-        // Verhindern, dass das übergeordnete Element (z. B. das Task-Modal) geöffnet wird.
+        // Verhindern, dass das übergeordnete Element (z. B. das Task-Modal) geöffnet wird.
         e.stopPropagation();
         let dropdown = taskElement.querySelector(".move-to-dropdown");
         if (dropdown) {
@@ -139,23 +148,32 @@ function generateTasks(tasksData) {
           dropdown.classList.add("move-to-dropdown");
           dropdown.innerHTML = `
             <div class="dropdown-header">Move To</div>
-            <div class="dropdown-option" data-status="todo">To do</div>
-            <div class="dropdown-option" data-status="in-progress">In Progress</div>
-            <div class="dropdown-option" data-status="await-feedback">await feedback</div>
+            <div class="dropdown-option" data-status="toDoColumn">To do</div>
+            <div class="dropdown-option" data-status="inProgress">In Progress</div>
+            <div class="dropdown-option" data-status="awaitFeedback">await feedback</div>
             <div class="dropdown-option" data-status="done">Done</div>
           `;
           taskElement.appendChild(dropdown);
+          // Direkt beim Erstellen sichtbar machen
+          dropdown.classList.add("visible");
 
-          // Optional: Event-Listener für die Dropdown-Optionen
+          // Event-Listener für die Dropdown-Optionen
           dropdown.querySelectorAll(".dropdown-option").forEach(option => {
-            option.addEventListener("click", function(ev) {
+            option.addEventListener("click", async function(ev) {
               ev.stopPropagation();
               const newStatus = option.dataset.status;
               console.log(`Task ${taskElement.id} verschieben nach: ${newStatus}`);
-              // Hier kannst du den Code ergänzen, um den Task in die ausgewählte Spalte zu verschieben.
-              // Beispiel: updateTaskColumnInFirebase(taskElement.id, newStatus);
-              // Anschließend das Dropdown schließen:
+              // Firebase updaten
+              await updateTaskColumnInFirebase(taskElement.id, newStatus);
+              // Task im DOM in die neue Spalte verschieben
+              const newColumn = document.getElementById(newStatus);
+              if (newColumn) {
+                newColumn.appendChild(taskElement);
+              }
+              // Dropdown schließen
               dropdown.classList.remove("visible");
+              // Aktualisiere ggf. die leeren Spalten
+              checkColumns();
             });
           });
         }
@@ -164,7 +182,6 @@ function generateTasks(tasksData) {
   });
   checkColumns();
 }
-
 
 function filterTasks(searchTerm) {
   const tasksElements = document.querySelectorAll(".draggable-cards");
