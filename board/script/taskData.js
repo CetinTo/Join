@@ -85,6 +85,7 @@ function generateTasks(tasksData) {
     taskElement.innerHTML = `
       <div class="card-label-${task.category === "Technical task" ? "technical-task" : "user-story"} padding-left">
           <h4>${task.category === "Technical task" ? "Technical Task" : "User Story"}</h4>
+          <img src="../img/drag-drop-icon.png" alt="drag-and-drop-icon" class="drag-drop-icon">
       </div>
       <div>
           <h5 class="card-label-user-story-h5 padding-left">${task.title}</h5>
@@ -111,15 +112,59 @@ function generateTasks(tasksData) {
     `;
     const column = document.getElementById(task.column);
     if (column) column.appendChild(taskElement);
+
+    // Öffnet das Task-Modal, wenn auf die Karte geklickt wird.
     taskElement.addEventListener("click", () => openTaskModal(task));
+
+    // Aktualisiert die Spalte nach Drag & Drop.
     taskElement.addEventListener("dragend", async function () {
       const newColumn = taskElement.closest(".task-board-container")?.id;
       if (!newColumn) return;
       await updateTaskColumnInFirebase(taskElement.id, newColumn);
     });
+
+    // Event-Listener für das Drag-Drop-Icon, um das Dropdown-Menü anzuzeigen.
+    const dragDropIcon = taskElement.querySelector('.drag-drop-icon');
+    if (dragDropIcon) {
+      dragDropIcon.addEventListener("click", function(e) {
+        // Verhindern, dass das übergeordnete Element (z. B. das Task-Modal) geöffnet wird.
+        e.stopPropagation();
+        let dropdown = taskElement.querySelector(".move-to-dropdown");
+        if (dropdown) {
+          // Sichtbarkeit umschalten, falls bereits vorhanden.
+          dropdown.classList.toggle("visible");
+        } else {
+          // Dropdown-Menü erstellen, falls es noch nicht existiert.
+          dropdown = document.createElement("div");
+          dropdown.classList.add("move-to-dropdown");
+          dropdown.innerHTML = `
+            <div class="dropdown-header">Move To</div>
+            <div class="dropdown-option" data-status="todo">To do</div>
+            <div class="dropdown-option" data-status="in-progress">In Progress</div>
+            <div class="dropdown-option" data-status="await-feedback">await feedback</div>
+            <div class="dropdown-option" data-status="done">Done</div>
+          `;
+          taskElement.appendChild(dropdown);
+
+          // Optional: Event-Listener für die Dropdown-Optionen
+          dropdown.querySelectorAll(".dropdown-option").forEach(option => {
+            option.addEventListener("click", function(ev) {
+              ev.stopPropagation();
+              const newStatus = option.dataset.status;
+              console.log(`Task ${taskElement.id} verschieben nach: ${newStatus}`);
+              // Hier kannst du den Code ergänzen, um den Task in die ausgewählte Spalte zu verschieben.
+              // Beispiel: updateTaskColumnInFirebase(taskElement.id, newStatus);
+              // Anschließend das Dropdown schließen:
+              dropdown.classList.remove("visible");
+            });
+          });
+        }
+      });
+    }
   });
   checkColumns();
 }
+
 
 function filterTasks(searchTerm) {
   const tasksElements = document.querySelectorAll(".draggable-cards");

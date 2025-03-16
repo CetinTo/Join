@@ -4,6 +4,13 @@ h1 {
     font-weight: 700;
 }
 
+.card-label-technical-task img{
+    display: none;
+}
+
+.card-label-user-story img {
+    display: none;
+}
 
 .board-main {
     width: 100%;                
@@ -427,6 +434,42 @@ h6 {
     .tasks-headline{
         width:92%;
         padding-left:12px;
+
+    }
+}
+
+@media screen and (max-width:460px){
+    .card-label-technical-task {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        width:85%;
+    }
+
+    .card-label-user-story{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        width:85%;
+    }
+
+    .card-label-technical-task img {
+        display: block;
+    }
+
+    .card-label-user-story img {
+        display: block;
+    }
+
+    .card-label-technical-task img:hover{
+        filter: brightness(0) saturate(100%) invert(34%) sepia(100%) saturate(748%) hue-rotate(162deg) brightness(97%) contrast(101%);
+
+    }
+
+    .card-label-user-story img:hover{
+        filter: brightness(0) saturate(100%) invert(34%) sepia(100%) saturate(748%) hue-rotate(162deg) brightness(97%) contrast(101%);
 
     }
 }
