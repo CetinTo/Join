@@ -52,6 +52,34 @@ a{
   animation-delay: 2s;
 }
 
+.logo-resp {
+  width: 150px !important;
+  height: 150px !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: logoMoveResp 1.5s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+
+@keyframes logoMoveResp {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+  }
+  100% {
+    top: 10px;
+    left: 40px;
+    transform: translate(0, 0);
+    width: 50px;
+  }
+}
+
+
 @keyframes logoMove {
   0% {
     top: 50%;
@@ -418,3 +446,24 @@ footer a:hover{
 
 }
 
+
+.logo-resp{
+  display: none;
+}
+
+@media (max-width: 500px) {
+  .logo-resp{
+    display: block;
+    width: 50px;
+    height: 61px;
+    cursor: pointer;
+  
+  }
+  .logo{
+    display: none;
+  }
+
+  .logo-container{
+    background-color:#2a3647;
+  }
+}
