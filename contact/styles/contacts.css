@@ -887,6 +887,23 @@
     box-sizing: border-box;
 }
 
+
+.profile-badge-big-edit {
+    width: 120px;
+    height: 120px;
+    min-width: 120px;
+    min-height: 120px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 47px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
 @media (max-width: 480px) {
     .profile-badge-big {
         width: 60px;

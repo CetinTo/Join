@@ -7,8 +7,22 @@ function getInitials(fullName) {
 }
 
 function getColorClass(name, contacts) {
-  const contact = contacts ? Object.values(contacts).find(c => c.name === name) : null;
-  return contact ? `profile-badge-${contact.color.slice(1)}` : 'profile-badge-default';
+  const classes = [
+    "profile-badge-orange",
+    "profile-badge-purple",
+    "profile-badge-blue-violet",
+    "profile-badge-pink",
+    "profile-badge-yellow",
+    "profile-badge-mint",
+    "profile-badge-dark-blue",
+    "profile-badge-red",
+    "profile-badge-light-blue"
+  ];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash += name.charCodeAt(i);
+  }
+  return classes[hash % classes.length];
 }
 
 async function loadContactsFromFirebase() {
@@ -21,6 +35,7 @@ async function loadContactsFromFirebase() {
     const contactsArray = Object.entries(contacts).sort((a, b) => a[1].name.localeCompare(b[1].name));
     renderContacts(contactsArray, contacts);
   } catch (error) {
+    console.error(error);
   }
 }
 
@@ -162,22 +177,45 @@ async function fetchContact(contactId) {
     if (!response.ok) throw new Error(`Fehler beim Laden: ${response.status} ${response.statusText}`);
     return await response.json();
   } catch (error) {
+    console.error(error);
   }
 }
 
+// --- Hier die neue Funktion zum Aktualisieren des Badges im Edit-Modal ---
+function updateEditModalBadge(contact) {
+  const modal = document.querySelector(".modal-overlay-edit");
+  const badgeContainer = modal.querySelector(".profile-img-circle");
+  if (!badgeContainer) return;
+  
+  // Entferne ggf. vorhandenes Badge
+  const existingBadge = modal.querySelector("#edit-contact-badge");
+  if (existingBadge) {
+    existingBadge.remove();
+  }
+  
+  // Erstelle das neue Badge
+  const badge = document.createElement("div");
+  badge.id = "edit-contact-badge";
+  badge.className = `profile-badge-big-edit ${getColorClass(contact.name, null)}`;
+  badge.textContent = getInitials(contact.name);
+  
+  // Füge das Badge in den Container ein
+  badgeContainer.appendChild(badge);
+}
+
+// --- Angepasste openEditModal-Funktion, die das Badge aktualisiert ---
 function openEditModal(contact, contactId) {
   const modal = document.querySelector(".modal-overlay-edit");
   modal.style.display = "flex";
   modal.classList.add("show-modal");
+
   modal.querySelector("input[placeholder='Name']").value = contact.name || "";
   modal.querySelector("input[placeholder='Email']").value = contact.email || "";
   modal.querySelector("input[placeholder='Telefonnummer']").value = contact.phone || "";
-  const profileImgCircle = modal.querySelector(".profile-img-circle");
-  const initials = getInitials(contact.name);
-  const color = contact.color || '#ccc';
-  profileImgCircle.innerHTML = `<span>${initials}</span>`;
-  profileImgCircle.style.backgroundColor = color;
-  profileImgCircle.style.color = '#fff';
+
+  // Badge im Edit-Modal aktualisieren
+  updateEditModalBadge(contact);
+
   const saveBtn = document.querySelector(".save-btn");
   saveBtn.dataset.contactId = contactId;
   saveBtn.removeEventListener("click", saveEditedContact);
@@ -231,14 +269,6 @@ async function deleteContactFromFirebase(contactId) {
 }
 
 document.addEventListener("DOMContentLoaded", loadContactsFromFirebase);
-
-function showContactDetails(contactId) {
-  const contact = contacts[contactId];
-  if (!contact) return;
-  document.querySelector('.edit-contact-btn').addEventListener('click', function() {
-    openEditModal(contact, contactId);
-  });
-}
 
 function backToContactList() {
   if (window.innerWidth < 925) {
