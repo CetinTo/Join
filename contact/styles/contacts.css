@@ -688,7 +688,7 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    cursor: pointer;
+    cursor: auto;
     z-index: 1000;
 }
 

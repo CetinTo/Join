@@ -673,7 +673,7 @@ h4{
     width:53%;
     align-items:flex-start;
     margin-top:0;
-    height: 300px;
+    /* height: 300px; */
     right:36px !important ;
     top:32px !important;
     filter:brightness(5)
@@ -893,7 +893,7 @@ h4{
         width:53%;
         align-items:flex-start;
         margin-top:0;
-        height: 300px;
+        /* height: 300px; */
         filter: invert(-2) brightness(2);
         right:268px;
         top:88px;

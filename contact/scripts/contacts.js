@@ -237,12 +237,21 @@ async function saveEditedContact(event) {
       headers: { "Content-Type": "application/json" }
     });
     if (!response.ok) throw new Error(`Fehler beim Speichern: ${response.status} ${response.statusText}`);
-    loadContactsFromFirebase();
+
+    // Kontaktliste neu laden
+    await loadContactsFromFirebase();
+
+    // Modal schließen
     closeModal(".modal-overlay-edit");
+
+    // Seite neu laden
+    reloadPage();
+
   } catch (error) {
     alert("Fehler beim Speichern. Bitte erneut versuchen.");
   }
 }
+
 
 function closeModal(selector) {
   const modal = document.querySelector(selector);
@@ -296,3 +305,8 @@ window.addEventListener('resize', function() {
     document.querySelector('.contacts-main-section').classList.remove('contact-selected');
   }
 });
+
+
+function reloadPage() {
+  location.reload(); 
+}

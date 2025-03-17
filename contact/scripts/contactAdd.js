@@ -21,7 +21,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   openModalBtn.addEventListener("click", openModal);
 
-  createContactBtn.addEventListener("click", async function () {
+  // Hier wird das Standardformular-Verhalten verhindert
+  createContactBtn.addEventListener("click", async function (event) {
+    event.preventDefault(); // verhindert den Default-Submit
+    console.log("createContactBtn wurde geklickt"); // zum Debuggen
     const success = await saveContactToFirebase();
     if (success) closeModal();
   });
