@@ -39,11 +39,12 @@
         <div class="modal-div">
           <h2 id="loginText">Log in</h2>
 
-          <form id="loginForm" class="login-form">
-            <div class="input-group">
+          <form id="loginForm" class="login-form" onsubmit="login(); return false;">
+            <div class="input-container">
               <input
               type="email"
               id="email"
+              name="email"
               placeholder="Email"
               required
               class="input-email"
@@ -51,10 +52,11 @@
             />
             </div>
 
-            <div class="input-group">
+            <div class="input-container">
               <input
               type="password"
               id="password"
+              name="password"
               placeholder="Password"
               required
               class="icon-lock"
@@ -79,15 +81,9 @@
     </div>
     <!-- Footer -->
     <footer>
-
-
-      
       <a href="../resources/private-policy/privacy-policy.html">Privacy Policy</a>
-
       <a href="../resources/legal-notice/legal-notice.html">Legal notice</a>
     </footer>
-
-    <!-- <script src="../script/login.js"></script> -->
 
     <script>
       function reload() {

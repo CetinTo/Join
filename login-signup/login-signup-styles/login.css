@@ -239,7 +239,9 @@ header {
 .input-email {
   background-image: url(../../img/mail.png);
   background-repeat: no-repeat;
-  background-position: 95% center; 
+  background-position: 95% center;
+  width: 300px;
+  height: 30px; 
 }
 
 
@@ -247,6 +249,8 @@ header {
   background-image: url(../../img/lock.png);
   background-repeat: no-repeat;
   background-position: 95% center;
+  width: 300px;
+  height: 30px;
 }
 
 .button-div {
@@ -442,6 +446,15 @@ footer a:hover{
 
   .header-text-bottom {
     display: block !important;
+  }
+  .icon-lock {
+    width: 200px;
+    height: 20px;
+  }
+
+  .input-email {
+    width: 200px;
+    height: 20px;
   }
 
 }

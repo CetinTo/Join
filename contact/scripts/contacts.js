@@ -310,3 +310,28 @@ window.addEventListener('resize', function() {
 function reloadPage() {
   location.reload(); 
 }
+
+// Ersetze den Event-Delegation-Block für den Edit-Delete-Button
+document.addEventListener('click', function(event) {
+    if (event.target.matches('.edit-delete-btn-modal') || 
+        event.target.closest('.edit-delete-btn-modal')) {
+        
+        console.log("Delete-Button im Edit-Modal geklickt");
+        
+        // Richtige ID aus dem Save-Button holen
+        const saveBtn = document.querySelector(".save-btn");
+        const contactId = saveBtn.dataset.contactId;
+        
+        if (contactId) {
+            console.log("Lösche Kontakt mit ID:", contactId);
+            
+            // Firebase-Löschfunktion aufrufen
+            deleteContactFromFirebase(contactId);
+            
+            // Modal schließen
+            closeModal(".modal-overlay-edit");
+        } else {
+            console.error("Keine Kontakt-ID gefunden");
+        }
+    }
+});

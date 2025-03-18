@@ -719,3 +719,155 @@ name-span {
   .main-div {
     height: calc(var(--vh, 1vh) * 100);
   }
+
+
+@media (max-width: 440px) {
+  .main-section {
+    width: 100vw;
+    margin: 0;
+    background-color: #F6F7F8;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Überschrift "Add Task" */
+  h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  /* Formular-Elemente */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  label {
+    font-size: 16px;
+    color: #2A3647;
+  }
+
+  /* Rote Sternchen für Pflichtfelder */
+  .required::after {
+    content: "*";
+    color: #FF8190;
+    margin-left: 4px;
+  }
+
+  /* Input-Felder */
+  input, textarea, select {
+    padding: 13px 21px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    font-size: 16px;
+    background: white;
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  /* Priority Buttons */
+  .priority-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 8px 0;
+  }
+
+  .priority-btn {
+    flex: 1;
+    padding: 18px 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: white;
+    border: 1px solid #D1D1D1;
+  }
+
+  .priority-btn.urgent {
+    color: #FF3D00;
+  }
+
+  .priority-btn.medium {
+    background: #FFA800;
+    color: white;
+  }
+
+  .priority-btn.low {
+    color: #7AE229;
+  }
+
+  /* Footer Buttons */
+  .footer-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .clear-btn {
+    padding: 18px 10px;
+    border-radius: 10px;
+    border: 1px solid #2A3647;
+    background: white;
+    color: #2A3647;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .create-btn {
+    flex: 1;
+    padding: 18px 10px;
+    border-radius: 10px;
+    border: none;
+    background: #2A3647;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* Bottom Navigation */
+  .footer-navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: #2A3647;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px 0;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav-item.active {
+    color: #29ABE2;
+  }
+
+  .nav-item img {
+    width: 24px;
+    height: 24px;
+  }
+}
