@@ -1,13 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
   const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+
   loginForm.noValidate = true;
 
   emailInput.addEventListener('blur', () => {
     removeError(emailInput);
     const emailValue = emailInput.value.trim();
-    if (!validateEmail(emailValue) && emailValue !== '') {
+    if (emailValue !== '' && !validateEmail(emailValue)) {
       showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
+    }
+  });
+
+  passwordInput.addEventListener('blur', () => {
+    removeError(passwordInput);
+    const passwordValue = passwordInput.value.trim();
+    if (passwordValue === '') {
+      showError(passwordInput, 'Bitte ein Passwort eingeben.');
     }
   });
 
@@ -16,28 +26,40 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleLogin(event) {
     event.preventDefault();
     removeError(emailInput);
+    removeError(passwordInput);
+
     const emailValue = emailInput.value.trim();
-    const passwordValue = document.getElementById('password').value;
+    const passwordValue = passwordInput.value.trim();
+    let hasError = false;
+
     if (!validateEmail(emailValue)) {
       showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
-      return;
+      hasError = true;
     }
+    if (passwordValue === '') {
+      showError(passwordInput, 'Bitte ein Passwort eingeben.');
+      hasError = true;
+    }
+    if (hasError) return;
+
     fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
       .then(response => response.json())
       .then(data => {
-        let foundUser = null;
+        let userByEmail = null;
         for (let key in data) {
           const user = data[key];
-          if (user.email === emailValue && user.password === passwordValue) {
-            foundUser = user;
+          if (user.email === emailValue) {
+            userByEmail = user;
             break;
           }
         }
-        if (foundUser) {
-          localStorage.setItem('currentUser', JSON.stringify(foundUser));
-          window.location.href = '../index.html';
+        if (!userByEmail) {
+          showError(emailInput, 'E-Mail ist falsch.');
+        } else if (userByEmail.password !== passwordValue) {
+          showError(passwordInput, 'Passwort ist falsch.');
         } else {
-          showError(emailInput, 'E-Mail oder Passwort ist falsch.');
+          localStorage.setItem('currentUser', JSON.stringify(userByEmail));
+          window.location.href = '../index.html';
         }
       })
       .catch(error => {
