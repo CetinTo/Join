@@ -18,38 +18,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = document.getElementById('password').value;
     
     try {
-      // Richtige URL zur users-Collection
       const response = await fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/users.json');
       const users = await response.json();
       
-      let userFound = false;
+      let foundUser = null;
       
+      // Suche nach dem Benutzer
       for (let key in users) {
         const user = users[key];
         if (user.email === email && user.password === password) {
-          // Login erfolgreich
-          userFound = true;
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          window.location.href = '../index.html';
+          foundUser = user;
           break;
         }
       }
       
-      if (!userFound) {
-        // Fehlermeldung anzeigen
-        const inputGroup = document.querySelector('.input-group');
+      if (foundUser) {
+        // Login erfolgreich
+        localStorage.setItem('currentUser', JSON.stringify(foundUser));
+        window.location.href = '../index.html';
+      } else {
+        // Login fehlgeschlagen
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-message';
         errorDiv.textContent = 'Email or password is incorrect';
         
-        // Alte Fehlermeldung entfernen falls vorhanden
+        // Alte Fehlermeldung entfernen
         const oldError = document.querySelector('.error-message');
-        if (oldError) oldError.remove();
+        if (oldError) {
+          oldError.remove();
+        }
         
-        // Neue Fehlermeldung hinzufügen
-        inputGroup.appendChild(errorDiv);
+        // Neue Fehlermeldung nach dem Passwort-Input einfügen
+        const passwordInput = document.getElementById('password');
+        passwordInput.parentNode.appendChild(errorDiv);
       }
-      
     } catch (error) {
       console.error('Login error:', error);
       alert('An error occurred. Please try again.');
