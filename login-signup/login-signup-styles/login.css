@@ -216,7 +216,9 @@ header {
 .input-group {
   position: relative;
   margin-bottom: 20px;
-   
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .input-group input {
@@ -474,7 +476,9 @@ footer a:hover{
 }
 
 .error-message {
-  color: red;
-  font-size: 0.9rem; /* oder nach Wunsch anpassen */
-  margin-top: 4px;
+  color: #ff3d00;
+  font-size: 14px;
+  margin-top: 8px;
+  text-align: center;
+  width: 100%;
 }

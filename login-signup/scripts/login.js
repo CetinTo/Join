@@ -11,40 +11,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  loginForm.addEventListener('submit', handleLogin);
-
-  function handleLogin(event) {
+  loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    removeError(emailInput);
-    const emailValue = emailInput.value.trim();
-    const passwordValue = document.getElementById('password').value;
-    if (!validateEmail(emailValue)) {
-      showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
-      return;
-    }
-    fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
-      .then(response => response.json())
-      .then(data => {
-        let foundUser = null;
-        for (let key in data) {
-          const user = data[key];
-          if (user.email === emailValue && user.password === passwordValue) {
-            foundUser = user;
-            break;
-          }
-        }
-        if (foundUser) {
-          localStorage.setItem('currentUser', JSON.stringify(foundUser));
+    
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    
+    try {
+      // Richtige URL zur users-Collection
+      const response = await fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/users.json');
+      const users = await response.json();
+      
+      let userFound = false;
+      
+      for (let key in users) {
+        const user = users[key];
+        if (user.email === email && user.password === password) {
+          // Login erfolgreich
+          userFound = true;
+          localStorage.setItem('currentUser', JSON.stringify(user));
           window.location.href = '../index.html';
-        } else {
-          showError(emailInput, 'E-Mail oder Passwort ist falsch.');
+          break;
         }
-      })
-      .catch(error => {
-        console.error(error);
-        alert('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.');
-      });
-  }
+      }
+      
+      if (!userFound) {
+        // Fehlermeldung anzeigen
+        const inputGroup = document.querySelector('.input-group');
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.textContent = 'Email or password is incorrect';
+        
+        // Alte Fehlermeldung entfernen falls vorhanden
+        const oldError = document.querySelector('.error-message');
+        if (oldError) oldError.remove();
+        
+        // Neue Fehlermeldung hinzufügen
+        inputGroup.appendChild(errorDiv);
+      }
+      
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('An error occurred. Please try again.');
+    }
+  });
 
   function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
