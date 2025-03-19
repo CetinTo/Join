@@ -1,46 +1,69 @@
-/**
- * Vereinfachte Login-Funktion
- */
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
-  const errorMessage = document.getElementById('errorMessage');
+  const emailInput = document.getElementById('email');
+  loginForm.noValidate = true;
 
-  loginForm.onsubmit = async function(e) {
-      e.preventDefault();
-      
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-      
-      // Fehlermeldung zurücksetzen
-      errorMessage.textContent = '';
+  emailInput.addEventListener('blur', () => {
+    removeError(emailInput);
+    const emailValue = emailInput.value.trim();
+    if (!validateEmail(emailValue) && emailValue !== '') {
+      showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
+    }
+  });
 
-      try {
-          // Benutzerdaten von Firebase abrufen
-          const response = await fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/users.json');
-          const users = await response.json();
+  loginForm.addEventListener('submit', handleLogin);
 
-          // Benutzer suchen
-          let foundUser = null;
-          for (let key in users) {
-              const user = users[key];
-              if (user.email === email && user.password === password) {
-                  foundUser = user;
-                  break;
-              }
+  function handleLogin(event) {
+    event.preventDefault();
+    removeError(emailInput);
+    const emailValue = emailInput.value.trim();
+    const passwordValue = document.getElementById('password').value;
+    if (!validateEmail(emailValue)) {
+      showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
+      return;
+    }
+    fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
+      .then(response => response.json())
+      .then(data => {
+        let foundUser = null;
+        for (let key in data) {
+          const user = data[key];
+          if (user.email === emailValue && user.password === passwordValue) {
+            foundUser = user;
+            break;
           }
+        }
+        if (foundUser) {
+          localStorage.setItem('currentUser', JSON.stringify(foundUser));
+          window.location.href = '../index.html';
+        } else {
+          showError(emailInput, 'E-Mail oder Passwort ist falsch.');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        alert('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.');
+      });
+  }
 
-          if (foundUser) {
-              // Erfolgreicher Login
-              localStorage.setItem('currentUser', JSON.stringify(foundUser));
-              window.location.href = '../index.html';
-          } else {
-              // Fehlgeschlagener Login
-              errorMessage.textContent = 'Email or password is incorrect';
-          }
+  function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
 
-      } catch (error) {
-          console.error('Login error:', error);
-          errorMessage.textContent = 'An error occurred. Please try again.';
-      }
-  };
+  function showError(inputElement, message) {
+    inputElement.classList.add('input-error');
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.innerText = message;
+    inputElement.parentNode.insertBefore(errorDiv, inputElement.nextSibling);
+  }
+
+  function removeError(inputElement) {
+    inputElement.classList.remove('input-error');
+    const nextElem = inputElement.nextSibling;
+    if (nextElem && nextElem.classList && nextElem.classList.contains('error-message')) {
+      nextElem.remove();
+    }
+  }
 });
