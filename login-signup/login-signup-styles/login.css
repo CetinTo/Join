@@ -480,3 +480,14 @@ footer a:hover{
     background-color:#2a3647;
   }
 }
+
+/* Styling für die Fehlermeldung */
+.error-message {
+  color: #ff3d00;
+  font-size: 14px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  min-height: 20px;
+  font-weight: 400;
+}
