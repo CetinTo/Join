@@ -9,14 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik+Vinyl&display=swap" rel="stylesheet">
     <title>Log in</title>
     <link rel="stylesheet" href="./login-signup-styles/login.css" />
-    <script src="./scripts/login.js"></script>
+    <script src="./scripts/login.js" defer></script>
     </head>
 
   <body>
     
     <div class="logo-container">
       <img src="../img/capa.png" alt="Logo" class="logo animated" />
-      <img src="../../img/capa_white.png" alt="Logo" class=" logo-resp animated" />
+      <img src="../img/capa_white.png" alt="Logo" class="logo-resp animated" />
     </div>
 
     <!-- Header -->
@@ -39,7 +39,7 @@
         <div class="modal-div">
           <h2 id="loginText">Log in</h2>
 
-          <form id="loginForm" class="login-form" onsubmit="login(); return false;">
+          <form id="loginForm" class="login-form" onsubmit="handleLogin(event)">
             <div class="input-container">
               <input
               type="email"
@@ -64,12 +64,12 @@
             />
             </div>
             
-            <!-- Fehlermeldung Element hinzugefügt -->
-            <div id="error-message" class="error-message"></div>
+            <!-- Fehlermeldung Element -->
+            <div id="errorMessage" class="error-message"></div>
 
             <div class="button-div">
               <div class="button-group">
-                <button type="submit" class="btn login-btn">Log in</button>
+                <button type="submit" class="btn login-btn" id="loginButton">Log in</button>
                 <a class="btn guest-btn" href="../index.html">Guest Log in</a>
               </div>
             </div>
