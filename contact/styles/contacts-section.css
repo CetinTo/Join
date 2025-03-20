@@ -1214,3 +1214,15 @@ h4{
 
 }
 
+
+@media (max-width:440px){
+    .create-btn{
+        width:200px !important;
+    }
+
+    .create-btn-div-add-contact{
+        width:60%;
+        display: flex;
+        justify-content: center;
+    }
+}
