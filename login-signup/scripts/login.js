@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-<<<<<<< HEAD
   loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     
@@ -60,62 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('An error occurred. Please try again.');
     }
   });
-=======
-  passwordInput.addEventListener('blur', () => {
-    removeError(passwordInput);
-    const passwordValue = passwordInput.value.trim();
-    if (passwordValue === '') {
-      showError(passwordInput, 'Bitte ein Passwort eingeben.');
-    }
-  });
-
-  loginForm.addEventListener('submit', handleLogin);
-
-  function handleLogin(event) {
-    event.preventDefault();
-    removeError(emailInput);
-    removeError(passwordInput);
-
-    const emailValue = emailInput.value.trim();
-    const passwordValue = passwordInput.value.trim();
-    let hasError = false;
-
-    if (!validateEmail(emailValue)) {
-      showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
-      hasError = true;
-    }
-    if (passwordValue === '') {
-      showError(passwordInput, 'Bitte ein Passwort eingeben.');
-      hasError = true;
-    }
-    if (hasError) return;
-
-    fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
-      .then(response => response.json())
-      .then(data => {
-        let userByEmail = null;
-        for (let key in data) {
-          const user = data[key];
-          if (user.email === emailValue) {
-            userByEmail = user;
-            break;
-          }
-        }
-        if (!userByEmail) {
-          showError(emailInput, 'E-Mail ist falsch.');
-        } else if (userByEmail.password !== passwordValue) {
-          showError(passwordInput, 'Passwort ist falsch.');
-        } else {
-          localStorage.setItem('currentUser', JSON.stringify(userByEmail));
-          window.location.href = '../index.html';
-        }
-      })
-      .catch(error => {
-        console.error(error);
-        alert('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.');
-      });
-  }
->>>>>>> cfdc28f5305251a4df06a42779b6dfe2f2d56a99
 
   function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

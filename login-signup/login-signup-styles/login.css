@@ -216,9 +216,7 @@ header {
 .input-group {
   position: relative;
   margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+   
 }
 
 .input-group input {
@@ -241,7 +239,9 @@ header {
 .input-email {
   background-image: url(../../img/mail.png);
   background-repeat: no-repeat;
-  background-position: 95% center; 
+  background-position: 95% center;
+  width: 300px;
+  height: 30px; 
 }
 
 
@@ -249,6 +249,8 @@ header {
   background-image: url(../../img/lock.png);
   background-repeat: no-repeat;
   background-position: 95% center;
+  width: 300px;
+  height: 30px;
 }
 
 .button-div {
@@ -276,66 +278,53 @@ header {
   cursor: pointer;
 }
 
-.login-btn {
-  width: 110px;
-  height: 48px;
-  background-color: #2a3647;
-  color: #fff;
-  border: none; 
-  border-radius: 8px; 
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.0s ease-in-out; 
-  box-shadow: none; 
-  font-size: 21px;
-  line-height: 25.2px;
-  font-weight: 700px;
-  text-align: center;
+/* Verbesserte Button-Stile */
+.login-btn, .guest-btn, .btn {
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+    height: 48px;
+    transition: transform 0.1s, background-color 0.1s;
 }
 
-.login-btn:hover {
-  background-color: #28abe2; 
-  box-shadow: 0 5px 10px rgba(40, 171, 226, 0.2); 
-  transform: translateY(-0,5px); 
+.login-btn, button[type="submit"] {
+    background-color: #2A3647;
+    color: white !important;
+    border: none;
+}
+
+.login-btn:hover, button[type="submit"]:hover {
+    background-color: #29ABE2;
 }
 
 .guest-btn {
-  background-color: #fff;
-  color: #2a3647;
-  border: 2px solid #2a3647; 
-  border-radius: 8px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.0s ease-in-out; 
-  box-shadow: none; 
-  font-weight: 700;
-  width: 177px;
-  
-  
+    background-color: white;
+    color: #2A3647 !important;
+    border: 1px solid #2A3647;
 }
 
 .guest-btn:hover {
-  background-color:#fff; 
-  color: #28abe2; 
-  border-color: #28abe2; 
-  box-shadow: 0 5px 10px rgba(42, 54, 71, 0.2); 
-  transform: translateY(-0,5px); 
+    border-color: #29ABE2;
+    color: #29ABE2 !important;
 }
 
 /* Footer */
 footer {
-  /* position: fixed; */
+  position: fixed;
   bottom: 10px;
   width: 100%;
   text-align: center;
-  font-size: 16px;
+  font-size: 12px;
   color: #888;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 352px;
-  top:949px;
-  
+  height: auto;
+  top: auto;
 }
 
 footer a{
@@ -347,7 +336,7 @@ footer a{
 
 footer a:hover{
   color: #28abe2;
-  font-size: 16px;
+  font-size: 13px;
 }
 
 @keyframes fadeOut {
@@ -433,9 +422,12 @@ footer a:hover{
       font-size: 16px; 
       width: 100px;
   }
+  
   .button-group {
     flex-direction: column;
     align-items: center;
+    gap: 16px;
+    margin-top: 20px;
   }
 
   .header-text{
@@ -444,8 +436,38 @@ footer a:hover{
 
   .header-text-bottom {
     display: block !important;
+    position: relative;
+    bottom: auto;
+    margin-bottom: 80px;
+  }
+  
+  .icon-lock {
+    width: 200px;
+    height: 20px;
   }
 
+  .input-email {
+    width: 200px;
+    height: 20px;
+  }
+  
+  .center-container {
+    margin-top: -80px;
+  }
+  
+  .signup-link {
+    margin-top: -40px;
+  }
+  
+  .logo-container {
+    position: absolute;
+    top: 15px;
+  }
+  
+  footer {
+    position: fixed;
+    bottom: 15px;
+  }
 }
 
 
@@ -468,17 +490,17 @@ footer a:hover{
   .logo-container{
     background-color:#2a3647;
   }
+
+  .logo-small {
+    width: 50px;
+    height: 61px;
+  }
 }
 
-
-.input-error {
-  border: 1px solid red !important; /* oder nach Wunsch anpassen */
-}
-
-.error-message {
-  color: #ff3d00;
-  font-size: 14px;
-  margin-top: 8px;
-  text-align: center;
-  width: 100%;
+/* Scrollbars für kleine Bildschirme entfernen */
+@media (max-width: 380px) {
+  body {
+    overflow: hidden;
+    height: 100vh;
+  }
 }
