@@ -97,3 +97,35 @@ body {
     margin-top: 4px;
   }
   
+
+
+  @media (max-height:700px){
+    .logo-small{
+    width:50px !important;
+      height:60px !important;
+    }
+
+    .login-modal{
+      border: 1px solid #0f0f0f2a;
+      min-height: 0 !important;
+      width:340px !important;
+      height:440px !important;
+    }
+
+    .login-form{
+      padding-top:0;
+      padding:0 !important;
+    }
+
+    .sign-up-modal-header{
+      padding-bottom:0 !important;
+    }
+
+
+    .login-modal h2{
+      margin-bottom:0;
+    }
+
+
+
+  }

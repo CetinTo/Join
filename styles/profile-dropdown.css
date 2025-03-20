@@ -90,7 +90,7 @@ a{
     cursor: pointer !important;
     transition: all 0.2s ease-in-out;
     position: relative;
-    z-index: 1001;
+    /* z-index: 1001; */
 }
 
 .account:hover {

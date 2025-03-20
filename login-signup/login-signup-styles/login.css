@@ -478,3 +478,33 @@ footer a:hover{
   font-size: 0.9rem; /* oder nach Wunsch anpassen */
   margin-top: 4px;
 }
+
+
+@media (max-height:700px){
+  .logo-small{
+    width:50px ;
+    height:60px;
+  }
+
+  .login-modal h2{
+    font-size:46px;
+  }
+
+  .login-modal{
+    height:362px;
+    margin-top:24px;
+  }
+
+  .button-group{
+    gap:12px;
+  }
+
+  .input-group{
+    margin:0;
+  }
+
+  .footer{
+    height:112px;
+  }
+
+}
