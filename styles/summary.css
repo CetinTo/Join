@@ -871,3 +871,9 @@ name-span {
     height: 24px;
   }
 }
+
+
+.add-task-button {
+    pointer-events: auto;
+  }
+  

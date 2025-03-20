@@ -328,7 +328,7 @@ footer {
   bottom: 10px;
   width: 100%;
   text-align: center;
-  font-size: 12px;
+  font-size: 16px;
   color: #888;
   display: flex;
   justify-content: center;
@@ -347,7 +347,7 @@ footer a{
 
 footer a:hover{
   color: #28abe2;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 @keyframes fadeOut {
@@ -472,7 +472,7 @@ footer a:hover{
 
 
 .input-error {
-  border: 2px solid red; /* oder nach Wunsch anpassen */
+  border: 1px solid red !important; /* oder nach Wunsch anpassen */
 }
 
 .error-message {

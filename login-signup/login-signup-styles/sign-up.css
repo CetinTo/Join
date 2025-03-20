@@ -83,3 +83,17 @@ body {
     color: #28abe2;
     font-size: 17px;
   }
+
+
+  .input-error {
+    border: 2px solid red !important;
+  }
+  
+  .error-message {
+    position:absolute;
+    bottom:-20px;
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+  
