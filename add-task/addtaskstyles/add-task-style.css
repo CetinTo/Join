@@ -1241,3 +1241,13 @@ hr {
         padding-bottom: 26px;
     }
 }
+
+@media (max-width:440px){
+    .clear-btn{
+        padding:0 !important;
+    }
+
+    .create-btn{
+        padding:0 !important;
+    }
+}

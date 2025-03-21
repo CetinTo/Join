@@ -517,7 +517,7 @@ name-span {
     }
 
     .main-section{
-        align-items:flex-start;
+        /* align-items:flex-start; */
 
     }
 
@@ -877,3 +877,24 @@ name-span {
     pointer-events: auto;
   }
   
+
+  @media (max-width: 340px) {
+        .to-do-div{
+            width: 8rem;
+        }
+
+        .to-do-third-section{
+            gap:1px;
+        }
+  }
+  
+
+  @media (max-height:667px){
+    .main-section{
+        height:70vh;
+    }
+
+    .headline-section{
+        padding-top:12px;
+    }
+  }
