@@ -1,12 +1,29 @@
 // ------------------------------
 // GLOBAL VARIABLES
 // ------------------------------
+/**
+ * Aktuelle Task, auf die zugegriffen wird.
+ * @global
+ * @type {Object|null}
+ */
 window.currentTask = null;
+/**
+ * ID der aktuellen Task.
+ * @global
+ * @type {string|null}
+ */
 window.currentTaskId = null;
 
 // ------------------------------
 // SUBTASK & PRIORITY HANDLING
 // ------------------------------
+
+/**
+ * Aktualisiert den Status eines Subtasks und passt den Fortschritt an.
+ * @param {string} taskId - ID der Aufgabe.
+ * @param {number} subtaskIndex - Index des Subtasks.
+ * @param {boolean} newStatus - Neuer Status (true = abgeschlossen).
+ */
 function updateSubtaskStatus(taskId, subtaskIndex, newStatus) {
   if (!window.currentTask || window.currentTaskId !== taskId) return;
   window.currentTask.subtasks[subtaskIndex].completed = newStatus;
@@ -23,6 +40,11 @@ function updateSubtaskStatus(taskId, subtaskIndex, newStatus) {
   .catch(err => {});
 }
 
+/**
+ * Gibt ein textuelles Label zur Priorität anhand des Icon-Pfads zurück.
+ * @param {string} iconPath - Pfad des Prioritätsicons.
+ * @returns {string} "Urgent", "Medium", "Low" oder "Unknown".
+ */
 function getPriorityLabel(iconPath) {
   if (!iconPath) return "Unknown";
   if (iconPath.includes("urgent")) return "Urgent";
@@ -31,6 +53,11 @@ function getPriorityLabel(iconPath) {
   return "Unknown";
 }
 
+/**
+ * Extrahiert aus dem Icon-Pfad die Priorität.
+ * @param {string} iconPath - Pfad des Prioritätsicons.
+ * @returns {string} "urgent", "medium" oder "low" (Standard: "medium").
+ */
 function extractPriority(iconPath) {
   if (!iconPath) return 'medium';
   const lower = iconPath.toLowerCase();
@@ -43,9 +70,15 @@ function extractPriority(iconPath) {
 // ------------------------------
 // MODAL RENDERING
 // ------------------------------
+
+/**
+ * Rendert den Header des Task-Modals anhand der Task-Daten.
+ * @param {Object} task - Die Task-Daten.
+ * @param {HTMLElement} modal - Das Modal-Element.
+ */
 function renderModalHeader(task, modal) {
   const cat = modal.querySelector('.main-section-task-overlay > div:first-child');
-  cat.className = `card-label-${task.category.toLowerCase().includes('technical')?'technical-task':'user-story'}-modal w445`;
+  cat.className = `card-label-${task.category.toLowerCase().includes('technical') ? 'technical-task' : 'user-story'}-modal w445`;
   cat.querySelector('h4').textContent = task.category;
   document.getElementById('modalTitle').innerText = task.title || "Kein Titel";
   document.getElementById('modalDescription').innerText = task.description || "Keine Beschreibung";
@@ -55,12 +88,16 @@ function renderModalHeader(task, modal) {
   const assign = document.getElementById('modalAssignedTo');
   assign.innerHTML = task.users.map(u =>
     `<div class="flexrow profile-names">
-       <div class="profile-badge-floating-${u.color||'gray'}">${u.initials||'?'}</div>
-       <span class="account-name">${u.name||'Unbekannt'}</span>
+       <div class="profile-badge-floating-${u.color || 'gray'}">${u.initials || '?'}</div>
+       <span class="account-name">${u.name || 'Unbekannt'}</span>
      </div>`
   ).join("");
 }
 
+/**
+ * Rendert die Subtasks im Task-Modal.
+ * @param {Object} task - Die Task-Daten.
+ */
 function renderSubtasks(task) {
   const ms = document.getElementById("modalSubtasks");
   ms.innerHTML = "";
@@ -69,19 +106,23 @@ function renderSubtasks(task) {
       const div = document.createElement("div");
       div.classList.add("subtask-container-div-item");
       div.innerHTML = `<div class="flexrow">
-                         <input type="checkbox" class="subtask-checkbox" data-index="${i}" ${st.completed?"checked":""}>
+                         <input type="checkbox" class="subtask-checkbox" data-index="${i}" ${st.completed ? "checked" : ""}>
                          <span>${st.text}</span>
                        </div>`;
       ms.appendChild(div);
     });
     ms.querySelectorAll(".subtask-checkbox").forEach(cb => {
-      cb.addEventListener("change", function(){
-        updateSubtaskStatus(window.currentTaskId, parseInt(this.getAttribute("data-index"),10), this.checked);
+      cb.addEventListener("change", function () {
+        updateSubtaskStatus(window.currentTaskId, parseInt(this.getAttribute("data-index"), 10), this.checked);
       });
     });
   }
 }
 
+/**
+ * Öffnet das Task-Modal und füllt es mit den Task-Daten.
+ * @param {Object} task - Die aufzurufende Task.
+ */
 function openTaskModal(task) {
   window.currentTask = task;
   window.currentTaskId = task.firebaseKey || task.id;
@@ -95,6 +136,13 @@ function openTaskModal(task) {
 // ------------------------------
 // FIREBASE UPDATE
 // ------------------------------
+
+/**
+ * Aktualisiert in Firebase die Spalte einer Task.
+ * @param {string} taskId - Die ID der Task.
+ * @param {string} newColumn - Die neue Spalten-ID.
+ * @returns {Promise<void>}
+ */
 async function updateTaskColumnInFirebase(taskId, newColumn) {
   try {
     const url = `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${taskId}.json`;
@@ -110,6 +158,11 @@ async function updateTaskColumnInFirebase(taskId, newColumn) {
 // ------------------------------
 // COLUMN CHECK & DRAG & DROP
 // ------------------------------
+
+/**
+ * Überprüft alle Spalten (Klasse "task-board-container") und blendet
+ * das Platzhalterbild ein oder aus, je nachdem ob Tasks vorhanden sind.
+ */
 function checkColumns() {
   document.querySelectorAll('.task-board-container').forEach(col => {
     const img = col.querySelector('img');
@@ -119,6 +172,11 @@ function checkColumns() {
   });
 }
 
+/**
+ * Richtet Drag & Drop ein. Fügt den Karten (Klasse "draggable-cards")
+ * Event-Listener für dragstart und dragend hinzu und erlaubt das Ablegen
+ * in Spalten (Klasse "task-board-container").
+ */
 function enableDragAndDrop() {
   document.querySelectorAll('.draggable-cards').forEach(card => {
     card.addEventListener('dragstart', () => card.classList.add('dragging'));
@@ -136,6 +194,12 @@ function enableDragAndDrop() {
 // ------------------------------
 // TASK ELEMENT CREATION & GENERATION
 // ------------------------------
+
+/**
+ * Erstellt ein DOM-Element für eine Task.
+ * @param {Object} task - Die Task-Daten.
+ * @returns {HTMLElement} Das erstellte Task-Element.
+ */
 function createTaskElement(task) {
   const total = task.subtasks ? task.subtasks.length : 0,
         completed = task.subtasks ? task.subtasks.filter(st => st.completed).length : 0,
@@ -144,8 +208,8 @@ function createTaskElement(task) {
   let prio = extractPriority(task.priority); if (!mapping[prio]) prio = "medium";
   const taskPriority = mapping[prio];
   const el = document.createElement("div");
-  el.classList.add("draggable-cards"); 
-  el.id = task.firebaseKey || task.id; 
+  el.classList.add("draggable-cards");
+  el.id = task.firebaseKey || task.id;
   el.setAttribute("draggable", "true");
   el.dataset.title = task.title.toLowerCase();
   el.dataset.description = task.description.toLowerCase();
@@ -175,6 +239,11 @@ function createTaskElement(task) {
   return el;
 }
 
+/**
+ * Generiert alle Task-Elemente und fügt sie in die jeweilige Spalte ein.
+ * Richtet außerdem Event-Listener für Modal, Drag & Drop und Dropdown ein.
+ * @param {Array<Object>} tasksData - Array von Task-Daten.
+ */
 function generateTasks(tasksData) {
   tasksData.forEach(task => {
     if (!task || !task.title || !task.column) return;
@@ -211,7 +280,8 @@ function generateTasks(tasksData) {
               await updateTaskColumnInFirebase(taskEl.id, ns);
               const newCol = document.getElementById(ns);
               if (newCol) newCol.appendChild(taskEl);
-              dd.classList.remove("visible"); checkColumns();
+              dd.classList.remove("visible");
+              checkColumns();
             });
           });
         }
