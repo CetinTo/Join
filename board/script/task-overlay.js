@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     if (!modalBackground) return;
   
+    
     /**
      * Hides the modal background if the user clicks directly on it (outside the modal).
      *
