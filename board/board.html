@@ -26,7 +26,9 @@
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/de.js"></script>
   <script src="./script/scripts.js"></script>
-  <script src="./script/contacts.js"></script>
+<!-- index.html -->
+<script type="module" src="./script/contacts.js"></script>
+
   <script src="./script/addTaskModalBoard.js"></script>
   <script src="./script/task-added-content.js"></script>
   <script src="./script/taskData.js"></script>
@@ -260,7 +262,7 @@
               </select>
               <div class="custom-dropdown">
                 <div class="dropdown-search-container">
-                  <input type="text" class="dropdown-search" placeholder="Select to assign" onclick="toggleDropdown()">
+                  <input type="text" class="dropdown-search" placeholder="Select to assign" >
                   <img src="../img/arrow_drop_down.png" alt="Search Icon" class="search-icon" onclick="toggleDropdown()">
                   <img src="../img/arrow_drop_down_aktive.png" alt="Search Icon" class="search-icon-active" onclick="toggleDropdown()">
                 </div>
