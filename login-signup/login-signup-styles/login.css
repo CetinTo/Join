@@ -407,7 +407,9 @@ footer a:hover{
 
 @media (max-width: 500px) {
   .login-modal {
-      width: 90%; 
+      width: 90%;
+      height: 440px;
+      margin-top: 30px; 
   }
 
   h2 {
@@ -497,52 +499,110 @@ footer a:hover{
   }
 }
 
-<<<<<<< HEAD
 /* Scrollbars für kleine Bildschirme entfernen */
 @media (max-width: 380px) {
   body {
     overflow: hidden;
     height: 100vh;
   }
-=======
-
-.input-error {
-  border: 1px solid red !important; /* oder nach Wunsch anpassen */
 }
 
-.error-message {
-  color: red;
-  font-size: 0.9rem; /* oder nach Wunsch anpassen */
-  margin-top: 4px;
-}
-
-
-@media (max-height:700px){
-  .logo-small{
-    width:50px ;
-    height:60px;
+/* Optimierung für iPhone SE und ähnliche kleine Geräte */
+@media (max-width: 375px) {
+  body {
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
-
-  .login-modal h2{
-    font-size:46px;
+  
+  /* Logo oben links anpassen */
+  .logo-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
   }
-
-  .login-modal{
-    height:362px;
-    margin-top:24px;
+  
+  .logo-resp {
+    width: 40px;
+    height: auto;
   }
-
-  .button-group{
-    gap:12px;
+  
+  /* Login-Formular anpassen */
+  .center-container {
+    margin-top: -50px;
+    transform: scale(0.85);
+    transform-origin: center;
   }
-
-  .input-group{
-    margin:0;
+  
+  .login-modal {
+    width: 85%;
+    padding: 20px 15px;
+    height: auto;
   }
-
-  .footer{
-    height:112px;
+  
+  .login-modal h2 {
+    font-size: 42px;
+    margin-bottom: 15px;
   }
-
->>>>>>> 138b63b5c4b9642d322264916c44f40952f0c2ce
+  
+  .login-modal h2::after {
+    width: 100px;
+    margin: 10px auto 20px;
+  }
+  
+  /* Eingabefelder verkleinern */
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+  }
+  
+  /* Buttons anpassen */
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .login-btn, .guest-btn, .btn {
+    height: 40px;
+    font-size: 14px;
+  }
+  
+  /* Signup-Link anpassen */
+  .header-text-bottom {
+    position: fixed;
+    bottom: 65px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+  }
+  
+  .signup-btn {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  /* Footer anpassen */
+  footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+  }
+  
+  footer a {
+    font-size: 11px;
+  }
+  
+  /* Leere Zeilen entfernen */
+  br {
+    display: none;
+  }
 }
