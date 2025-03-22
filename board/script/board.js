@@ -1,98 +1,83 @@
-document.addEventListener("DOMContentLoaded", function () {
-    let modalToDo = document.getElementById('taskModal');
-    let addButtonToDo = document.getElementById('addTaskButtonTodo');
-    let modalInProgress = document.getElementById('taskModal');
-    let addButtonInProgress = document.getElementById('addTaskButtonInProgress');
-    let modalAwaitFeedback = document.getElementById('taskModal');
-    let addButtonAwaitFeedback = document.getElementById('addTaskButtonAwaitFeedback');
-    let modalAddTaskButton = document.getElementById('taskModal');
-    let addButton = document.getElementById('addTaskButton');
-
-    if (addButtonToDo) {
-        addButtonToDo.addEventListener('click', () => {
-            modalToDo.style.display = 'block';
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === modalToDo) {
-                modalToDo.style.display = 'none';
-            }
-        });
+/**
+ * Fügt einem Button das Öffnen eines bestimmten Modals hinzu.
+ *
+ * @param {string} addButtonId - Die ID des Buttons, der das Modal öffnet.
+ * @param {string} modalId - Die ID des Modals, das geöffnet werden soll.
+ */
+function setupModalButton(addButtonId, modalId) {
+    const addButton = document.getElementById(addButtonId);
+    const modal = document.getElementById(modalId);
+    if (!addButton || !modal) return;
+  
+    addButton.addEventListener('click', () => {
+      modal.style.display = 'block';
+    });
+  }
+  
+  /**
+   * Fügt einen globalen Event-Listener hinzu, der das Schließen des Modals ermöglicht,
+   * wenn außerhalb des Modals geklickt wird.
+   *
+   * @param {string} modalId - Die ID des Modals, das geschlossen werden soll.
+   */
+  function setupModalClose(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+  
+    window.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  }
+  
+  /**
+   * Schaltet die Anzeige des Modals um.
+   * Wird global als window.toggleModal zur Verfügung gestellt.
+   */
+  function toggleModal() {
+    const modal = document.getElementById('taskModal');
+    if (modal) {
+      modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
     }
-
-    if (addButtonInProgress) {
-        addButtonInProgress.addEventListener('click', () => {
-            modalInProgress.style.display = 'block';
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === modalInProgress) {
-                modalInProgress.style.display = 'none';
-            }
-        });
-    }
-
-    if (addButtonAwaitFeedback) {
-        addButtonAwaitFeedback.addEventListener('click', () => {
-            modalAwaitFeedback.style.display = 'block';
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === modalAwaitFeedback) {
-                modalAwaitFeedback.style.display = 'none';
-            }
-        });
-    }
-
-    if (addButton) {
-        addButton.addEventListener('click', () => {
-            modalAwaitFeedback.style.display = 'block';
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === modalAwaitFeedback) {
-                modalAwaitFeedback.style.display = 'none';
-            }
-        });
-    }
-
-    window.toggleModal = function () {
-        const modal = document.getElementById('taskModal');
-        if (modal) {
-            if (modal.style.display === 'block') {
-                modal.style.display = 'none';
-            } else {
-                modal.style.display = 'block';
-            }
-        }
-    };
-
-
-
-    
-    
-
-    // Account-Dropdown-Menü mit Existenzprüfung
+  }
+  
+  /**
+   * Initialisiert das Account-Dropdown, sodass beim Klick
+   * auf den Account-Button das Dropdown-Menü angezeigt bzw. versteckt wird.
+   */
+  function setupAccountDropdown() {
     const accountButton = document.querySelector('.account');
     const dropdownMenu = document.querySelector('.dropdown-menu');
-
-    if (accountButton && dropdownMenu) {
-        accountButton.addEventListener('click', function (event) {
-            event.stopPropagation();
-            dropdownMenu.classList.toggle('show');
-        });
-
-        document.addEventListener('click', function (event) {
-            if (!dropdownMenu.contains(event.target) && dropdownMenu.classList.contains('show')) {
-                dropdownMenu.classList.remove('show');
-            }
-        });
-    }
-});
-
-// Account dropdown menu ********************************************************************
-
-
-
-
-
+    if (!accountButton || !dropdownMenu) return;
+  
+    accountButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      dropdownMenu.classList.toggle('show');
+    });
+  
+    document.addEventListener('click', (event) => {
+      if (!dropdownMenu.contains(event.target) && dropdownMenu.classList.contains('show')) {
+        dropdownMenu.classList.remove('show');
+      }
+    });
+  }
+  
+  // Initialisierung, sobald der DOM geladen ist
+  document.addEventListener("DOMContentLoaded", () => {
+    // Modal-Buttons initialisieren
+    setupModalButton('addTaskButtonTodo', 'taskModal');
+    setupModalButton('addTaskButtonInProgress', 'taskModal');
+    setupModalButton('addTaskButtonAwaitFeedback', 'taskModal');
+    setupModalButton('addTaskButton', 'taskModal');
+  
+    // Modal-Schließfunktion global einrichten
+    setupModalClose('taskModal');
+  
+    // Account-Dropdown initialisieren
+    setupAccountDropdown();
+  
+    // Globale Funktion toggleModal verfügbar machen
+    window.toggleModal = toggleModal;
+  });
+  
