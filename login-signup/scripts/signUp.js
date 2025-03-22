@@ -56,20 +56,36 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
     removeError(emailInput);
     removeError(passwordInputs[1]);
-
+  
     const passValue = passwordInputs[0].value;
     const confirmPassValue = passwordInputs[1].value;
     if (passValue !== confirmPassValue) {
       showError(passwordInputs[1], 'Passwörter stimmen nicht überein.');
       return;
     }
-
+  
+    const colorMap = {
+      "#F57C00": "profile-badge-F57C00",
+      "#8E24AA": "profile-badge-8E24AA",
+      "#5C6BC0": "profile-badge-5C6BC0",
+      "#EC407A": "profile-badge-EC407A",
+      "#FFEB3B": "profile-badge-FFEB3B",
+      "#4CAF50": "profile-badge-4CAF50",
+      "#3F51B5": "profile-badge-3F51B5",
+      "#FF7043": "profile-badge-FF7043",
+      "#29B6F6": "profile-badge-29B6F6"
+    };
+    
+    const colorValues = Object.keys(colorMap);
+    const randomColor = colorValues[Math.floor(Math.random() * colorValues.length)];
+    
     const newUser = {
       name: nameInput.value.trim(),
       email: emailInput.value.trim(),
-      password: passValue
+      password: passValue,
+      color: randomColor // <--- Nur der HEX-Wert wird gespeichert
     };
-
+  
     const dbUrl = 'https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json';
     fetch(dbUrl, {
       method: 'POST',
@@ -86,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("Es ist ein Fehler aufgetreten. Bitte versuche es erneut.");
       });
   }
+  
 
   function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

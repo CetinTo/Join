@@ -854,7 +854,7 @@ hr {
     border: 2px solid white;
 }
 
-.profile-badge-red {
+/* .profile-badge-red {
     background-color: red !important;
 }
 
@@ -876,7 +876,22 @@ hr {
 
 .profile-badge-pink {
     background-color: pink !important;
-}
+} */
+
+
+
+
+.profile-badge-orange { background-color: #E67E22; }
+.profile-badge-purple { background-color: #8E44AD; }
+.profile-badge-blue-violet { background-color: #5D6DFF; }
+.profile-badge-pink { background-color: #E84393; }
+.profile-badge-yellow { background-color: #F1C40F; }
+.profile-badge-mint { background-color: #1ABC9C; }
+.profile-badge-dark-blue { background-color: #2C3E50; }
+.profile-badge-red { background-color: #E74C3C; }
+.profile-badge-light-blue { background-color: #3498DB; }
+
+
 
 .assigned-to-profile-bubble {
     display: flex;
