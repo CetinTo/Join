@@ -1251,4 +1251,8 @@ h4{
         top:100px !important;
         right:35px !important;
     }
+
+    .selected-profile-main{
+        gap:0;
+    }
 }
