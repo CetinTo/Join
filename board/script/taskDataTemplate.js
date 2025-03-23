@@ -287,7 +287,7 @@ function generateTasks(tasksData) {
         }
       });
     }
-  });
+  })
   checkColumns();
 }
 
