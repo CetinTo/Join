@@ -536,7 +536,6 @@ footer a:hover{
     height:50px !important;
   }
 
-<<<<<<< HEAD
 }
 
 
@@ -827,49 +826,4 @@ footer a:hover{
 .legal-modal-footer a.active,
 .login-footer a.active {
   font-weight: bold;
-=======
-  .center-container{
-    height:60vh;
-  }
-
-  .logo-container{
-    overflow: hidden;
-    max-height:667px;
-  }
-
-  .logo-resp{
-    height: 70px !important;
-    width:60px !important;
-  }
-
-  
-  .error-message{
-    width:230px !important;
-  }
-
-
-}
-
-@media screen and (max-height:380px){
-
-
-  .footer{
-    height:70px !important;
-  }
-
-  .logo-container{
-    height: 90vh !important;
-    width:90vw !important;
-  }
-
-
-}
-
-
-html, body {
-  height: 100vh;
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
->>>>>>> 349efeb17260c638cded864adbe9ecd4548a9dc6
 }

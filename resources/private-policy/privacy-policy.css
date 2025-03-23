@@ -26,21 +26,10 @@ body {
   flex-direction: column;
 }
 
-<<<<<<< HEAD
 /* JOIN Logo in der Seitenleiste */
 .sidebar-logo {
   width: 100px;
   margin: 66px auto 100px;
-=======
-main {
-    max-width: 90%;
-    margin: 20px auto;
-    background: #f6f7f9;
-    padding: 20px;
-    overflow: visible !important; /* Sicherstellen, dass Inhalte nicht abgeschnitten werden */
-    padding-top: 0; /* Kein Padding oben, damit der Abstand nur durch h1 margin bestimmt wird */
-  
->>>>>>> 349efeb17260c638cded864adbe9ecd4548a9dc6
 }
 
 /* Footer-Links in der Seitenleiste */
@@ -49,20 +38,12 @@ main {
   margin-bottom: 100px;
 }
 
-<<<<<<< HEAD
 .sidebar-footer-link {
   display: block;
   padding: 10px 20px;
   color: white;
   text-decoration: none;
   font-size: 16px;
-=======
-section {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden; 
-
->>>>>>> 349efeb17260c638cded864adbe9ecd4548a9dc6
 }
 
 .sidebar-footer-link.active {
@@ -192,19 +173,11 @@ p, li {
   }
   
   .header {
-<<<<<<< HEAD
     left: 0;
   }
   
   .main-content {
     margin-left: 0;
-=======
-    /* display: block !important; */
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background-color: white;
->>>>>>> 349efeb17260c638cded864adbe9ecd4548a9dc6
     width: 100%;
   }
 }
@@ -253,7 +226,6 @@ section {
 }
 
 main {
-<<<<<<< HEAD
   padding-bottom: 50px; /* Etwas Abstand am Ende */
 }
 
@@ -261,15 +233,4 @@ main {
 .help-container {
   padding-top: 100px; /* Mehr Platz zwischen Header und Überschrift */
   margin-bottom: 30px;
-=======
-  display: flex;
-  flex-direction: column;
-  padding: 0 10px;
-  overflow: visible; /* Verhindert, dass h1 abgeschnitten wird */
-}
-
-
-.last-paragraph{
-  padding-bottom:32px;
->>>>>>> 349efeb17260c638cded864adbe9ecd4548a9dc6
 }
