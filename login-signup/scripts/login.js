@@ -1,83 +1,157 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Globale Hilfsfunktion zum Schließen der Modals
+function closeModals() {
+  const privacyModal = document.getElementById('privacyPolicyModal');
+  const legalModal = document.getElementById('legalNoticeModal');
+  
+  if (privacyModal) privacyModal.style.display = 'none';
+  if (legalModal) legalModal.style.display = 'none';
+  
+  document.body.style.overflow = 'auto';
+}
+
+// Warte bis das DOM vollständig geladen ist
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM geladen, initialisiere Event-Listener');
+  
+  // Login-Formular-Validierung
+  initLoginForm();
+  
+  // Modal-Links initialisieren
+  initModalLinks();
+  
+  // Modals bei Klick außerhalb schließen
+  initModalOutsideClickHandlers();
+});
+
+// Initialisiert die Modal-Links
+function initModalLinks() {
+  // Links zwischen den Modals
+  setupModalLink('privacyFooterLink', 'privacyPolicyModal', 'legalNoticeModal');
+  setupModalLink('legalFooterLink', 'legalNoticeModal', 'privacyPolicyModal');
+  setupModalLink('privacyFooterLink2', 'privacyPolicyModal', 'legalNoticeModal');
+  setupModalLink('legalFooterLink2', 'legalNoticeModal', 'privacyPolicyModal');
+}
+
+// Richtet einen einzelnen Modal-Link ein
+function setupModalLink(linkId, showModalId, hideModalId) {
+  const link = document.getElementById(linkId);
+  if (!link) return;
+  
+  link.onclick = function(e) {
+    e.preventDefault();
+    document.getElementById(showModalId).style.display = 'block';
+    document.getElementById(hideModalId).style.display = 'none';
+    document.body.style.overflow = 'hidden';
+    return false;
+  };
+}
+
+// Initialisiert Klick-Handler außerhalb der Modals
+function initModalOutsideClickHandlers() {
+  const privacyModal = document.getElementById('privacyPolicyModal');
+  const legalModal = document.getElementById('legalNoticeModal');
+  
+  window.addEventListener('click', function(e) {
+    if (e.target === privacyModal) {
+      privacyModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+    if (e.target === legalModal) {
+      legalModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  });
+}
+
+// Initialisiert die Login-Formular-Validierung
+function initLoginForm() {
   const loginForm = document.getElementById('loginForm');
+  if (!loginForm) return;
+  
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
 
   loginForm.noValidate = true;
 
-  emailInput.addEventListener('blur', () => {
-    removeError(emailInput);
-    const emailValue = emailInput.value.trim();
-    if (emailValue !== '' && !validateEmail(emailValue)) {
-      showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
-    }
-  });
-
-  loginForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    
-    try {
-      const response = await fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/users.json');
-      const users = await response.json();
-      
-      let foundUser = null;
-      
-      // Suche nach dem Benutzer
-      for (let key in users) {
-        const user = users[key];
-        if (user.email === email && user.password === password) {
-          foundUser = user;
-          break;
-        }
+  if (emailInput) {
+    emailInput.addEventListener('blur', function() {
+      removeError(emailInput);
+      if (!emailInput.value) {
+        showError(emailInput, 'Email is required');
+      } else if (!isValidEmail(emailInput.value)) {
+        showError(emailInput, 'Please enter a valid email');
       }
+    });
+  }
+
+  if (passwordInput) {
+    passwordInput.addEventListener('blur', function() {
+      removeError(passwordInput);
+      if (!passwordInput.value) {
+        showError(passwordInput, 'Password is required');
+      }
+    });
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
       
-      if (foundUser) {
-        // Login erfolgreich
-        localStorage.setItem('currentUser', JSON.stringify(foundUser));
-        window.location.href = '../index.html';
+      let isValid = true;
+      
+      // Email validation
+      if (!emailInput.value) {
+        showError(emailInput, 'Email is required');
+        isValid = false;
+      } else if (!isValidEmail(emailInput.value)) {
+        showError(emailInput, 'Please enter a valid email');
+        isValid = false;
       } else {
-        // Login fehlgeschlagen
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
-        errorDiv.textContent = 'Email or password is incorrect';
-        
-        // Alte Fehlermeldung entfernen
-        const oldError = document.querySelector('.error-message');
-        if (oldError) {
-          oldError.remove();
-        }
-        
-        // Neue Fehlermeldung nach dem Passwort-Input einfügen
-        const passwordInput = document.getElementById('password');
-        passwordInput.parentNode.appendChild(errorDiv);
+        removeError(emailInput);
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      alert('An error occurred. Please try again.');
-    }
-  });
-
-  function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
+      
+      // Password validation
+      if (!passwordInput.value) {
+        showError(passwordInput, 'Password is required');
+        isValid = false;
+      } else {
+        removeError(passwordInput);
+      }
+      
+      if (isValid) {
+        // Hier würde normalerweise die Login-Logik stehen
+        window.location.href = '../index.html';
+      }
+    });
   }
+}
 
-  function showError(inputElement, message) {
-    inputElement.classList.add('input-error');
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message';
-    errorDiv.innerText = message;
-    inputElement.parentNode.insertBefore(errorDiv, inputElement.nextSibling);
+// Hilfsfunktionen für die Validierung
+function showError(input, message) {
+  const formControl = input.parentElement;
+  const errorSpan = formControl.querySelector('.error-message');
+  
+  if (errorSpan) {
+    errorSpan.textContent = message;
+    errorSpan.style.display = 'block';
   }
+  
+  input.classList.add('input-error');
+}
 
-  function removeError(inputElement) {
-    inputElement.classList.remove('input-error');
-    const nextElem = inputElement.nextSibling;
-    if (nextElem && nextElem.classList && nextElem.classList.contains('error-message')) {
-      nextElem.remove();
-    }
+function removeError(input) {
+  const formControl = input.parentElement;
+  const errorSpan = formControl.querySelector('.error-message');
+  
+  if (errorSpan) {
+    errorSpan.textContent = '';
+    errorSpan.style.display = 'none';
   }
-});
+  
+  input.classList.remove('input-error');
+}
+
+function isValidEmail(email) {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}

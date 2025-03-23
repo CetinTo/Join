@@ -1,400 +1,232 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    scroll-behavior: smooth;
+/* KOMPLETT NEUE DATEI - ALLES LÖSCHEN UND NUR DIESEN CODE VERWENDEN */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
-.help-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
+body {
+  display: flex;
+  position: relative;
+  height: 100vh;
+  overflow: auto;
 }
 
-.sticky-link {
-    position: sticky;
-    top: 0; 
-    z-index: 1000; 
-}
-
-.main-div {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
-main {
-    max-width: 90%;
-    margin: 20px auto;
-    background: #f6f7f9;
-    padding: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; 
-    min-height: calc(100vh - 200px);
-}
-
-main p {
-    padding-top: 2px;
-    margin: 0; 
-}
-
-h1, h2, h3 {
-    color: #2a3647;
-    margin: 0; 
-}
-
-a{
-    height: 32px;
-    width: 32px;
-    border-radius: 50%;
-}
-
-h1 {
-    font-size: 61px;
-    font-weight: 700;
-    color: black;
-    margin-top: 100px !important;
-    margin-bottom: 20px;
-    padding-top: 0;
-    line-height: 1.2;
-    clear: both;
-}
-
-h2 {
-    font-size: 1.5em;
-    margin-top: 20px;
-}
-
-h3 {
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 15px;
-}
-
-p {
-    margin: 10px 0;
-    font-weight: 400;
-    font-size:16px;
-}
-
-ul {
-    list-style-type: disc;
-    margin-left: 20px;
-}
-
-h4{
-    font-weight: 400;
-    font-size: 16px;
-}
-
-.header {
-  position: sticky;
+/* Linke Seitenleiste */
+.sidebar {
+  width: 232px;
+  height: 100vh;
+  background-color: #2A3647;
+  position: fixed;
+  left: 0;
   top: 0;
-  z-index: 1000;
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+/* JOIN Logo in der Seitenleiste */
+.sidebar-logo {
+  width: 100px;
+  margin: 66px auto 100px;
+}
+
+/* Footer-Links in der Seitenleiste */
+.sidebar-footer {
+  margin-top: auto;
+  margin-bottom: 100px;
+}
+
+.sidebar-footer-link {
   display: block;
-  width: 100%;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
 }
 
-@media (max-width: 925px) and (min-width: 300px) {
-  section {
-    overflow-y: scroll;
-  }
-  
-  section::-webkit-scrollbar {
-    width: 8px;
-    display: block;
-  }
-  
-  section::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  section::-webkit-scrollbar-thumb {
-    background-color: #28abe2;
-    border-radius: 10px;
-    border: 2px solid #f1f1f1;
-  }
-  
-  section {
-    scrollbar-width: thin;
-    scrollbar-color: #28abe2 #f1f1f1;
-  }
+.sidebar-footer-link.active {
+  background-color: #091931;
 }
 
-@media (max-width: 299px) {
-  section {
-    overflow-y: auto;
-  }
-  
-  section::-webkit-scrollbar {
-    display: none;
-  }
-  
-  section {
-    scrollbar-width: none;
-  }
+/* Hauptinhalt */
+.main-content {
+  margin-left: 232px;
+  width: calc(100% - 232px);
+  height: 100vh;
+  position: relative;
+  background-color: #f6f7f9;
+  padding-top: 80px; /* Platz für den Header */
+  display: flex;
+  flex-direction: column;
 }
 
-.help-container {
+/* Scrollbarer Textbereich */
+.text-content {
+  padding: 40px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Scrollbar-Stil */
+.text-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.text-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.text-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+.text-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Kopfzeile */
+.header {
+  position: fixed;
+  top: 0;
+  left: 232px;
+  right: 0;
+  height: 80px;
+  background-color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 80px;
+  padding: 0 40px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 100;
 }
 
-.help-container h1 {
-  font-size: 61px;
-  font-weight: 700;
-  margin: 0;
+.header-title {
+  font-size: 21px;
   color: #000;
 }
 
-.help-container a {
-  height: auto;
+/* JOIN Logo in der Kopfzeile */
+.header-logo {
+  height: 40px;
   width: auto;
-  border-radius: 0;
+  display: none; /* Standardmäßig ausgeblendet (Desktop) */
 }
 
-.help-container .return-btn {
-  width: 25px;
-  height: 25px;
+/* Media Query für Tablets/Mobile */
+@media screen and (max-width: 925px) and (min-width: 300px) {
+  .header-logo {
+    display: block; /* Nur zwischen 925px und 300px anzeigen */
+  }
+}
+
+/* Account-Button oben rechts */
+.account {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid #2A3647;
+  color: #2A3647;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
-  .side-menu {
-    display: none;
-  }
-
-  .header-and-main-container {
-    width: 100%;
-    height: auto;
-    min-height: 100vh;
-  }
-
-  .header {
-    width: 100%;
-    padding: 0;
-  }
-
-  .main-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 16px;
-  }
-
-  .main-header > div:first-child {
-    font-size: 16px;
-  }
-
-  .logo-container-side-menu-responsive {
-    width: 32px;
-    height: 32px;
-  }
-
-  .header-right-side {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-header {
-    padding: 8px 12px;
-  }
-
-  .main-header > div:first-child {
-    font-size: 14px;
-  }
-
-  .help-container {
-    padding: 0 12px;
-  }
-
-  .help-container h1 {
-    font-size: 24px;
-  }
-
-  h1 {
-    margin-top: 100px !important;
-  }
-}
-
-@media (max-width: 320px) {
-  .main-header > div:first-child {
-    font-size: 12px;
-  }
-
-  .help-container h1 {
-    font-size: 20px;
-  }
-
-  h1 {
-    margin-top: 100px !important;
-  }
-}
-
-@media (max-width: 925px) {
-  .main-header > div:first-child {
-    display: none;
-  }
-
-  h1 {
-    margin-top: 100px !important;
-  }
-}
-
-.header-logo {
-  display: none;
-  height: 32px;
+/* JOIN Logo rechts */
+.join-logo-right {
+  position: absolute;
+  right: 0;
+  top: 80px;
   width: auto;
-  margin-right: 16px;
+  height: 40px;
+  display: none;  /* Logo immer ausgeblendet */
 }
 
-@media (max-width: 925px) {
-  .header-logo {
-    display: block;
-  }
+/* Überschriften und Text */
+h1 {
+  font-size: 61px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #000;
+  padding-top: 20px; /* Extra Abstand nach oben */
+  position: relative; /* Für z-index */
+  z-index: 10; /* Sicherstellen, dass die Überschrift über anderen Elementen liegt */
 }
 
-.header-right-side {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+h2 {
+  font-size: 27px;
+  font-weight: 700;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: #000;
 }
 
-.account {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-weight: 600;
+p, li {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  color: #000;
 }
 
-@media (max-width: 768px) {
-  .header-logo {
-    height: 39px;
-    width: 32px;
-  }
-}
-
-.header-and-main-container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-@media (max-width: 925px) {
-  main {
-    max-height: calc(100vh - 140px);
-    min-height: auto;
-  }
-  
-  section {
-    max-height: calc(100vh - 160px);
-  }
-  
-  .header {
-    display: block !important;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-  }
-  
-  .main-header {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 16px;
-  }
-}
-
-.side-menu {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
-}
-
-.logo-content-container {
-  flex-grow: 0;
-}
-
-.policy-container {
-  margin-top: auto;
-  margin-bottom: 32px;
-}
-
-@media (max-width: 925px) {
-  .side-menu {
+/* Mobile Anpassungen */
+@media (max-width: 924px) {
+  .sidebar {
     display: none;
   }
-}
-
-.mobile-nav-bar {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  background-color: #2A3647;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 1000;
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: white;
-  font-size: 14px;
-  width: 25%;
-}
-
-.nav-item img {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 5px;
-}
-
-@media (max-width: 925px) and (min-width: 300px) {
-  .mobile-nav-bar {
-    display: flex;
-  }
   
-  .header-and-main-container {
-    padding-bottom: 80px;
-  }
-  
-  main {
-    max-height: calc(100vh - 160px);
-  }
-}
-
-@media (max-width: 925px) {
   .header {
-    display: block !important;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background-color: white;
+    left: 0;
+  }
+  
+  .main-content {
+    margin-left: 0;
     width: 100%;
   }
-  
-  .main-header {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
+}
+
+/* Regel für den Text "Kanban Project Management Tool" */
+.main-header > div:first-child {
+  display: block; /* Standardmäßig anzeigen */
+}
+
+/* Media Query um den Text zwischen 925px und 300px auszublenden */
+@media screen and (max-width: 925px) and (min-width: 300px) {
+  .main-header > div:first-child {
+    display: none; /* Zwischen 925px und 300px ausblenden */
   }
+}
+
+/* Hauptinhalt scrollbar machen */
+.header-and-main-container {
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 40px;
+  /* Mehr Padding oben für bessere Sichtbarkeit der Überschrift */
+  padding-top: 20px;
+}
+
+/* Sorgt dafür, dass der Text-Container scrollbar ist */
+section {
+  height: auto;
+  overflow-y: visible; /* Änderung zu 'visible' */
+  padding: 0 20px;
+  position: relative;
+}
+
+main {
+  padding-bottom: 50px; /* Etwas Abstand am Ende */
+}
+
+/* Verbesserte Positionierung der Überschrift */
+.help-container {
+  padding-top: 100px; /* Mehr Platz zwischen Header und Überschrift */
+  margin-bottom: 30px;
 }
 
