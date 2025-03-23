@@ -10,5 +10,5 @@ function logout() {
 
 function logoutToLogin() {
   localStorage.removeItem('currentUser'); 
-  window.location.href = '../login-signup/login.html'; 
+  window.location.href = './login-signup/login.html'; 
 }
