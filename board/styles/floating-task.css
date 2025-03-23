@@ -311,6 +311,155 @@
 
 
 
+
+/* ********************************************************************** */
+
+.profile-badge-floating-F57C00 {
+    background-color: #E67E22;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+.profile-badge-floating-8E44AD {
+    background-color: #8E44AD;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+.profile-badge-floating-5C6BC0 {
+    background-color: #5C6BC0;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+.profile-badge-floating-E84393 {
+    background-color: #E84393;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+.profile-badge-floating-F1C40F {
+    background-color: #F1C40F;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+.profile-badge-floating-4CAF50 {
+    background-color: #1ABC9C;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+.profile-badge-floating-3F51B5 {
+    background-color: #2C3E50;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+.profile-badge-floating-FF7043 {
+    background-color: #E74C3C;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+.profile-badge-floating-29B6F6 {
+    background-color: #3498DB;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+.profile-badge-floating-343D63 {
+    background-color: #343d63;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+.profile-badge-floating-8E24AA {
+    background-color: #8E24AA;
+    width: 32px;
+    height: 32px;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: -10px;
+}
+
+
+
 @media screen and (max-width: 900px) {
     .main-section-task-overlay {
         box-sizing: border-box;
