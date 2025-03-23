@@ -24,6 +24,7 @@ main {
     padding: 20px;
     overflow: visible !important; /* Sicherstellen, dass Inhalte nicht abgeschnitten werden */
     padding-top: 0; /* Kein Padding oben, damit der Abstand nur durch h1 margin bestimmt wird */
+  
 }
 
 main p {
@@ -38,6 +39,7 @@ section {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden; 
+
 }
 
 h1, h2, h3 {
@@ -414,7 +416,7 @@ p1{
 /* Header in mobiler Ansicht sichtbar machen */
 @media (max-width: 925px) {
   .header {
-    display: block !important;
+    /* display: block !important; */
     position: sticky;
     top: 0;
     z-index: 100;
@@ -448,4 +450,9 @@ main {
   flex-direction: column;
   padding: 0 10px;
   overflow: visible; /* Verhindert, dass h1 abgeschnitten wird */
+}
+
+
+.last-paragraph{
+  padding-bottom:32px;
 }
