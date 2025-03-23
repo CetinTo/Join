@@ -1,13 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // 1. If there's a "Guest Log in" button, attach a listener
+  const guestBtn = document.querySelector('.guest-btn');
+  if (guestBtn) {
+    guestBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      // Mark user as guest in localStorage
+      localStorage.setItem('currentUser', JSON.stringify({
+        name: 'Guest',
+        isGuest: true
+      }));
+
+      // Go to index.html
+      window.location.href = '../index.html'; 
+      // or './index.html' depending on your folder structure
+    });
+  }
+
+  // 2. Load current user from localStorage
   const currentUserData = localStorage.getItem('currentUser');
   if (currentUserData) {
     const currentUser = JSON.parse(currentUserData);
-    
+
+    // --- Existing code to show name, initials, etc. ---
     const nameSpan = document.querySelector('.username-span');
     if (nameSpan) {
       nameSpan.textContent = currentUser.name;
     }
-    
+
     if (currentUser.name) {
       const initials = getInitials(currentUser.name);
       const accountDiv = document.querySelector('.account > div');
@@ -15,59 +35,54 @@ document.addEventListener('DOMContentLoaded', () => {
         accountDiv.textContent = initials;
       }
     }
-  }
 
-  const accountButton = document.querySelector('.account');
-  const dropdownMenu = document.querySelector('.dropdown-menu');
-  
-  if (accountButton && dropdownMenu) {
-    accountButton.addEventListener('click', function(event) {
-      event.stopPropagation();
-      dropdownMenu.classList.toggle('show');
-    });
-
-    document.addEventListener('click', function(event) {
-      if (!dropdownMenu.contains(event.target) && dropdownMenu.classList.contains('show')) {
-        dropdownMenu.classList.remove('show');
-      }
-    });
-  }
-
-  const addTaskButtons = document.querySelectorAll('.add-task-button');
-  addTaskButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      
-      if (window.innerWidth <= 440) {
-        const currentPath = window.location.pathname;
-        let path;
-        
-        if (currentPath.includes('/board/')) {
-          path = '../add-task/addtask.html';
-        } else if (currentPath.includes('/contact/')) {
-          path = '../add-task/addtask.html';
-        } else {
-          path = './add-task/addtask.html';
-        }
-        
-        window.location.href = path;
-      } else {
-        const modal = document.querySelector('.add-task-modal');
-        if (modal) {
-          modal.style.display = 'flex';
-        }
-      }
-    });
-  });
-
-  window.addEventListener('resize', () => {
-    const modal = document.querySelector('.add-task-modal');
-    if (window.innerWidth > 440 && modal) {
-      modal.style.display = 'none';
+    // 3. If user is guest, disable restricted links
+    if (currentUser.isGuest) {
+      disableRestrictedLinks();
     }
-  });
+  }
+
+  // ... rest of your existing code ...
 });
-  
+
+/**
+ * Disables links that a guest user should not click
+ */
+function disableRestrictedLinks() {
+  // 1) Disable links in side menus (desktop + responsive):
+  const restrictedHrefs = [
+    './add-task/addtask.html',
+    './board/board.html',
+    './contact/contacts.html'
+  ];
+
+  restrictedHrefs.forEach((href) => {
+    // Use querySelectorAll so we disable *all* matching links:
+    const links = document.querySelectorAll(`a[href="${href}"]`);
+    links.forEach(link => {
+      link.removeAttribute('href');
+      link.style.opacity = '0.5';
+      link.style.cursor = 'not-allowed';
+      link.addEventListener('click', (e) => e.preventDefault());
+    });
+  });
+
+  // 2) Disable "Board" divs with onclick="goToBoard()" in your summary area
+  const boardDivs = document.querySelectorAll('[onclick="goToBoard()"]');
+  boardDivs.forEach((div) => {
+    div.removeAttribute('onclick');
+    div.style.opacity = '0.7';
+    div.style.cursor = 'not-allowed';
+    div.addEventListener('click', (e) => e.preventDefault());
+  });
+}
+
+
+
+
+/**
+ * Generates initials from a user's full name.
+ */
 function getInitials(name) {
   const parts = name.trim().split(/\s+/);
   if (parts.length === 1) {

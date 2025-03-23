@@ -14,6 +14,7 @@ body {
   overflow: auto;
 }
 
+<<<<<<< HEAD
 /* Linke Seitenleiste */
 .sidebar {
   width: 232px;
@@ -48,6 +49,127 @@ body {
 
 .sidebar-footer-link.active {
   background-color: #091931;
+=======
+.sticky-link {
+    position: sticky;
+    top: 0; 
+    z-index: 1000; 
+}
+
+.main-div {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+main {
+    max-width: 90%;
+    margin: 20px auto;
+    background: #f6f7f9;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    /* overflow: hidden;  */
+    min-height: calc(100vh - 200px);
+}
+
+main p {
+    padding-top: 2px;
+    margin: 0; 
+}
+
+h1, h2, h3 {
+    color: #2a3647;
+    margin: 0; 
+}
+
+a{
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+}
+
+h1 {
+    font-size: 61px;
+    font-weight: 700;
+    color: black;
+    margin-top: 100px !important;
+    margin-bottom: 20px;
+    padding-top: 0;
+    line-height: 1.2;
+    clear: both;
+}
+
+p1{
+  color:#28abe2
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 15px;
+}
+
+p {
+    margin: 10px 0;
+    font-weight: 400;
+    font-size:16px;
+}
+
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+h4{
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: white;
+  /* display: block; */
+  width: 100%;
+}
+
+small{
+  padding-bottom:32px;
+}
+
+@media (max-width: 925px) and (min-width: 300px) {
+  section {
+    overflow-y: scroll;
+  }
+  
+  section::-webkit-scrollbar {
+    width: 8px;
+    display: block;
+  }
+  
+  section::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  section::-webkit-scrollbar-thumb {
+    background-color: #28abe2;
+    border-radius: 10px;
+    border: 2px solid #f1f1f1;
+  }
+  
+  section {
+    scrollbar-width: thin;
+    scrollbar-color: #28abe2 #f1f1f1;
+  }
+>>>>>>> 349efeb17260c638cded864adbe9ecd4548a9dc6
 }
 
 /* Hauptinhalt */

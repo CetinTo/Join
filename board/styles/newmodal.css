@@ -238,6 +238,7 @@
 }
 
 .assignee-dropdown-list {
+    height:144px;
     position: absolute;
     background-color: #fff;
     width: 100%;

@@ -1,7 +1,10 @@
+/**
+ * Initializes the date picker using flatpickr
+ */
 function openDatePicker() {
   const dateInput = document.getElementById('date-input');
   const currentDate = new Date();
-  
+
   flatpickr(dateInput, {
     dateFormat: "d/m/Y",
     defaultDate: currentDate,
@@ -11,53 +14,91 @@ function openDatePicker() {
   dateInput.focus();
 }
 
+/**
+ * Sets the selected priority and updates button states
+ * @param {string} priority - The selected priority ("urgent", "medium", "low")
+ */
 function setPriority(priority) {
   const allButtons = document.querySelectorAll('.priority-button-urgent, .priority-button-medium, .priority-button-low');
   const selectedButton = document.querySelector(`.priority-button-${priority}[onclick="setPriority('${priority}')"]`);
-  
+
   if (selectedButton.classList.contains('active')) {
     selectedButton.classList.remove('active');
   } else {
-    allButtons.forEach(button => button.classList.remove('active'));
+    deactivateAllPriorityButtons(allButtons);
     selectedButton.classList.add('active');
   }
+
   validateForm();
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  const categoryDropdown = document.querySelector(".category-dropdown");
-  const categorySelected = categoryDropdown.querySelector(".category-selected");
-  const categoryOptions = categoryDropdown.querySelector(".category-options");
-  const categoryItems = categoryDropdown.querySelectorAll(".category-item");
-  const originalSelect = document.querySelector(".select-task");
-  const dropdownIcon = categoryDropdown.querySelector(".dropdown-icon");
+/**
+ * Deactivates all priority buttons
+ * @param {NodeListOf<HTMLElement>} buttons
+ */
+function deactivateAllPriorityButtons(buttons) {
+  buttons.forEach(button => button.classList.remove('active'));
+}
 
-  if (!categoryDropdown || !categorySelected || !categoryOptions || !dropdownIcon) {
-    return;
-  }
+/**
+ * Initializes the category dropdown
+ */
+function initCategoryDropdown() {
+  const dropdown = document.querySelector(".category-dropdown");
+  const selected = dropdown?.querySelector(".category-selected");
+  const options = dropdown?.querySelector(".category-options");
+  const items = dropdown?.querySelectorAll(".category-item");
+  const select = document.querySelector(".select-task");
+  const icon = dropdown?.querySelector(".dropdown-icon");
 
-  categoryDropdown.addEventListener("click", function (event) {
-    const isOpen = categoryOptions.style.display === "block";
-    categoryOptions.style.display = isOpen ? "none" : "block";
-    dropdownIcon.src = isOpen ? "../img/arrow_drop_down.png" : "../img/arrow_drop_down_aktive.png";
+  if (!dropdown || !selected || !options || !icon || !select || !items) return;
+
+  addDropdownToggle(dropdown, options, icon);
+  setupCategoryItemClick(items, selected, options, icon, select);
+  closeDropdownOnOutsideClick(dropdown, options, icon);
+}
+
+/**
+ * Adds toggle functionality for the dropdown menu
+ */
+function addDropdownToggle(dropdown, options, icon) {
+  dropdown.addEventListener("click", function (event) {
+    const isOpen = options.style.display === "block";
+    options.style.display = isOpen ? "none" : "block";
+    icon.src = isOpen ? "../img/arrow_drop_down.png" : "../img/arrow_drop_down_aktive.png";
     event.stopPropagation();
   });
+}
 
-  categoryItems.forEach(option => {
+/**
+ * Adds click event listeners to category items
+ */
+function setupCategoryItemClick(items, selected, options, icon, select) {
+  items.forEach(option => {
     option.addEventListener("click", function (event) {
-      categorySelected.innerText = this.innerText;
-      originalSelect.value = this.getAttribute("data-value");
-      categoryOptions.style.display = "none";
-      dropdownIcon.src = "../img/arrow_drop_down.png";
+      selected.innerText = this.innerText;
+      select.value = this.getAttribute("data-value");
+      options.style.display = "none";
+      icon.src = "../img/arrow_drop_down.png";
       event.stopPropagation();
       validateForm();
     });
   });
+}
 
+/**
+ * Closes dropdown when clicking outside of it
+ */
+function closeDropdownOnOutsideClick(dropdown, options, icon) {
   document.addEventListener("click", function (event) {
-    if (!categoryDropdown.contains(event.target)) {
-      categoryOptions.style.display = "none";
-      dropdownIcon.src = "../img/arrow_drop_down.png";
+    if (!dropdown.contains(event.target)) {
+      options.style.display = "none";
+      icon.src = "../img/arrow_drop_down.png";
     }
   });
+}
+
+// Init after DOM is ready
+document.addEventListener("DOMContentLoaded", function () {
+  initCategoryDropdown();
 });

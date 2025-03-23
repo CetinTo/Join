@@ -1,209 +1,257 @@
+/**
+ * @fileoverview Binds all relevant event listeners and initializes the form once the DOM is fully loaded.
+ */
 document.addEventListener("DOMContentLoaded", () => {
+  initCreateBtnEventListener();
+  initAddSubtaskBtnEventListener();
+  initFormInputEventListeners();
+  initAssignedContainerObserver();
+  initPriorityEventListeners();
+  initCategoryEventListeners();
+  initSubtaskDeleteEventListener();
+  validateForm();
+});
+
+/**
+ * @function initCreateBtnEventListener
+ * @description Attaches a click event listener to the "Create" button, triggering task creation.
+ * @returns {void}
+ */
+function initCreateBtnEventListener() {
   const createBtn = document.querySelector(".create-btn");
   if (createBtn) {
     createBtn.addEventListener("click", handleTaskCreation);
   }
-  
-  const inputsToValidate = [".input", ".description", ".date-input", ".select-task", ".subtask"];
-  inputsToValidate.forEach(selector => {
-    const el = document.querySelector(selector);
-    if (el) {
-      el.addEventListener("input", validateForm);
-    }
-  });
+}
 
-  const selectTask = document.querySelector(".select-task");
-  if (selectTask) {
-    selectTask.addEventListener("change", validateForm);
+/**
+ * @function initAddSubtaskBtnEventListener
+ * @description Attaches a click event listener to the "Add Subtask" button, triggering subtask addition.
+ * @returns {void}
+ */
+function initAddSubtaskBtnEventListener() {
+  const addSubtaskBtn = document.querySelector(".add-subtask-btn");
+  if (addSubtaskBtn) {
+    addSubtaskBtn.addEventListener("click", addSubtask);
   }
+}
 
+/**
+ * @function initFormInputEventListeners
+ * @description Adds 'input' event listeners to various form fields to validate the form in real-time.
+ * @returns {void}
+ */
+function initFormInputEventListeners() {
+  [".input", ".description", ".date-input", ".select-task", ".subtask"]
+    .forEach(selector => {
+      const el = document.querySelector(selector);
+      if (el) el.addEventListener("input", validateForm);
+    });
+}
+
+/**
+ * @function initAssignedContainerObserver
+ * @description Observes the assigned-to container for changes to dynamically validate the form.
+ * @returns {void}
+ */
+function initAssignedContainerObserver() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
   if (assignedContainer) {
-    const observer = new MutationObserver(validateForm);
-    observer.observe(assignedContainer, { childList: true });
+    new MutationObserver(validateForm)
+      .observe(assignedContainer, { childList: true });
   }
+}
 
-  const priorityOptions = document.querySelectorAll(".priority-container div");
-  if (priorityOptions) {
-    priorityOptions.forEach(option => {
+/**
+ * @function initPriorityEventListeners
+ * @description Attaches click events to priority options, allowing selection and validation updates.
+ * @returns {void}
+ */
+function initPriorityEventListeners() {
+  document.querySelectorAll(".priority-container div")
+    .forEach(option => {
       option.addEventListener("click", function() {
-        priorityOptions.forEach(o => o.classList.remove("active"));
+        document.querySelectorAll(".priority-container div")
+          .forEach(o => o.classList.remove("active"));
         this.classList.add("active");
         validateForm();
       });
     });
-  }
-
-  document.querySelectorAll('.category-item').forEach(item => {
-    item.addEventListener('click', function() {
-      document.querySelectorAll('.category-item').forEach(i => i.classList.remove('selected'));
-      this.classList.add('selected');
-      document.querySelector('.category-selected').textContent = this.textContent;
-      const originalSelect = document.querySelector(".select-task");
-      if (originalSelect) {
-        originalSelect.value = this.getAttribute("data-value");
-      }
-      validateForm();
-    });
-  });
-
-  validateForm();
-});
-
-async function handleTaskCreation() {
-  const createBtn = document.querySelector(".create-btn");
-
-  if (validateForm()) {
-    createBtn.disabled = true;
-    try {
-      await addTaskToFirebase();
-    } catch (error) {
-      
-    } finally {
-      createBtn.disabled = false;
-    }
-  }
 }
 
-let isSaving = false;
-
-async function addTaskToFirebase() {
-  if (isSaving) return;
-  isSaving = true;
-
-  const firebaseURL = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
-
-  let taskData = {
-    column: "toDoColumn",
-    description: document.querySelector(".description").value.trim() || "No description provided",
-    dueDate: document.querySelector(".date-input").value,
-    id: null,
-    priority: `../../img/priority-img/${getSelectedPriority()}.png`,
-    progress: 0,
-    title: document.querySelector(".input").value.trim(),
-    users: getSelectedUsers(),
-    subtasks: getSubtasks(),
-    category: getSelectedCategory()
-  };
-
-  try {
-    const response = await fetch(firebaseURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(taskData)
-    });
-    
-    const firebaseId = (await response.json()).name;
-    
-    await fetch(`https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${firebaseId}/id.json`, {
-      method: "PUT",
-      body: JSON.stringify(firebaseId)
-    });
-    
-    clearForm();
-  } catch (error) {
-  
-  } finally {
-    isSaving = false;
-  }
-}
-
-function getSelectedPriority() {
-  return document.querySelector(".priority-container .active")?.dataset.priority || "low";
-}
-
-function getSelectedUsers() {
-  return [...document.querySelectorAll(".assigned-to-profiles-container div")]
-    .map(user => ({ name: user.innerText.trim() })) || [{ name: "Unassigned" }];
-}
-
-function getSubtasks() {
-  const items = document.querySelectorAll(".subtasks-scroll-container .subtask-item");
-  const subtaskArray = [];
-  items.forEach(item => {
-    const textEl = item.querySelector("span");
-    if (textEl) {
-      subtaskArray.push({
-        completed: false,
-        text: textEl.innerText.trim()
+/**
+ * @function initCategoryEventListeners
+ * @description Attaches click events to category items to toggle selection and update validation.
+ * @returns {void}
+ */
+function initCategoryEventListeners() {
+  document.querySelectorAll(".category-item")
+    .forEach(item => {
+      item.addEventListener("click", function() {
+        document.querySelectorAll(".category-item")
+          .forEach(i => i.classList.remove("selected"));
+        this.classList.add("selected");
+        document.querySelector(".category-selected").textContent = this.textContent;
+        validateForm();
       });
-    }
-  });
-  return subtaskArray;
+    });
 }
 
-function getSelectedCategory() {
-  const activeItem = document.querySelector('.category-item.selected');
-  return activeItem ? activeItem.dataset.value : "Technical task";
-}
-
-function clearForm() {
-  document.querySelector(".input").value = "";
-  document.querySelector(".description").value = "";
-  document.querySelector(".date-input").value = "";
-  document.querySelector(".select-task").value = "";
-  document.querySelector(".subtask").value = "";
-  document.querySelectorAll(".assigned-to-profiles-container div").forEach(div => div.remove());
-}
-
-function validateForm() {
-  const hasTitle = document.querySelector(".input").value.trim().length > 0;
-  const hasDate = document.querySelector(".date-input").value.trim().length > 0;
-  const hasAssignedUsers = document.querySelectorAll(".assigned-to-profiles-container div").length > 0;
-  const hasPriority = document.querySelector(".priority-container .active") !== null;
-  const hasAtLeastOneSubtask = document.querySelectorAll(".added-subtasks").length > 0;
-
-  const isFormValid = [
-    hasTitle,
-    hasDate,
-    hasAssignedUsers,
-    hasPriority,
-    hasAtLeastOneSubtask
-  ].every(Boolean);
-
-  const createBtn = document.querySelector(".create-btn");
-  if (createBtn) {
-    createBtn.classList.toggle("disabled", !isFormValid);
-    createBtn.style.pointerEvents = isFormValid ? "auto" : "none";
-    createBtn.style.opacity = isFormValid ? "1" : "0.5";
-  }
-  return isFormValid;
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  const subtaskInput = document.querySelector(".subtask");
-  const addSubtaskBtn = document.getElementById("addSubtask");
-  const checkSubtaskIcon = document.querySelector(".subtask-icons-div .check-icon");
+/**
+ * @function initSubtaskDeleteEventListener
+ * @description Attaches a click event to the subtasks container to handle subtask deletion.
+ * @returns {void}
+ */
+function initSubtaskDeleteEventListener() {
   const subtasksContainer = document.querySelector(".subtasks-scroll-container");
-
-  function addSubtask() {
-    const text = subtaskInput.value.trim();
-    if (text !== "") {
-      const newItem = document.createElement("div");
-      newItem.classList.add("subtask-item", "added-subtasks");
-      newItem.innerHTML = `
-        <span>${text}</span>
-        <img src="../img/subtask-delete.png" alt="Delete Subtask" class="subtask-icon delete-icon" />
-      `;
-      subtasksContainer.appendChild(newItem);
-      subtaskInput.value = "";
-      validateForm();
-    }
-  }
-
-  if (subtaskInput && subtasksContainer) {
-    if (addSubtaskBtn) {
-      addSubtaskBtn.addEventListener("click", addSubtask);
-    }
-    if (checkSubtaskIcon) {
-      checkSubtaskIcon.addEventListener("click", addSubtask);
-    }
-
-    subtasksContainer.addEventListener("click", function (e) {
+  if (subtasksContainer) {
+    subtasksContainer.addEventListener("click", e => {
       if (e.target.classList.contains("delete-icon")) {
         e.target.parentElement.remove();
         validateForm();
       }
     });
   }
-});
+}
+
+/**
+ * @function addSubtask
+ * @description Creates a new element in the subtask list based on the current value of the main input.
+ * @returns {void}
+ */
+function addSubtask() {
+  const mainInput = document.querySelector(".input");
+  if (!mainInput) return;
+  const text = mainInput.value.trim();
+  if (!text) return;
+
+  const subtaskItem = document.createElement("div");
+  subtaskItem.classList.add("added-subtasks");
+
+  const span = document.createElement("span");
+  span.innerText = text;
+
+  const deleteIcon = document.createElement("span");
+  deleteIcon.classList.add("delete-icon");
+  deleteIcon.innerText = "✕";
+
+  subtaskItem.appendChild(span);
+  subtaskItem.appendChild(deleteIcon);
+
+  const container = document.querySelector(".subtasks-scroll-container");
+  container.appendChild(subtaskItem);
+
+  validateForm();
+}
+
+/**
+ * @function handleTaskCreation
+ * @description Validates the form and, if valid, initiates task creation in Firebase.
+ * @returns {Promise<void>}
+ */
+async function handleTaskCreation() {
+  if (!validateForm()) return;
+  const createBtn = document.querySelector(".create-btn");
+  createBtn.disabled = true;
+  try {
+    await addTaskToFirebase();
+  } finally {
+    createBtn.disabled = false;
+  }
+}
+
+/** 
+ * @type {boolean} Indicates if a task creation request is currently in progress.
+ */
+let isSaving = false;
+
+/**
+ * @function addTaskToFirebase
+ * @description Compiles form data, sends a POST request to Firebase, updates the record with its new ID, clears the form, and reloads the page.
+ * @returns {Promise<void>}
+ */
+async function addTaskToFirebase() {
+  if (isSaving) return;
+  isSaving = true;
+
+  const mainInputValue = document.querySelector(".input").value.trim();
+  const taskData = {
+    column: "toDoColumn",
+    description: document.querySelector(".description").value.trim() || "No description provided",
+    dueDate: document.querySelector(".date-input").value,
+    id: null,
+    priority: `../../img/priority-img/${
+      document.querySelector(".priority-container .active")?.dataset.priority || "low"
+    }.png`,
+    title: mainInputValue,
+    users: [...document.querySelectorAll(".assigned-to-profiles-container div")].map(user => ({
+      name: user.innerText.trim()
+    })),
+    subtasks: [...document.querySelectorAll(".subtasks-scroll-container .added-subtasks")].map(() => ({
+      completed: false,
+      text: mainInputValue
+    })),
+    category: document.querySelector(".category-item.selected")?.dataset.value || "Technical task"
+  };
+
+  try {
+    const response = await fetch(
+      "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(taskData)
+      }
+    );
+    const firebaseId = (await response.json()).name;
+    await fetch(
+      `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${firebaseId}/id.json`,
+      {
+        method: "PUT",
+        body: JSON.stringify(firebaseId)
+      }
+    );
+    clearForm();
+    window.location.reload();
+  } finally {
+    isSaving = false;
+  }
+}
+
+/**
+ * @function validateForm
+ * @description Checks if all required fields are filled and toggles the "Create" button accordingly.
+ * @returns {boolean} True if the form is valid, otherwise false.
+ */
+function validateForm() {
+  const isValid = [
+    !!document.querySelector(".input").value.trim(),
+    !!document.querySelector(".date-input").value,
+    document.querySelectorAll(".assigned-to-profiles-container div").length > 0,
+    document.querySelector(".priority-container .active"),
+    document.querySelector(".category-item.selected"),
+    document.querySelectorAll(".subtasks-scroll-container .added-subtasks").length > 0
+  ].every(Boolean);
+
+  const createBtn = document.querySelector(".create-btn");
+  if (createBtn) {
+    createBtn.classList.toggle("disabled", !isValid);
+    createBtn.style.pointerEvents = isValid ? "auto" : "none";
+    createBtn.style.opacity = isValid ? "1" : "0.5";
+  }
+  return isValid;
+}
+
+/**
+ * @function clearForm
+ * @description Resets all form fields and removes dynamically added subtasks and assigned user elements.
+ * @returns {void}
+ */
+function clearForm() {
+  document.querySelector(".input").value = "";
+  document.querySelector(".description").value = "";
+  document.querySelector(".date-input").value = "";
+  document.querySelector(".subtask").value = "";
+  document.querySelectorAll(".assigned-to-profiles-container div").forEach(div => div.remove());
+  document.querySelectorAll(".added-subtasks").forEach(item => item.remove());
+}

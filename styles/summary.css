@@ -898,3 +898,11 @@ name-span {
         padding-top:12px;
     }
   }
+
+
+
+  @media (min-width: 2500px){
+    .greeting-section-container{
+        left: 70rem;
+    }
+  }

@@ -1226,3 +1226,33 @@ h4{
         justify-content: center;
     }
 }
+
+
+@media (max-width: 400px){
+    .contact-list{
+        width: 314px;
+    }
+
+    .modal-left-side{
+        height: 185px;
+        width:300px !important;
+    }    
+
+    .edit-contact-modal-input-section{
+        height:346px !important;
+        width:300px !important;
+    }
+
+    .edit-input-div{
+        width: 300px !important;
+    }
+
+    .edit-close-btn-div{
+        top:100px !important;
+        right:35px !important;
+    }
+
+    .selected-profile-main{
+        gap:0;
+    }
+}

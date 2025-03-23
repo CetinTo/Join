@@ -227,7 +227,7 @@ h1 {
     }
 
     .main-div{
-        overflow-x: hidden;
+        /* overflow-x: hidden; */
     }
 }
 
@@ -265,8 +265,14 @@ h1 {
 
 
     .board-bar{
+        overflow-x: hidden;
+        overflow-y: auto;
         flex-direction: column;
     }
+
+    .board-bar::-webkit-scrollbar {
+        display: none; 
+      }
 
 
     .icon-button-responsive{
