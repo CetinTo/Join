@@ -1,63 +1,71 @@
-document.addEventListener("DOMContentLoaded", initModalInteractions);
+document.addEventListener("DOMContentLoaded", initAddModalInteractions);
 
 /**
- * Initializes modal interactions and event listeners on page load.
+ * Initializes modal interactions and event listeners for adding a contact.
  */
-function initModalInteractions() {
-  const createContactBtn = document.querySelector(".create-btn");
-  const openModalBtn = document.querySelector(".Contact-button");
-  const modalOverlay = document.querySelector(".modal-overlay");
+function initAddModalInteractions() {
+  const createBtn = document.querySelector(".create-btn");
+  const openBtn = document.querySelector(".Contact-button");
+  const modal = document.querySelector(".modal-overlay");
   const closeBtn = document.querySelector(".close-modal-button");
   const clearBtn = document.querySelector(".clear-btn");
 
-  openModalBtn.addEventListener("click", openModal);
-  closeBtn.addEventListener("click", closeModal);
-  clearBtn.addEventListener("click", closeModal);
-  modalOverlay.addEventListener("click", handleOverlayClick);
+  // Statt openModal() nun openAddModal()
+  openBtn.addEventListener("click", openAddModal);
 
-  createContactBtn.addEventListener("click", async function (event) {
-    event.preventDefault();
-    console.log("createContactBtn clicked");
+  // Statt closeModal() nun closeAddModal()
+  closeBtn.addEventListener("click", closeAddModal);
+  clearBtn.addEventListener("click", closeAddModal);
+
+  // Overlay-Klick schließt Add-Modal
+  modal.addEventListener("click", handleAddModalOverlayClick);
+
+  createBtn.addEventListener("click", async function (e) {
+    e.preventDefault();
+    // saveContactToFirebase() bleibt gleich
     const success = await saveContactToFirebase();
-    if (success) closeModal();
+    if (success) closeAddModal();
   });
 }
 
 /**
- * Opens the contact modal.
+ * Opens the contact modal for adding a new contact.
  */
-function openModal() {
-  const modalOverlay = document.querySelector(".modal-overlay");
-  modalOverlay.style.display = "flex";
+function openAddModal() {
+  const modal = document.querySelector(".modal-overlay");
+  modal.style.display = "flex";
   setTimeout(() => {
-    modalOverlay.classList.add("show-modal");
+    modal.classList.add("show-modal");
   }, 10);
 }
 
 /**
- * Closes the contact modal.
+ * Closes the contact modal for adding a new contact.
  */
-function closeModal() {
-  const modalOverlay = document.querySelector(".modal-overlay");
-  modalOverlay.classList.remove("show-modal");
+function closeAddModal() {
+  const modal = document.querySelector(".modal-overlay");
+  modal.classList.remove("show-modal");
   setTimeout(() => {
-    modalOverlay.style.display = "none";
+    modal.style.display = "none";
   }, 300);
 }
 
 /**
- * Handles clicks outside the modal to close it.
- * @param {MouseEvent} event - The click event.
+ * Closes the add-contact modal if the overlay is clicked.
+ * @param {MouseEvent} e - The click event.
  */
-function handleOverlayClick(event) {
-  const modalOverlay = document.querySelector(".modal-overlay");
-  if (event.target === modalOverlay) {
-    closeModal();
+function handleAddModalOverlayClick(e) {
+  const modal = document.querySelector(".modal-overlay");
+  if (e.target === modal) {
+    closeAddModal();
   }
 }
 
 /**
  * Generates a profile badge class based on the user's name.
+ * (Du kannst den Namen gern beibehalten oder ebenfalls umbenennen,
+ * solange du nicht auch in contacts.js dieselbe Funktion hast.)
+ *
  * @param {string} name - The name to hash.
  * @returns {string} The corresponding badge class.
  */
@@ -76,52 +84,37 @@ function getColorClass(name) {
 }
 
 /**
- * Displays a success popup after contact is created.
+ * Displays a success popup after a new contact is created.
  */
 function showSuccessPopup() {
-  const successPopup = document.createElement("div");
-  successPopup.classList.add("success-popup");
-  successPopup.innerHTML = `<img src="../img/contactsuccesfullycreated.png" alt="Success" style="width: 100%;">`;
-  document.body.appendChild(successPopup);
+  const popup = document.createElement("div");
+  popup.classList.add("success-popup");
+  popup.innerHTML = `
+    <img src="../img/contactsuccesfullycreated.png" alt="Success" style="width: 100%;">
+  `;
+  document.body.appendChild(popup);
 
-  setTimeout(() => successPopup.classList.add("slide-in"), 50);
+  setTimeout(() => popup.classList.add("slide-in"), 50);
   setTimeout(() => {
-    successPopup.classList.remove("slide-in");
-    successPopup.classList.add("slide-out");
-    setTimeout(() => successPopup.remove(), 500);
+    popup.classList.remove("slide-in");
+    popup.classList.add("slide-out");
+    setTimeout(() => popup.remove(), 500);
   }, 2000);
 }
 
 /**
- * Saves a new contact to Firebase and clears input fields on success.
- * @returns {Promise<boolean>} True if successful, otherwise false.
+ * Saves a new contact to Firebase.
+ * @returns {Promise<boolean>} True if successful.
  */
 async function saveContactToFirebase() {
-  const name = document.querySelector("input[placeholder='Name']").value.trim();
-  const email = document.querySelector("input[placeholder='Email']").value.trim();
-  const phone = document.querySelector("input[placeholder='Telefonnummer']").value.trim();
-
-  if (!name || !email || !phone) {
-    alert("Fehler: Alle Felder müssen ausgefüllt sein.");
-    return false;
-  }
-
-  const newContact = { name, email, phone };
-  const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
+  const { name, email, phone } = getContactFormValues();
+  if (!validateContactInputs(name, email, phone)) return false;
 
   try {
-    const response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(newContact),
-      headers: { "Content-Type": "application/json" }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Fehler : ${response.status} ${response.statusText}`);
-    }
-
+    await postContactToFirebase({ name, email, phone });
     showSuccessPopup();
     clearContactInputs();
+    // Ruft loadContactsFromFirebase() aus contacts.js auf
     loadContactsFromFirebase();
     return true;
   } catch (error) {
@@ -131,7 +124,49 @@ async function saveContactToFirebase() {
 }
 
 /**
- * Clears the contact input fields.
+ * Reads and trims contact form inputs.
+ * @returns {{ name: string, email: string, phone: string }}
+ */
+function getContactFormValues() {
+  const name = document.querySelector("input[placeholder='Name']").value.trim();
+  const email = document.querySelector("input[placeholder='Email']").value.trim();
+  const phone = document.querySelector("input[placeholder='Telefonnummer']").value.trim();
+  return { name, email, phone };
+}
+
+/**
+ * Checks if contact form inputs are valid.
+ * @param {string} name  - Contact name
+ * @param {string} email - Contact email
+ * @param {string} phone - Contact phone
+ * @returns {boolean} Whether inputs are valid
+ */
+function validateContactInputs(name, email, phone) {
+  if (!name || !email || !phone) {
+    alert("Fehler: Alle Felder müssen ausgefüllt sein.");
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Sends a new contact to Firebase (POST).
+ * @param {Object} contact - The new contact data.
+ */
+async function postContactToFirebase(contact) {
+  const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
+  const response = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(contact),
+    headers: { "Content-Type": "application/json" }
+  });
+  if (!response.ok) {
+    throw new Error(`Fehler : ${response.status} ${response.statusText}`);
+  }
+}
+
+/**
+ * Clears the contact input fields in the Add-Modal.
  */
 function clearContactInputs() {
   document.querySelector("input[placeholder='Name']").value = "";
@@ -139,33 +174,33 @@ function clearContactInputs() {
   document.querySelector("input[placeholder='Telefonnummer']").value = "";
 }
 
-// EDIT MODAL
+/* ---------------------- EDIT MODAL ---------------------- */
 document.addEventListener("DOMContentLoaded", initEditModal);
 
 /**
- * Initializes event listeners for the edit contact modal.
+ * Initializes event listeners for the edit modal.
  */
 function initEditModal() {
-  const modalOverlayEdit = document.querySelector(".modal-overlay-edit");
-  const closeEditModalBtn = document.querySelector(".close-modal-button-edit");
+  const modal = document.querySelector(".modal-overlay-edit");
+  const closeBtn = document.querySelector(".close-modal-button-edit");
 
-  closeEditModalBtn.addEventListener("click", closeEditModal);
-  modalOverlayEdit.addEventListener("click", function (event) {
-    if (event.target === modalOverlayEdit) {
+  closeBtn.addEventListener("click", closeEditModal);
+
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) {
       closeEditModal();
     }
   });
 }
 
 /**
- * Closes the edit contact modal with animation.
+ * Closes the edit contact modal (unchanged).
  */
 function closeEditModal() {
   const modal = document.querySelector(".modal-overlay-edit");
   if (!modal) return;
   modal.classList.remove("show-modal");
   modal.classList.add("hide-modal");
-
   setTimeout(() => {
     modal.style.display = "none";
     modal.classList.remove("hide-modal");
