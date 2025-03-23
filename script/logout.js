@@ -6,3 +6,9 @@ function logout() {
   localStorage.removeItem('currentUser'); 
   window.location.href = './login-signup/login.html'; 
 }
+
+
+function logoutToLogin() {
+  localStorage.removeItem('currentUser'); 
+  window.location.href = '../login-signup/login.html'; 
+}
