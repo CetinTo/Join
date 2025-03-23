@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * Disables links that a guest user should not click
  */
 function disableRestrictedLinks() {
-  // List the links to disable for guests
+  // 1) Disable links in the side menu
   const restrictedHrefs = [
     './add-task/addtask.html',
     './board/board.html',
@@ -59,22 +59,23 @@ function disableRestrictedLinks() {
   restrictedHrefs.forEach((href) => {
     const link = document.querySelector(`a[href="${href}"]`);
     if (link) {
-      // Remove the actual link so it can’t navigate
       link.removeAttribute('href');
-
-      // Intercept clicks (or just do nothing if no href)
-      link.addEventListener('click', (e) => {
-        e.preventDefault(); // no navigation
-      });
-
-      // Visually dim the link
       link.style.opacity = '0.5';
-
-      // Show the “not-allowed” cursor
       link.style.cursor = 'not-allowed';
+      link.addEventListener('click', (e) => e.preventDefault());
     }
   });
+
+  // 2) Disable "Board" divs with onclick="goToBoard()" in your summary area
+  const boardDivs = document.querySelectorAll('[onclick="goToBoard()"]');
+  boardDivs.forEach((div) => {
+    div.removeAttribute('onclick');       // Prevent the function from running
+    div.style.opacity = '0.7';           // Visually dim
+    div.style.cursor = 'not-allowed';    // Show "forbidden" cursor
+    div.addEventListener('click', (e) => e.preventDefault());
+  });
 }
+
 
 
 
