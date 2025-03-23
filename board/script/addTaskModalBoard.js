@@ -356,8 +356,8 @@ function closeModal() {
 function validateForm() {
   const title = getInputValue(".input");
   const dueDate = getInputValue(".date-input");
-  const category = document.querySelector(".select-task")?.value;
-  const assignedUsers = typeof selectedContacts !== 'undefined' && selectedContacts.length > 0;
+  const category = document.querySelector(".category-item.selected")?.dataset.value;
+  const assignedUsers = document.querySelectorAll(".assigned-to-profiles-container div").length > 0;
   const prioritySelected = !!document.querySelector(".priority-container .active");
   const hasSubtask = document.querySelectorAll(".added-subtasks").length > 0;
 
@@ -378,3 +378,4 @@ function validateForm() {
 
   return isValid;
 }
+
