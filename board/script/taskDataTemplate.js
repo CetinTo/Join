@@ -67,6 +67,9 @@ function extractPriority(iconPath) {
   return 'medium';
 }
 
+// Added to make extractPriority global
+window.extractPriority = extractPriority;  // <-- IMPORTANT LINE
+
 // ------------------------------
 // MODAL RENDERING
 // ------------------------------
@@ -204,7 +207,8 @@ function createTaskElement(task) {
         completed = task.subtasks ? task.subtasks.filter(st => st.completed).length : 0,
         progress = total ? (completed / total) * 100 : 0;
   const mapping = { urgent: "../img/icon-urgent.png", medium: "../img/priority-img/medium.png", low: "../img/icon-low.png" };
-  let prio = extractPriority(task.priority); if (!mapping[prio]) prio = "medium";
+  let prio = extractPriority(task.priority); 
+  if (!mapping[prio]) prio = "medium";
   const taskPriority = mapping[prio];
   const el = document.createElement("div");
   el.classList.add("draggable-cards");
