@@ -3,6 +3,11 @@ import {
   checkColumns
 } from './taskDataTemplate.js';
 
+
+// Make the function available globally:
+window.closeModalAndReload = closeModalAndReload;
+
+
 /**
  * Array zur Speicherung der Aufgaben.
  * @type {Array<Object>}
