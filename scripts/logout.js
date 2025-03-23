@@ -53,7 +53,7 @@ function setupDropdownLinks(menu) {
     const newLink = replaceElementWithClone(link);
     newLink.addEventListener('click', function(event) {
       event.stopPropagation();
-      if (newLink.href.includes('login.html')) {
+      if (newLink.href.includes('./login-signup/login.html')) {
         handleLogout(event, newLink.href);
       }
     });
@@ -68,6 +68,7 @@ function setupDropdownLinks(menu) {
 function handleLogout(event, redirectUrl) {
   event.preventDefault();
   console.log('Performing logout...');
+  localStorage.removeItem('currentUser');
   localStorage.removeItem('userEmail');
   localStorage.removeItem('userName');
   window.location.href = redirectUrl;
