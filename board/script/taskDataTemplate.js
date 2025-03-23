@@ -2,13 +2,13 @@
 // GLOBAL VARIABLES
 // ------------------------------
 /**
- * Aktuelle Task, auf die zugegriffen wird.
+ * Current task that is being accessed.
  * @global
  * @type {Object|null}
  */
 window.currentTask = null;
 /**
- * ID der aktuellen Task.
+ * ID of the current task.
  * @global
  * @type {string|null}
  */
@@ -19,10 +19,10 @@ window.currentTaskId = null;
 // ------------------------------
 
 /**
- * Aktualisiert den Status eines Subtasks und passt den Fortschritt an.
- * @param {string} taskId - ID der Aufgabe.
- * @param {number} subtaskIndex - Index des Subtasks.
- * @param {boolean} newStatus - Neuer Status (true = abgeschlossen).
+ * Updates the status of a subtask and adjusts the progress accordingly.
+ * @param {string} taskId - ID of the task.
+ * @param {number} subtaskIndex - Index of the subtask.
+ * @param {boolean} newStatus - New status (true = completed).
  */
 function updateSubtaskStatus(taskId, subtaskIndex, newStatus) {
   if (!window.currentTask || window.currentTaskId !== taskId) return;
@@ -36,14 +36,14 @@ function updateSubtaskStatus(taskId, subtaskIndex, newStatus) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ subtasks: window.currentTask.subtasks, progress: newProgress })
   })
-  .then(r => { if (!r.ok) throw new Error("Fehler beim Aktualisieren des Subtask-Status."); })
+  .then(r => { if (!r.ok) throw new Error("Error updating subtask status."); })
   .catch(err => {});
 }
 
 /**
- * Gibt ein textuelles Label zur Priorität anhand des Icon-Pfads zurück.
- * @param {string} iconPath - Pfad des Prioritätsicons.
- * @returns {string} "Urgent", "Medium", "Low" oder "Unknown".
+ * Returns a textual label for the priority based on the icon path.
+ * @param {string} iconPath - Path of the priority icon.
+ * @returns {string} "Urgent", "Medium", "Low" or "Unknown".
  */
 function getPriorityLabel(iconPath) {
   if (!iconPath) return "Unknown";
@@ -54,9 +54,9 @@ function getPriorityLabel(iconPath) {
 }
 
 /**
- * Extrahiert aus dem Icon-Pfad die Priorität.
- * @param {string} iconPath - Pfad des Prioritätsicons.
- * @returns {string} "urgent", "medium" oder "low" (Standard: "medium").
+ * Extracts the priority from the icon path.
+ * @param {string} iconPath - Path of the priority icon.
+ * @returns {string} "urgent", "medium" or "low" (default: "medium").
  */
 function extractPriority(iconPath) {
   if (!iconPath) return 'medium';
@@ -72,31 +72,31 @@ function extractPriority(iconPath) {
 // ------------------------------
 
 /**
- * Rendert den Header des Task-Modals anhand der Task-Daten.
- * @param {Object} task - Die Task-Daten.
- * @param {HTMLElement} modal - Das Modal-Element.
+ * Renders the header of the task modal based on the task data.
+ * @param {Object} task - The task data.
+ * @param {HTMLElement} modal - The modal element.
  */
 function renderModalHeader(task, modal) {
   const cat = modal.querySelector('.main-section-task-overlay > div:first-child');
   cat.className = `card-label-${task.category.toLowerCase().includes('technical') ? 'technical-task' : 'user-story'}-modal w445`;
   cat.querySelector('h4').textContent = task.category;
-  document.getElementById('modalTitle').innerText = task.title || "Kein Titel";
-  document.getElementById('modalDescription').innerText = task.description || "Keine Beschreibung";
-  document.getElementById('modalDueDate').innerText = task.dueDate || "Kein Datum";
+  document.getElementById('modalTitle').innerText = task.title || "No Title";
+  document.getElementById('modalDescription').innerText = task.description || "No Description";
+  document.getElementById('modalDueDate').innerText = task.dueDate || "No Date";
   document.getElementById('modalPriorityText').innerText = getPriorityLabel(task.priority);
   document.getElementById('modalPriorityIcon').src = task.priority || "";
   const assign = document.getElementById('modalAssignedTo');
   assign.innerHTML = task.users.map(u =>
     `<div class="flexrow profile-names">
        <div class="profile-badge-floating-${u.color || 'gray'}">${u.initials || '?'}</div>
-       <span class="account-name">${u.name || 'Unbekannt'}</span>
+       <span class="account-name">${u.name || 'Unknown'}</span>
      </div>`
   ).join("");
 }
 
 /**
- * Rendert die Subtasks im Task-Modal.
- * @param {Object} task - Die Task-Daten.
+ * Renders the subtasks in the task modal.
+ * @param {Object} task - The task data.
  */
 function renderSubtasks(task) {
   const ms = document.getElementById("modalSubtasks");
@@ -120,8 +120,8 @@ function renderSubtasks(task) {
 }
 
 /**
- * Öffnet das Task-Modal und füllt es mit den Task-Daten.
- * @param {Object} task - Die aufzurufende Task.
+ * Opens the task modal and populates it with the task data.
+ * @param {Object} task - The task to be opened.
  */
 function openTaskModal(task) {
   window.currentTask = task;
@@ -138,9 +138,9 @@ function openTaskModal(task) {
 // ------------------------------
 
 /**
- * Aktualisiert in Firebase die Spalte einer Task.
- * @param {string} taskId - Die ID der Task.
- * @param {string} newColumn - Die neue Spalten-ID.
+ * Updates the column of a task in Firebase.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} newColumn - The new column ID.
  * @returns {Promise<void>}
  */
 async function updateTaskColumnInFirebase(taskId, newColumn) {
@@ -151,7 +151,7 @@ async function updateTaskColumnInFirebase(taskId, newColumn) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ column: newColumn })
     });
-    if (!r.ok) throw new Error(`Fehler beim Updaten der Task-Spalte: ${r.statusText}`);
+    if (!r.ok) throw new Error(`Error updating task column: ${r.statusText}`);
   } catch (e) { }
 }
 
@@ -160,8 +160,8 @@ async function updateTaskColumnInFirebase(taskId, newColumn) {
 // ------------------------------
 
 /**
- * Überprüft alle Spalten (Klasse "task-board-container") und blendet
- * das Platzhalterbild ein oder aus, je nachdem ob Tasks vorhanden sind.
+ * Checks all columns (class "task-board-container") and toggles
+ * the placeholder image depending on whether tasks are present.
  */
 function checkColumns() {
   document.querySelectorAll('.task-board-container').forEach(col => {
@@ -173,9 +173,8 @@ function checkColumns() {
 }
 
 /**
- * Richtet Drag & Drop ein. Fügt den Karten (Klasse "draggable-cards")
- * Event-Listener für dragstart und dragend hinzu und erlaubt das Ablegen
- * in Spalten (Klasse "task-board-container").
+ * Sets up drag & drop. Adds event listeners for dragstart and dragend
+ * to the cards (class "draggable-cards") and enables dropping in columns (class "task-board-container").
  */
 function enableDragAndDrop() {
   document.querySelectorAll('.draggable-cards').forEach(card => {
@@ -196,9 +195,9 @@ function enableDragAndDrop() {
 // ------------------------------
 
 /**
- * Erstellt ein DOM-Element für eine Task.
- * @param {Object} task - Die Task-Daten.
- * @returns {HTMLElement} Das erstellte Task-Element.
+ * Creates a DOM element for a task.
+ * @param {Object} task - The task data.
+ * @returns {HTMLElement} The created task element.
  */
 function createTaskElement(task) {
   const total = task.subtasks ? task.subtasks.length : 0,
@@ -240,9 +239,9 @@ function createTaskElement(task) {
 }
 
 /**
- * Generiert alle Task-Elemente und fügt sie in die jeweilige Spalte ein.
- * Richtet außerdem Event-Listener für Modal, Drag & Drop und Dropdown ein.
- * @param {Array<Object>} tasksData - Array von Task-Daten.
+ * Generates all task elements and inserts them into their respective columns.
+ * Also sets up event listeners for modal, drag & drop, and dropdown.
+ * @param {Array<Object>} tasksData - Array of task data.
  */
 function generateTasks(tasksData) {
   tasksData.forEach(task => {
@@ -268,7 +267,7 @@ function generateTasks(tasksData) {
             <div class="dropdown-header">Move To</div>
             <div class="dropdown-option" data-status="toDoColumn">To do</div>
             <div class="dropdown-option" data-status="inProgress">In Progress</div>
-            <div class="dropdown-option" data-status="awaitFeedback">await feedback</div>
+            <div class="dropdown-option" data-status="awaitFeedback">Await Feedback</div>
             <div class="dropdown-option" data-status="done">Done</div>
           `;
           taskEl.appendChild(dd);
