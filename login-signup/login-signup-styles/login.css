@@ -565,62 +565,68 @@ footer a:hover{
   }
 }
 
-/* Legal Modal Styles anpassen */
+/* Verhindert Scrollen der gesamten Seite, wenn ein Modal geöffnet ist */
+body.modal-open {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Legal Modal - einfache Version */
 .legal-modal {
   display: none;
   position: fixed;
-  z-index: 10;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: #f5f7f9;
-  animation: fadeIn 0.3s;
+  background-color: white;
+  z-index: 1000;
 }
 
+/* Logo */
+.modal-logo {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1020;
+}
+
+.modal-logo-img {
+  width: 40px;
+  height: auto;
+}
+
+/* Inhalt */
 .legal-modal-content {
-  background-color: #f5f7f9;
-  margin: 0;
-  padding: 20px;
   width: 100%;
-  height: calc(100% - 60px); /* Höhe abzüglich der Footer-Höhe */
+  height: calc(100% - 60px);
   overflow-y: auto;
-  position: relative;
-  box-shadow: none;
-  border: none;
-  padding-bottom: 80px; /* Extra Padding am unteren Rand */
-}
-
-.legal-content {
-  margin: 15px 0;
-  font-size: 16px;
-  line-height: 1.5;
-  padding: 0 20px;
-  padding-bottom: 40px; /* Extra Padding am unteren Rand */
+  padding: 20px;
+  padding-top: 70px;
+  box-sizing: border-box;
 }
 
 .legal-modal-content h2 {
   font-size: 36px;
   font-weight: 700;
-  margin-top: 70px;
-  margin-bottom: 30px;
-  padding-left: 20px;
+  margin-bottom: 20px;
 }
 
 .legal-content h3 {
-  margin-top: 30px;
-  margin-bottom: 15px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  color: #000;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
-.close-modal {
-  display: none; /* X-Button ausblenden */
+.legal-content p {
+  margin-bottom: 10px;
+  line-height: 1.5;
 }
 
-/* Footer für die Modals anpassen */
+/* Footer */
 .legal-modal-footer {
   position: fixed;
   bottom: 0;
@@ -632,9 +638,24 @@ footer a:hover{
   justify-content: flex-end;
   align-items: center;
   padding: 0 20px;
-  z-index: 20; /* Sicherstellen, dass der Footer über dem Inhalt liegt */
+  z-index: 1020;
 }
 
+/* Login-Button */
+.login-button {
+  position: absolute;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+}
+
+.login-button svg {
+  margin-right: 8px;
+}
+
+/* Footer-Links */
 .legal-modal-footer a {
   color: white;
   text-decoration: none;
@@ -648,142 +669,14 @@ footer a:hover{
   border-radius: 8px;
 }
 
-/* Login-Button im Footer */
-.login-button {
-  position: absolute;
-  left: 20px;
-  display: flex;
-  align-items: center;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.login-button svg {
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
-  stroke: white;
-}
-
-.login-button:hover {
-  color: #29ABE2;
-}
-
-.login-button:hover svg {
-  stroke: #29ABE2;
-}
-
-@media (max-width: 500px) {
-  .legal-modal-content {
-    width: 100%;
-    margin: 0;
-    padding: 15px;
-  }
-  
-  .legal-modal-content h2 {
-    font-size: 28px;
-    margin-top: 60px;
-  }
-  
-  .legal-content h3 {
-    font-size: 20px;
-  }
-  
-  .legal-content p {
-    font-size: 14px;
-  }
-  
-  .legal-modal-footer {
-    padding: 0 10px;
-  }
-  
-  .legal-modal-footer a {
-    padding: 10px;
-    font-size: 14px;
-  }
-  
-  .login-button span {
-    font-size: 14px;
-  }
-  
-  .login-button svg {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-/* Noch kleinere Bildschirme (320px) */
-@media (max-width: 350px) {
-  .legal-modal-footer {
-    justify-content: center;
-    padding: 0 5px;
-  }
-  
-  .legal-modal-footer div {
-    display: flex;
-    gap: 5px;
-  }
-  
-  .legal-modal-footer a {
-    padding: 8px 5px;
-    font-size: 12px;
-  }
-  
-  .login-button {
-    left: 5px;
-  }
-  
-  .login-button span {
-    font-size: 12px;
-  }
-  
-  .login-button svg {
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
-  }
-  
-  .legal-modal-content h2 {
-    font-size: 24px;
-    margin-top: 50px;
-    padding-left: 10px;
-  }
-  
-  .legal-content {
-    padding: 0 10px;
-  }
-  
-  .legal-content h3 {
-    font-size: 18px;
-  }
-  
-  .legal-content p {
-    font-size: 13px;
-  }
-}
-
 /* Back-Button ausblenden */
 .back-button {
   display: none;
 }
 
-/* Logo in den Modals */
-.modal-logo {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 10;
-}
-
-.modal-logo-img {
-  width: 40px;
-  height: auto;
-}
-
 /* Anpassung der Überschrift, damit sie nicht mit dem Logo überlappt */
 .legal-modal-content h2 {
-  margin-top: 80px;
+  margin-top: 70px;
 }
 
 /* Anpassungen für kleine Bildschirme */
@@ -812,24 +705,18 @@ footer a:hover{
   }
 }
 
-/* Styling für Footer-Links */
-.legal-modal-footer a,
-.login-footer a {
+/* Footer-Links Styling */
+.footer a {
   color: #2a3647;
   text-decoration: none;
-  margin: 0 10px;
-  transition: color 0.2s ease;
+  margin: 0 15px;
+  transition: color 0.3s ease;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 /* Hover-Effekt für blaue Farbe */
-.legal-modal-footer a:hover,
-.login-footer a:hover {
+.footer a:hover {
   color: #29ABE2; /* Blau bei Hover */
   text-decoration: underline;
-}
-
-/* Aktiver Link */
-.legal-modal-footer a.active,
-.login-footer a.active {
-  font-weight: bold;
 }

@@ -11,7 +11,6 @@
     <title>Log in</title>
     <link rel="stylesheet" href="./login-signup-styles/login.css" />
     <script src="./scripts/login.js"></script>
-    <script src="../script/user.js"></script>
   </head>
 
   <body>
@@ -23,8 +22,8 @@
 
     <!-- Header -->
     <header>
-      <img src="../img/capa.png" alt="Logo" onclick="reload()" class="logo-small" />
-      <div class="signup-link header-text ">
+      <img src="../img/capa.png" alt="Logo" class="logo-small" />
+      <div class="signup-link header-text">
         <span>Not a Join user?</span>
         <button class="signup-btn"><a href="./sign-up.html">Sign up</a></button>
       </div>
@@ -73,11 +72,11 @@
     </div>
       
     <footer class="footer">
-      <a href="javascript:void(0);" id="privacyPolicyLink">Privacy Policy</a>
-      <a href="javascript:void(0);" id="legalNoticeLink">Legal Notice</a>
+      <a href="#" onclick="return openPrivacyModal();">Privacy Policy</a>
+      <a href="#" onclick="return openLegalModal();">Legal notice</a>
     </footer>
 
-    <!-- Modals für Privacy Policy und Legal Notice anpassen -->
+    <!-- Privacy Policy Modal -->
     <div id="privacyPolicyModal" class="legal-modal">
       <div class="modal-logo">
         <img src="../img/capa.png" alt="Logo" class="modal-logo-img" />
@@ -93,7 +92,7 @@
         </div>
       </div>
       <div class="legal-modal-footer">
-        <a href="javascript:void(0);" class="login-button" onclick="closeModals()">
+        <a href="#" class="login-button" onclick="return closeModals();">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
             <polyline points="10 17 15 12 10 7"></polyline>
@@ -102,12 +101,13 @@
           <span>Log In</span>
         </a>
         <div>
-          <a href="javascript:void(0);" class="active" id="privacyFooterLink">Privacy Policy</a>
-          <a href="javascript:void(0);" id="legalFooterLink">Legal Notice</a>
+          <a href="#" class="active" onclick="return openPrivacyModal();">Privacy Policy</a>
+          <a href="#" onclick="return openLegalModal();">Legal Notice</a>
         </div>
       </div>
     </div>
 
+    <!-- Legal Notice Modal -->
     <div id="legalNoticeModal" class="legal-modal">
       <div class="modal-logo">
         <img src="../img/capa.png" alt="Logo" class="modal-logo-img" />
@@ -128,7 +128,7 @@
         </div>
       </div>
       <div class="legal-modal-footer">
-        <a href="javascript:void(0);" class="login-button" onclick="closeModals()">
+        <a href="#" class="login-button" onclick="return closeModals();">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
             <polyline points="10 17 15 12 10 7"></polyline>
@@ -137,8 +137,8 @@
           <span>Log In</span>
         </a>
         <div>
-          <a href="javascript:void(0);" id="privacyFooterLink2">Privacy Policy</a>
-          <a href="javascript:void(0);" class="active" id="legalFooterLink2">Legal Notice</a>
+          <a href="#" onclick="return openPrivacyModal();">Privacy Policy</a>
+          <a href="#" class="active" onclick="return openLegalModal();">Legal Notice</a>
         </div>
       </div>
     </div>

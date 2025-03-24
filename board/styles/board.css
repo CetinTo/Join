@@ -474,3 +474,53 @@ h6 {
 
     }
 }
+
+/* Mobile Task-Hinzufügung ausblenden bei Bildschirmbreite unter 500px */
+@media (max-width: 500px) {
+    #mobileAddTaskContainer,
+    .mobile-add-task-view,
+    .task-popup-mobile,
+    .main-section[data-mobile-view="true"] {
+      display: none !important;
+    }
+  }
+  
+  /* Für Bildschirmbreiten zwischen 300px und 500px */
+  @media (min-width: 300px) and (max-width: 500px) {
+    /* Verstecke alle mobilen Popups */
+    .mobile-add-task-popup,
+    .mobile-task-view,
+    .main-section[data-mobile="true"] {
+      display: none !important;
+    }
+    
+    /* Wenn der Button ein Link ist, stelle sicher, dass er zur Add-Task-Seite führt */
+    .add-task-button {
+      pointer-events: auto !important;
+    }
+    
+    /* Falls der Button ein normaler Button ist, füge einen Link hinzu */
+    .add-task-button:not(a)::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
+  
+    /* Mobile Popups bei Bildschirmbreiten zwischen 300px und 500px ausblenden */
+    .mobile-popup,
+    .mobile-add-task {
+      display: none !important;
+    }
+  
+    /* taskModel bei Bildschirmbreiten zwischen 300px und 500px ausblenden */
+    #taskModel,
+    .task-model,
+    .task-modal,
+    #addTaskModal {
+      display: none !important;
+    }
+  } 
