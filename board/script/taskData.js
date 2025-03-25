@@ -3,24 +3,20 @@ import {
   checkColumns
 } from './taskDataTemplate.js';
 
-
-// Make the function available globally:
 window.closeModalAndReload = closeModalAndReload;
 
-
 /**
- * Array zur Speicherung der Aufgaben.
+ * Array for storing tasks.
  * @type {Array<Object>}
  */
 let tasks = [];
 
 /**
- * Berechnet die Initialen eines vollen Namens.
- * Falls der Name mehr als einen Teil hat, werden die ersten Buchstaben
- * des ersten und letzten Teils kombiniert. Andernfalls werden die ersten zwei
- * Buchstaben des Namens verwendet.
- * @param {string} fullName - Der vollständige Name des Benutzers.
- * @returns {string} Die Initialen des Benutzers.
+ * Calculates the initials of a full name.
+ * If the name consists of multiple parts, the first letters of the first and last parts are combined.
+ * Otherwise, the first two letters of the name are used.
+ * @param {string} fullName - The full name of the user.
+ * @returns {string} The user's initials.
  */
 function getInitials(fullName) {
   const parts = fullName.trim().split(" ");
@@ -30,8 +26,8 @@ function getInitials(fullName) {
 }
 
 /**
- * Gibt eine zufällige Farbe aus einem vordefinierten Array zurück.
- * @returns {string} Eine zufällige Farbe.
+ * Returns a random color from a predefined array.
+ * @returns {string} A random color.
  */
 function getRandomColor() {
   const colors = ["red", "green", "blue", "pink", "orange", "purple"];
@@ -39,9 +35,9 @@ function getRandomColor() {
 }
 
 /**
- * Erweitert jede Aufgabe im Array, indem für jeden Benutzer Initialen
- * und eine zufällige Farbe gesetzt werden, falls diese noch nicht vorhanden sind.
- * @param {Array<Object>} tasks - Array von Aufgaben.
+ * Enhances each task in the array by setting initials and a random color for each user,
+ * if not already present.
+ * @param {Array<Object>} tasks - Array of tasks.
  */
 function enrichTasksWithUserData(tasks) {
   tasks.forEach(task => {
@@ -54,15 +50,15 @@ function enrichTasksWithUserData(tasks) {
 }
 
 /**
- * Lädt Aufgaben aus Firebase, filtert ungültige Einträge und erweitert sie mit Benutzerdaten.
+ * Loads tasks from Firebase, filters out invalid entries, and enhances them with user data.
  * @async
- * @returns {Promise<Array<Object>>} Ein Promise, das ein Array von Aufgaben zurückgibt.
+ * @returns {Promise<Array<Object>>} A promise that resolves to an array of tasks.
  */
 async function loadTasksFromFirebase() {
   const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
   try {
     const response = await fetch(url);
-    if (!response.ok) throw new Error("Fehler beim Laden");
+    if (!response.ok) throw new Error("Error loading tasks");
     let data = await response.json();
     if (!data || typeof data !== "object") return [];
     let tasksArray = Object.entries(data)
@@ -75,7 +71,9 @@ async function loadTasksFromFirebase() {
   }
 }
 
-// Globaler Klick-Listener, der alle sichtbaren Dropdowns schließt, wenn außerhalb geklickt wird.
+/**
+ * Closes all visible dropdowns when clicked outside.
+ */
 document.addEventListener("click", function() {
   document.querySelectorAll(".move-to-dropdown.visible").forEach(function(dropdown) {
     dropdown.classList.remove("visible");
@@ -83,9 +81,9 @@ document.addEventListener("click", function() {
 });
 
 /**
- * Filtert Aufgaben basierend auf einem Suchbegriff.
- * Zeigt nur Aufgaben an, deren Titel oder Beschreibung den Suchbegriff enthalten.
- * @param {string} searchTerm - Der zu filternde Suchbegriff (in Kleinbuchstaben).
+ * Filters tasks based on a search term.
+ * Only displays tasks whose title or description contains the search term.
+ * @param {string} searchTerm - The search term (in lowercase).
  */
 function filterTasks(searchTerm) {
   const tasksElements = document.querySelectorAll(".draggable-cards");
@@ -104,12 +102,9 @@ function filterTasks(searchTerm) {
 }
 
 /**
- * Richtet Drag & Drop ein.
- * Es werden die notwendigen Event-Listener an den Karten (draggable-cards)
- * sowie an den Spalten (task-board-container) eingerichtet.
+ * Sets up drag & drop by attaching event listeners to cards and columns.
  */
 function enableDragAndDrop() {
-  // Für alle Karten: Bei dragstart wird eine Klasse hinzugefügt.
   const cards = document.querySelectorAll('.draggable-cards');
   cards.forEach(card => {
     card.addEventListener('dragstart', function () {
@@ -119,8 +114,6 @@ function enableDragAndDrop() {
       card.classList.remove('dragging');
     });
   });
-
-  // Für alle Spalten: Beim Dragover erlauben wir den Drop und fügen ggf. die Karte ein.
   const columns = document.querySelectorAll('.task-board-container');
   columns.forEach(column => {
     column.addEventListener('dragover', function (e) {
@@ -133,25 +126,22 @@ function enableDragAndDrop() {
   });
 }
 
-// Sobald das DOM geladen ist, Tasks laden und darstellen.
+/**
+ * Loads tasks, generates task elements, activates drag & drop,
+ * checks columns, and sets up the search event.
+ */
 document.addEventListener("DOMContentLoaded", async () => {
   tasks = await loadTasksFromFirebase();
   generateTasks(tasks);
-  
-  // Drag & Drop aktivieren
   enableDragAndDrop();
-
-  // Spalten überprüfen (Platzhalterbilder korrekt anzeigen/verbergen)
   checkColumns();
-
-  // Such-Event
   document.getElementById("searchInput").addEventListener("input", function () {
     filterTasks(this.value.trim().toLowerCase());
   });
 });
 
 /**
- * Schließt das Task-Modal und lädt die Seite neu.
+ * Closes the task modal and reloads the page.
  */
 function closeModalAndReload() {
   const modal = document.getElementById('toggleModalFloating');
@@ -161,7 +151,9 @@ function closeModalAndReload() {
   location.reload();
 }
 
-// Schließt das Modal, wenn man auf den Hintergrund klickt:
+/**
+ * Closes the modal when clicking on the background and reloads the page.
+ */
 document.addEventListener("DOMContentLoaded", function() {
   const floatingModal = document.getElementById('toggleModalFloating');
   const modalContent = document.querySelector('.main-section-task-overlay');
@@ -179,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 /**
- * Lädt die aktuelle Seite neu.
+ * Reloads the current page.
  */
 function reloadPage() {
   location.reload();

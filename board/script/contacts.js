@@ -2,20 +2,20 @@
  * @fileOverview Main file for contact management, dropdown interactions, and form validation.
  */
 
-import { createDropdownItem } from './template.js'; // Import the template function
+import { createDropdownItem } from './template.js';
 
 /* =============================== */
 /*         Global Variables        */
 /* =============================== */
 
 /**
- * Array of currently selected contacts.
+ * List of selected contacts.
  * @type {Array<Object>}
  */
 let selectedContacts = [];
 
 /**
- * Array of all contacts loaded from Firebase.
+ * All contacts fetched from Firebase.
  * @type {Array<Object>}
  */
 let contactsArray = [];
@@ -25,9 +25,8 @@ let contactsArray = [];
 /* =============================== */
 
 /**
- * Loads contacts from Firebase and initializes the dropdown list and search.
+ * Fetches contacts from Firebase and initializes dropdown and search.
  * @async
- * @function loadContactsFromFirebase
  * @returns {Promise<void>}
  */
 async function loadContactsFromFirebase() {
@@ -55,8 +54,7 @@ async function loadContactsFromFirebase() {
 /* =============================== */
 
 /**
- * Initializes the dropdown list with the loaded contacts.
- * @function initDropdownList
+ * Initializes the dropdown list with contact entries.
  */
 function initDropdownList() {
   const dropdownList = document.querySelector(".dropdown-list");
@@ -67,7 +65,6 @@ function initDropdownList() {
   searchInput.value = "";
 
   contactsArray.forEach(contact => {
-    // Pass getInitials, a wrapper for getColorClass (with contactsArray), and toggleCheckboxState.
     const item = createDropdownItem(
       contact,
       getInitials,
@@ -79,8 +76,7 @@ function initDropdownList() {
 }
 
 /**
- * Initializes the search functionality in the dropdown.
- * @function initDropdownSearch
+ * Adds input search functionality to the dropdown list.
  */
 function initDropdownSearch() {
   const searchInput = document.querySelector(".dropdown-search");
@@ -96,19 +92,17 @@ function initDropdownSearch() {
 }
 
 /**
- * Toggles the dropdown (opens or closes).
- * @function toggleDropdown
+ * Toggles the dropdown open or closed.
  * @param {Event} event - The triggering event.
  */
 function toggleDropdown(event) {
   const dropdown = document.querySelector(".custom-dropdown");
   if (!dropdown) return;
 
-  if (event && typeof event.stopPropagation === "function") {
+  if (event?.stopPropagation) {
     event.stopPropagation();
   }
 
-  // Close the dropdown if clicked outside.
   if (!event || !dropdown.contains(event.target)) {
     closeDropdown();
     return;
@@ -118,8 +112,7 @@ function toggleDropdown(event) {
 }
 
 /**
- * Opens the dropdown and updates the arrow display.
- * @function openDropdown
+ * Opens the dropdown and adjusts the UI.
  */
 function openDropdown() {
   const dropdown = document.querySelector(".custom-dropdown");
@@ -136,8 +129,7 @@ function openDropdown() {
 }
 
 /**
- * Closes the dropdown and resets the arrow display.
- * @function closeDropdown
+ * Closes the dropdown and resets arrow indicators.
  */
 function closeDropdown() {
   const dropdown = document.querySelector(".custom-dropdown");
@@ -158,10 +150,9 @@ function closeDropdown() {
 /* =============================== */
 
 /**
- * Returns the initials of a full name.
- * @function getInitials
- * @param {string} fullName - The full name.
- * @returns {string} The initials (e.g., "JD").
+ * Extracts initials from a full name.
+ * @param {string} fullName - The full name of a contact.
+ * @returns {string} The initials.
  */
 function getInitials(fullName) {
   if (!fullName) return "??";
@@ -172,11 +163,10 @@ function getInitials(fullName) {
 }
 
 /**
- * Determines the CSS class for the profile color based on the contact.
- * @function getColorClass
- * @param {string} name - The name of the contact.
- * @param {Array<Object>} contacts - Array of all contacts.
- * @returns {string} The corresponding CSS class.
+ * Returns the CSS class based on a contact's color property.
+ * @param {string} name - Contact name.
+ * @param {Array<Object>} contacts - List of all contacts.
+ * @returns {string} The CSS class name.
  */
 function getColorClass(name, contacts) {
   const contact = contacts.find(c => c.name === name);
@@ -186,11 +176,10 @@ function getColorClass(name, contacts) {
 }
 
 /**
- * Toggles the state of a contact's checkbox.
- * @function toggleCheckboxState
+ * Toggles a checkbox and updates selectedContacts.
  * @param {Object} contact - The contact object.
- * @param {HTMLImageElement} checkboxImg - The image element for the checkbox state.
- * @param {HTMLElement} itemElement - The DOM element of the dropdown item.
+ * @param {HTMLImageElement} checkboxImg - The image element used for the checkbox.
+ * @param {HTMLElement} itemElement - The dropdown item container.
  */
 function toggleCheckboxState(contact, checkboxImg, itemElement) {
   const isSelected = selectedContacts.some(c => c.name === contact.name);
@@ -208,8 +197,7 @@ function toggleCheckboxState(contact, checkboxImg, itemElement) {
 }
 
 /**
- * Updates the display of selected contacts in the profile section.
- * @function updateAssignedToProfile
+ * Updates the UI to reflect selected contacts in the profile section.
  */
 function updateAssignedToProfile() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
@@ -234,9 +222,8 @@ function updateAssignedToProfile() {
 /* =============================== */
 
 /**
- * Validates the form by checking if all required fields are filled.
- * @function validateForm
- * @returns {boolean} True if all fields are filled, otherwise false.
+ * Validates the task form inputs.
+ * @returns {boolean} True if all required fields are valid.
  */
 function validateForm() {
   const title = document.querySelector(".input")?.value.trim();
@@ -244,14 +231,12 @@ function validateForm() {
   const category = document.querySelector(".select-task")?.value;
   const assignedUsers = selectedContacts.length > 0;
   const prioritySelected = document.querySelector(".priority-container .active") !== null;
-  
+
   return title && dueDate && category && assignedUsers && prioritySelected;
 }
 
 /**
- * Placeholder function for adding a task to Firebase.
- * Implementation should be added as needed.
- * @function addTaskToFirebase
+ * Placeholder function to handle saving tasks.
  */
 function addTaskToFirebase() {
   // TODO: Implement this function.
@@ -262,11 +247,9 @@ function addTaskToFirebase() {
 /* =============================== */
 
 /**
- * Initializes all required event listeners for the application.
- * @function initEventListeners
+ * Initializes all relevant event listeners on page load.
  */
 function initEventListeners() {
-  // Close the dropdown when clicking outside of it.
   document.addEventListener("click", event => {
     const dropdown = document.querySelector(".custom-dropdown");
     if (dropdown && !dropdown.contains(event.target)) {
@@ -274,7 +257,6 @@ function initEventListeners() {
     }
   });
 
-  // When DOM is loaded, load contacts and initialize UI elements.
   document.addEventListener("DOMContentLoaded", () => {
     loadContactsFromFirebase();
 
@@ -282,33 +264,24 @@ function initEventListeners() {
     const arrowClosed = document.querySelector(".search-icon");
     const arrowOpen = document.querySelector(".search-icon-active");
 
-    if (dropdownSearch) dropdownSearch.addEventListener("click", toggleDropdown);
-    if (arrowClosed) arrowClosed.addEventListener("click", toggleDropdown);
-    if (arrowOpen) arrowOpen.addEventListener("click", toggleDropdown);
+    dropdownSearch?.addEventListener("click", toggleDropdown);
+    arrowClosed?.addEventListener("click", toggleDropdown);
+    arrowOpen?.addEventListener("click", toggleDropdown);
 
-    // Form validation and task creation.
     const createBtn = document.querySelector(".create-btn");
-    if (createBtn) {
-      createBtn.addEventListener("click", () => {
-        if (validateForm()) {
-          addTaskToFirebase();
-        }
-      });
-    }
-
-    // Listen for input changes for validation.
-    const inputSelectors = [".input", ".date-input", ".select-task"];
-    inputSelectors.forEach(selector => {
-      const element = document.querySelector(selector);
-      if (element) {
-        element.addEventListener("input", validateForm);
+    createBtn?.addEventListener("click", () => {
+      if (validateForm()) {
+        addTaskToFirebase();
       }
     });
 
+    const inputSelectors = [".input", ".date-input", ".select-task"];
+    inputSelectors.forEach(selector => {
+      document.querySelector(selector)?.addEventListener("input", validateForm);
+    });
+
     const priorityContainer = document.querySelector(".priority-container");
-    if (priorityContainer) {
-      priorityContainer.addEventListener("click", validateForm);
-    }
+    priorityContainer?.addEventListener("click", validateForm);
 
     const assignedContainer = document.querySelector(".assigned-to-profiles-container");
     if (assignedContainer) {
@@ -316,22 +289,17 @@ function initEventListeners() {
       observer.observe(assignedContainer, { childList: true });
     }
 
-    // Run initial validation.
     validateForm();
   });
 }
 
-/* =============================== */
-/*           App Start             */
-/* =============================== */
+
 
 /**
- * Initializes the application.
- * @function initApp
+ * Application entry point.
  */
 function initApp() {
   initEventListeners();
 }
 
-// Start the application.
 initApp();

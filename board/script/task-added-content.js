@@ -1,41 +1,56 @@
-// Code Block 1 (Variables)
-/** Placeholder for drag & drop. @type {HTMLElement} */ 
+/**
+ * Placeholder element for drag & drop.
+ * @type {HTMLElement}
+ */
 let placeholder = document.createElement("div");
-/** Currently dragged task. @type {HTMLElement|null} */ 
 
+/**
+ * Currently dragged task.
+ * @type {HTMLElement|null}
+ */
+let selectedTask = null;
 
-// Code Block 2 (checkToDoColumn)
-/** Checks "toDoColumn" for tasks; toggles image. */ 
+/**
+ * Checks the "toDoColumn" for tasks and toggles the image display.
+ */
 function checkToDoColumn() {
-  let toDo = document.getElementById("toDoColumn");
-  let img = toDo.querySelector("img");
+  const toDo = document.getElementById("toDoColumn");
+  const img = toDo.querySelector("img");
   if (!img) return;
-  let hasTasks = toDo.querySelectorAll(".draggable-cards").length > 0;
+  const hasTasks = toDo.querySelectorAll(".draggable-cards").length > 0;
   img.style.display = hasTasks ? "none" : "block";
 }
 
-// Code Block 3 (checkColumns)
-/** Some scripts call checkColumns; just wrap checkToDoColumn. */
+/**
+ * Wrapper function for checkToDoColumn.
+ */
 function checkColumns() {
   checkToDoColumn();
 }
 
-// Code Block 4 (enableDragAndDrop)
-/** Sets up drag-and-drop on tasks & columns. */
+/**
+ * Sets up drag-and-drop functionality for tasks and columns.
+ */
 function enableDragAndDrop() {
   addTaskEventListeners();
   addColumnEventListeners();
 }
 
-// Code Block 5 (addTaskEventListeners)
-/** Adds dragstart/dragend to tasks. */
+/**
+ * Adds dragstart and dragend event listeners to all tasks.
+ */
 function addTaskEventListeners() {
-  let tasks = document.querySelectorAll(".draggable-cards");
-  tasks.forEach(t => { addDragStartEvent(t); addDragEndEvent(t); });
+  const tasks = document.querySelectorAll(".draggable-cards");
+  tasks.forEach(task => {
+    addDragStartEvent(task);
+    addDragEndEvent(task);
+  });
 }
 
-// Code Block 6 (addDragStartEvent)
-/** Dragstart event. */
+/**
+ * Adds a dragstart event listener to a task.
+ * @param {HTMLElement} task - The task element.
+ */
 function addDragStartEvent(task) {
   task.addEventListener("dragstart", e => {
     selectedTask = e.target;
@@ -43,8 +58,10 @@ function addDragStartEvent(task) {
   });
 }
 
-// Code Block 7 (addDragEndEvent)
-/** Dragend event. */
+/**
+ * Adds a dragend event listener to a task.
+ * @param {HTMLElement} task - The task element.
+ */
 function addDragEndEvent(task) {
   task.addEventListener("dragend", () => {
     if (selectedTask) selectedTask.classList.remove("dragging");
@@ -54,31 +71,39 @@ function addDragEndEvent(task) {
   });
 }
 
-// Code Block 8 (addColumnEventListeners)
-/** Adds dragover/drop to columns. */
+/**
+ * Adds dragover and drop event listeners to all columns.
+ */
 function addColumnEventListeners() {
-  let cols = document.querySelectorAll(".task-board-container");
-  cols.forEach(c => {
-    c.addEventListener("dragover", handleDragOver);
-    c.addEventListener("drop", handleDrop);
+  const cols = document.querySelectorAll(".task-board-container");
+  cols.forEach(col => {
+    col.addEventListener("dragover", handleDragOver);
+    col.addEventListener("drop", handleDrop);
   });
 }
 
-// Code Block 9 (handleDragOver)
-/** Manages dragover event. */
+/**
+ * Handles the dragover event on a column.
+ * @param {DragEvent} e - The dragover event.
+ */
 function handleDragOver(e) {
   e.preventDefault();
-  let col = e.currentTarget;
-  let after = getDragAfterElement(col, e.clientY);
-  if (!after && !col.contains(placeholder)) col.appendChild(placeholder);
-  else if (after && col.contains(after)) col.insertBefore(placeholder, after);
+  const col = e.currentTarget;
+  const after = getDragAfterElement(col, e.clientY);
+  if (!after && !col.contains(placeholder)) {
+    col.appendChild(placeholder);
+  } else if (after && col.contains(after)) {
+    col.insertBefore(placeholder, after);
+  }
 }
 
-// Code Block 10 (handleDrop)
-/** Manages drop event. */
+/**
+ * Handles the drop event on a column.
+ * @param {DragEvent} e - The drop event.
+ */
 function handleDrop(e) {
   e.preventDefault();
-  let col = e.currentTarget;
+  const col = e.currentTarget;
   if (selectedTask) {
     if (col.contains(placeholder)) col.insertBefore(selectedTask, placeholder);
     else col.appendChild(selectedTask);
@@ -88,18 +113,25 @@ function handleDrop(e) {
   }
 }
 
-// Code Block 11 (getDragAfterElement)
-/** Finds the closest item above pointer. */
+/**
+ * Finds the element after which the dragged element should be placed.
+ * @param {HTMLElement} container - The container element.
+ * @param {number} y - The vertical coordinate.
+ * @returns {HTMLElement|undefined} The element after which to place the dragged element.
+ */
 function getDragAfterElement(container, y) {
-  let items = [...container.querySelectorAll(".draggable-cards:not(.dragging)")];
-  return items.reduce((c, child) => {
-    let box = child.getBoundingClientRect(), o = y - box.top - box.height / 2;
-    if (o < 0 && o > c.offset) return { offset: o, element: child };
-    else return c;
+  const items = [...container.querySelectorAll(".draggable-cards:not(.dragging)")];
+  return items.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    if (offset < 0 && offset > closest.offset) {
+      return { offset: offset, element: child };
+    } else {
+      return closest;
+    }
   }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
-// Code Block 12 (DOMContentLoaded)
 document.addEventListener("DOMContentLoaded", () => {
   enableDragAndDrop();
   setTimeout(checkToDoColumn, 100);

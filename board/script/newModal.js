@@ -1,28 +1,24 @@
-/********************************************
- *  KOMPLETTER CODE MIT PRIORITY, CATEGORY
- *  UND ASSIGNEE-DROPDOWN (VORAUSGEWÄHLT)
- ********************************************/
-
-// --- Modal-Initialisierung und -Füllung ---
-
+/**
+ * Fills the edit modal with task details.
+ * @param {Object} task - The task object.
+ */
 function fillEditModal(task) {
   setTaskFields(task);
   setAssigneeBadges(task);
   setSubtasksList(task);
-  // Kontakte laden und bereits zugewiesene Kontakte (task.users) übergeben
   loadContacts(task.users || []);
 }
 
+/**
+ * Sets the task fields in the edit modal.
+ * @param {Object} task - The task object.
+ */
 function setTaskFields(task) {
   document.getElementById('editTaskTitle').value = task.title || "";
   document.getElementById('editTaskDescription').value = task.description || "";
   document.getElementById('editDueDate').value = task.dueDate || "";
-
-  // Priority aus dem Pfad extrahieren und den Button aktivieren
   const prio = extractPriority(task.priority);
   setEditPriority(prio);
-
-  // Kategorie: "Technical task" oder "User Story" -> Select-Wert
   if (task.category === 'Technical task') {
     document.getElementById('editTaskCategory').value = 'technical';
   } else if (task.category === 'User Story') {
@@ -32,15 +28,17 @@ function setTaskFields(task) {
   }
 }
 
+/**
+ * Sets the assignee badges in the edit modal.
+ * @param {Object} task - The task object.
+ */
 function setAssigneeBadges(task) {
   const badges = document.getElementById('assigneeBadges');
   if (badges && task.users && task.users.length > 0) {
     badges.innerHTML = task.users.map(user => {
-      // Falls kein Farbwert vorhanden – Standard
       let colorValue = user.color || "default";
-      // Falls ein Hex-Code übergeben wird, umwandeln in Farbnamen
       if (colorValue.startsWith('#')) {
-        switch(colorValue.toUpperCase()) {
+        switch (colorValue.toUpperCase()) {
           case '#F57C00': colorValue = 'orange'; break;
           case '#E74C3C': colorValue = 'red'; break;
           case '#5C6BC0': colorValue = 'blue'; break;
@@ -64,6 +62,10 @@ function setAssigneeBadges(task) {
   }
 }
 
+/**
+ * Populates the subtasks list in the edit modal.
+ * @param {Object} task - The task object.
+ */
 function setSubtasksList(task) {
   const list = document.getElementById('editSubtasksList');
   list.innerHTML = "";
@@ -82,8 +84,11 @@ function setSubtasksList(task) {
   }
 }
 
-// --- Priority-Handling ---
-
+/**
+ * Extracts the priority level from a given path.
+ * @param {string} priorityPath - The priority image path.
+ * @returns {string} - The priority level ('urgent', 'low', or 'medium').
+ */
 function extractPriority(priorityPath) {
   if (!priorityPath) return 'medium';
   const lowerPath = priorityPath.toLowerCase();
@@ -92,15 +97,17 @@ function extractPriority(priorityPath) {
   return 'medium';
 }
 
+/**
+ * Sets the active priority button based on the given priority.
+ * @param {string} priority - The priority level.
+ */
 function setEditPriority(priority) {
   const urgentBtn = document.querySelector('.edit-priority-urgent');
   const mediumBtn = document.querySelector('.edit-priority-medium');
   const lowBtn = document.querySelector('.edit-priority-low');
-
   urgentBtn.classList.remove('active');
   mediumBtn.classList.remove('active');
   lowBtn.classList.remove('active');
-
   switch (priority) {
     case 'urgent':
       urgentBtn.classList.add('active');
@@ -114,8 +121,9 @@ function setEditPriority(priority) {
   }
 }
 
-// --- Speichern und Aktualisieren ---
-
+/**
+ * Saves the edited task to Firebase.
+ */
 async function saveEditedTaskToFirebase() {
   if (!currentTask) return;
   updateTaskFromInputs();
@@ -124,26 +132,29 @@ async function saveEditedTaskToFirebase() {
   location.reload();
 }
 
+/**
+ * Updates the current task object with values from the edit modal inputs.
+ */
 function updateTaskFromInputs() {
   currentTask.title = document.getElementById('editTaskTitle').value.trim() || currentTask.title;
   currentTask.description = document.getElementById('editTaskDescription').value.trim() || currentTask.description;
   currentTask.dueDate = document.getElementById('editDueDate').value.trim() || currentTask.dueDate;
-
   const prio = getSelectedPriority();
   currentTask.priority = getPriorityPath(prio);
-
   const cat = document.getElementById('editTaskCategory').value;
   currentTask.category = (cat === 'technical') ? 'Technical task' : 'User Story';
-
   const newSubs = readSubtasksFromEditModal();
   if (newSubs.length) currentTask.subtasks = newSubs;
-
   const newAssignees = readAssigneesFromBadges();
   if (newAssignees.length) {
     currentTask.users = newAssignees;
   }
 }
 
+/**
+ * Updates the task in Firebase.
+ * @param {Object} task - The task object.
+ */
 async function updateTaskInFirebase(task) {
   if (!task || !task.firebaseKey) return;
   const url = `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${task.firebaseKey}.json`;
@@ -159,21 +170,25 @@ async function updateTaskInFirebase(task) {
   }
 }
 
+/**
+ * Closes the edit modal.
+ * @param {Event} [event] - The event object.
+ */
 function closeEditModal(event) {
   if (event) event.stopPropagation();
   const modal = document.getElementById('editTaskModal');
   if (modal) modal.style.display = 'none';
 }
 
-// --- Assignee Dropdown und Kontaktverwaltung ---
-// Hier wird nun als "color" ein einfacher Name (red, orange, blue, purple, green, pink) erwartet.
-
+/**
+ * Returns the badge class based on a given color.
+ * @param {string} colorValue - The color value or name.
+ * @returns {string} - The corresponding badge class.
+ */
 function getBadgeClassFromAnyColor(colorValue) {
-  // Falls kein Wert vorhanden, Default:
   if (!colorValue) {
     colorValue = "default";
   }
-  // Falls bereits ein Klassenname vorliegt:
   if (colorValue.startsWith('profile-badge-')) {
     return colorValue;
   }
@@ -190,8 +205,8 @@ function getBadgeClassFromAnyColor(colorValue) {
 }
 
 /**
- * Lade Kontakte aus Firebase und übergebe die bereits zugewiesenen User.
- * @param {Array} assignedUsers - Array mit Objekten {name, color, initials}
+ * Loads contacts from Firebase and populates the assignee dropdown.
+ * @param {Array} [assignedUsers=[]] - Array of already assigned users.
  */
 async function loadContacts(assignedUsers = []) {
   try {
@@ -204,25 +219,24 @@ async function loadContacts(assignedUsers = []) {
   }
 }
 
+/**
+ * Populates the assignee dropdown with contacts.
+ * @param {Object} contacts - The contacts object from Firebase.
+ * @param {Array} assignedUsers - Array of already assigned users.
+ */
 function populateAssigneeDropdown(contacts, assignedUsers) {
   const dropdownSelected = document.getElementById('assigneeDropdownSelected');
   const dropdownList = document.getElementById('assigneeDropdownList');
   const badgesContainer = document.getElementById('assigneeBadges');
   dropdownList.innerHTML = "";
-  
-  // Erstelle ein Set mit bereits zugewiesenen Namen (normalisiert)
   const assignedUserNames = new Set(
     assignedUsers.map(u => u.name.trim().toLowerCase())
   );
   console.log("Assigned user names:", Array.from(assignedUserNames));
-  
   const selectedContacts = new Set();
-  
   Object.entries(contacts).forEach(([id, contact]) => {
     const item = createDropdownItem(id, contact, selectedContacts, badgesContainer);
     dropdownList.appendChild(item);
-    
-    // Vergleiche den Kontakt-Namen case-insensitive
     const contactName = contact.name.trim().toLowerCase();
     console.log("Checking contact:", contactName);
     if (assignedUserNames.has(contactName)) {
@@ -231,16 +245,13 @@ function populateAssigneeDropdown(contacts, assignedUsers) {
       const checkbox = item.querySelector('.custom-checkbox');
       checkbox.src = "../img/checkboxchecked.png";
       checkbox.style.filter = "brightness(0) invert(1)";
-      // Badge sofort erstellen, falls noch nicht vorhanden
       createContactBadge(contact, id, badgesContainer, selectedContacts);
     }
   });
-  
   dropdownSelected.addEventListener('click', event => {
     event.stopPropagation();
     dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
   });
-  
   document.addEventListener('click', event => {
     if (!dropdownList.contains(event.target) && !dropdownSelected.contains(event.target)) {
       dropdownList.style.display = 'none';
@@ -248,13 +259,20 @@ function populateAssigneeDropdown(contacts, assignedUsers) {
   });
 }
 
+/**
+ * Creates a dropdown item for a contact.
+ * @param {string} id - The contact ID.
+ * @param {Object} contact - The contact object.
+ * @param {Set} selectedContacts - Set of selected contact IDs.
+ * @param {HTMLElement} badgesContainer - Container element for badges.
+ * @returns {HTMLElement} - The dropdown item element.
+ */
 function createDropdownItem(id, contact, selectedContacts, badgesContainer) {
   const initials = getInitials(contact.name);
   const colorValue = contact.color || "default";
-  // Wenn der Farbwert ein Hex-Code ist, wandeln wir ihn um:
   let simpleColor = colorValue;
   if (colorValue.startsWith('#')) {
-    switch(colorValue.toUpperCase()) {
+    switch (colorValue.toUpperCase()) {
       case '#F57C00': simpleColor = 'orange'; break;
       case '#E74C3C': simpleColor = 'red'; break;
       case '#5C6BC0': simpleColor = 'blue'; break;
@@ -274,7 +292,6 @@ function createDropdownItem(id, contact, selectedContacts, badgesContainer) {
       <span class="contact-name">${contact.name}</span>
     </div>
     <img src="../img/chekbox.png" alt="checkbox" class="custom-checkbox">`;
-  
   item.addEventListener('click', event => {
     event.stopPropagation();
     handleDropdownSelection(item, id, contact, selectedContacts, badgesContainer);
@@ -282,6 +299,14 @@ function createDropdownItem(id, contact, selectedContacts, badgesContainer) {
   return item;
 }
 
+/**
+ * Handles the selection of a dropdown item.
+ * @param {HTMLElement} item - The dropdown item element.
+ * @param {string} id - The contact ID.
+ * @param {Object} contact - The contact object.
+ * @param {Set} selectedContacts - Set of selected contact IDs.
+ * @param {HTMLElement} badgesContainer - Container element for badges.
+ */
 function handleDropdownSelection(item, id, contact, selectedContacts, badgesContainer) {
   const checkbox = item.querySelector('.custom-checkbox');
   if (!selectedContacts.has(id)) {
@@ -300,11 +325,18 @@ function handleDropdownSelection(item, id, contact, selectedContacts, badgesCont
   }
 }
 
+/**
+ * Creates a contact badge and appends it to the container.
+ * @param {Object} contact - The contact object.
+ * @param {string} id - The contact ID.
+ * @param {HTMLElement} container - The container element for the badge.
+ * @param {Set} selectedContacts - Set of selected contact IDs.
+ */
 function createContactBadge(contact, id, container, selectedContacts) {
   const colorValue = contact.color || "default";
   let simpleColor = colorValue;
   if (colorValue.startsWith('#')) {
-    switch(colorValue.toUpperCase()) {
+    switch (colorValue.toUpperCase()) {
       case '#F57C00': simpleColor = 'orange'; break;
       case '#E74C3C': simpleColor = 'red'; break;
       case '#5C6BC0': simpleColor = 'blue'; break;
@@ -315,25 +347,24 @@ function createContactBadge(contact, id, container, selectedContacts) {
     }
   }
   const badgeClass = getBadgeClassFromAnyColor(simpleColor);
-  
-  // Verhindere doppelte Badges
   if (container.querySelector(`[data-contact-id="${id}"]`)) return;
-  
   const badge = document.createElement('div');
   badge.className = `assignee-badge ${badgeClass}`;
   badge.dataset.contactId = id;
   badge.dataset.contactName = contact.name;
   badge.dataset.contactColor = simpleColor;
   badge.textContent = getInitials(contact.name);
-  
   badge.addEventListener('click', () => {
     badge.remove();
     selectedContacts.delete(id);
   });
-  
   container.appendChild(badge);
 }
 
+/**
+ * Reads the assignees from the badges.
+ * @returns {Array} - Array of user objects with name and color.
+ */
 function readAssigneesFromBadges() {
   const badges = document.querySelectorAll('#assigneeBadges .assignee-badge');
   const users = [];
@@ -346,8 +377,10 @@ function readAssigneesFromBadges() {
   return users;
 }
 
-// --- Weitere Hilfsfunktionen und Event-Listener ---
-
+/**
+ * Returns the currently selected priority.
+ * @returns {string} - The selected priority.
+ */
 function getSelectedPriority() {
   if (document.querySelector('.edit-priority-urgent.active')) return 'urgent';
   if (document.querySelector('.edit-priority-medium.active')) return 'medium';
@@ -355,6 +388,11 @@ function getSelectedPriority() {
   return 'medium';
 }
 
+/**
+ * Returns the priority image path based on the given priority.
+ * @param {string} priority - The priority level.
+ * @returns {string} - The image path for the priority.
+ */
 function getPriorityPath(priority) {
   switch (priority) {
     case 'urgent': return '../../img/priority-img/urgent.png';
@@ -364,6 +402,10 @@ function getPriorityPath(priority) {
   }
 }
 
+/**
+ * Reads subtasks from the edit modal.
+ * @returns {Array} - Array of subtasks.
+ */
 function readSubtasksFromEditModal() {
   const subtaskItems = document.querySelectorAll('#editSubtasksList .subtask-item');
   const subtasks = [];
@@ -379,6 +421,10 @@ function readSubtasksFromEditModal() {
   return subtasks;
 }
 
+/**
+ * Opens the edit task modal from an overlay.
+ * @param {Event} event - The event object.
+ */
 function editTaskFromOverlay(event) {
   event.stopPropagation();
   if (!currentTask) return;
@@ -390,12 +436,9 @@ function editTaskFromOverlay(event) {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('confirmEditBtn')?.addEventListener('click', saveEditedTaskToFirebase);
-  
-  // Subtask-Logik
   const subtaskInput = document.querySelector('.subtask-input');
   const subtaskCheck = document.querySelector('.subtask-edit-check');
   const subtasksList = document.getElementById('editSubtasksList');
-  
   subtaskCheck?.addEventListener('click', () => {
     const text = subtaskInput.value.trim();
     if (text !== '') {
@@ -411,7 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
       subtaskInput.value = '';
     }
   });
-  
   subtasksList?.addEventListener('click', e => {
     if (e.target?.matches('img[alt="Delete"]')) {
       e.target.closest('.subtask-item')?.remove();

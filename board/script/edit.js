@@ -1,53 +1,56 @@
+/**
+ * Toggles the visibility of the floating modal with ID 'toggleModalFloating'.
+ */
 function toggleModalfloating() {
-    let modal = document.getElementById('toggleModalFloating');
-    if (modal.style.display === 'block') {
-      modal.style.display = 'none';
-    } else {
-      modal.style.display = 'block';
-    }
-  }
-  
+  const modal = document.getElementById('toggleModalFloating');
+  modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+}
+
+/**
+ * Toggles the visibility of the edit modal with ID 'taskModalEdit'.
+ */
+function toggleModalEdit() {
+  const modal = document.getElementById('taskModalEdit');
+  modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+}
+
+/**
+ * Initializes modal functionality after DOM content is loaded.
+ * Sets up event listeners for modal interactions.
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("taskModalEdit");
+  const modalContent = document.querySelector(".main-section-floating-edit");
+
+  /**
+   * Toggles the display state of the edit modal.
+   */
   function toggleModalEdit() {
-    let modal = document.getElementById('taskModalEdit');
-    if (modal.style.display === 'block') {
-      modal.style.display = 'none';
-    } else {
-      modal.style.display = 'block';
-    }
+    modal.style.display = modal.style.display === "block" ? "none" : "block";
   }
-  
-  document.addEventListener("DOMContentLoaded", function () {
-    let modal = document.getElementById("taskModalEdit");
-    let modalContent = document.querySelector(".main-section-floating-edit");
-  
-    function toggleModalEdit() {
-      if (modal.style.display === "block") {
-        modal.style.display = "none";
-      } else {
-        modal.style.display = "block";
-      }
+
+  /**
+   * Closes the edit modal by setting its display to 'none'.
+   */
+  function closeModalEdit() {
+    modal.style.display = "none";
+  }
+
+  modal.addEventListener("click", event => {
+    if (event.target === modal) {
+      closeModalEdit();
     }
-  
-    function closeModalEdit() {
-      modal.style.display = "none";
-    }
-  
-    modal.addEventListener("click", function (event) {
-      if (event.target === modal) {
-        closeModalEdit();
-      }
-    });
-  
-    modalContent.addEventListener("click", function (event) {
-      event.stopPropagation();
-    });
-  
-    document.querySelectorAll(".close-modal-btn").forEach(button => {
-      button.addEventListener("click", closeModalEdit);
-    });
-  
-    document.querySelectorAll(".open-modal-btn").forEach(button => {
-      button.addEventListener("click", toggleModalEdit);
-    });
   });
-  
+
+  modalContent.addEventListener("click", event => {
+    event.stopPropagation();
+  });
+
+  document.querySelectorAll(".close-modal-btn").forEach(button => {
+    button.addEventListener("click", closeModalEdit);
+  });
+
+  document.querySelectorAll(".open-modal-btn").forEach(button => {
+    button.addEventListener("click", toggleModalEdit);
+  });
+});

@@ -1,8 +1,7 @@
-// Start: Warten, bis der DOM geladen ist
 document.addEventListener("DOMContentLoaded", initTaskForm);
 
 /**
- * Initialisiert alle Teilbereiche des Task-Formulars.
+ * Initializes all components and logic of the task form.
  */
 function initTaskForm() {
   bindCreateButton();
@@ -14,10 +13,8 @@ function initTaskForm() {
   validateForm();
 }
 
-/* --------------------- BUTTON BINDINGS --------------------- */
-
 /**
- * Bindet den Create-Button neu, um doppelte Listener zu vermeiden.
+ * Binds the "Create Task" button and avoids duplicate event listeners.
  */
 function bindCreateButton() {
   const btn = getUniqueCreateButton();
@@ -26,8 +23,8 @@ function bindCreateButton() {
 }
 
 /**
- * Sucht den aktuellen Create-Button, klont ihn und ersetzt den alten.
- * @returns {HTMLElement|null} Den neuen Button oder null, falls nicht gefunden.
+ * Finds the current Create button, clones it, and replaces the old one.
+ * @returns {HTMLElement|null} The new button or null if not found.
  */
 function getUniqueCreateButton() {
   const oldBtn = document.querySelector(".create-btn");
@@ -38,7 +35,8 @@ function getUniqueCreateButton() {
 }
 
 /**
- * Event-Handler, der beim Klick auf den Create-Button ausgeführt wird.
+ * Event handler executed when the Create button is clicked.
+ * @param {Event} e - The event object.
  */
 async function createTaskHandler(e) {
   const btn = e.currentTarget;
@@ -53,10 +51,8 @@ async function createTaskHandler(e) {
   }
 }
 
-/* --------------------- INPUT VALIDATION --------------------- */
-
 /**
- * Bindet alle relevanten Input-Elemente an die Validierungsfunktion.
+ * Binds all relevant input elements to the validation function.
  */
 function bindInputValidation() {
   const selectors = [
@@ -71,8 +67,8 @@ function bindInputValidation() {
 }
 
 /**
- * Hängt an das Element, das per Selector gefunden wird, einen Event-Listener an.
- * @param {string} selector - Der CSS-Selektor.
+ * Adds an event listener to the element found by the selector.
+ * @param {string} selector - The CSS selector.
  */
 function addValidationListener(selector) {
   const element = document.querySelector(selector);
@@ -82,10 +78,8 @@ function addValidationListener(selector) {
   }
 }
 
-/* --------------------- MUTATION OBSERVER --------------------- */
-
 /**
- * Beobachtet Änderungen im Container der zugewiesenen Profile.
+ * Observes changes in the assigned profiles container.
  */
 function observeAssignedProfiles() {
   const container = document.querySelector(".assigned-to-profiles-container");
@@ -95,10 +89,8 @@ function observeAssignedProfiles() {
   }
 }
 
-/* --------------------- PRIORITY SELECTION --------------------- */
-
 /**
- * Bindet Klick-Events an die einzelnen Prioritätsoptionen.
+ * Binds click events to the priority options.
  */
 function bindPrioritySelection() {
   const options = document.querySelectorAll(".priority-container div");
@@ -112,17 +104,15 @@ function bindPrioritySelection() {
 }
 
 /**
- * Entfernt die Klasse 'active' von allen Optionen.
- * @param {NodeList} options - Die Liste der Prioritätsoptionen.
+ * Removes the 'active' class from all options.
+ * @param {NodeList} options - The list of priority options.
  */
 function removeActiveClass(options) {
   options.forEach(o => o.classList.remove("active"));
 }
 
-/* --------------------- CATEGORY SELECTION --------------------- */
-
 /**
- * Bindet Klick-Events an die Kategorie-Items und synchronisiert die Auswahl.
+ * Binds click events to category items and synchronizes the selection.
  */
 function bindCategorySelection() {
   const categoryItems = document.querySelectorAll('.category-item');
@@ -132,9 +122,9 @@ function bindCategorySelection() {
 }
 
 /**
- * Behandelt die Auswahl eines Kategorie-Items.
- * @param {NodeList} items - Alle Kategorie-Items.
- * @param {HTMLElement} item - Das geklickte Element.
+ * Handles the selection of a category item.
+ * @param {NodeList} items - All category items.
+ * @param {HTMLElement} item - The clicked element.
  */
 function handleCategorySelection(items, item) {
   items.forEach(i => i.classList.remove('selected'));
@@ -145,8 +135,8 @@ function handleCategorySelection(items, item) {
 }
 
 /**
- * Aktualisiert den angezeigten Kategorie-Text.
- * @param {HTMLElement} item - Das ausgewählte Element.
+ * Updates the displayed category text.
+ * @param {HTMLElement} item - The selected element.
  */
 function updateCategoryText(item) {
   const categoryDisplay = document.querySelector('.category-selected');
@@ -154,18 +144,16 @@ function updateCategoryText(item) {
 }
 
 /**
- * Setzt den Wert des versteckten Select-Elements.
- * @param {HTMLElement} item - Das ausgewählte Element.
+ * Sets the value of the hidden select element.
+ * @param {HTMLElement} item - The selected element.
  */
 function updateCategorySelect(item) {
   const select = document.querySelector(".select-task");
   if (select) select.value = item.getAttribute("data-value");
 }
 
-/* --------------------- SUBTASK MANAGEMENT --------------------- */
-
 /**
- * Bindet die Funktionen zum Hinzufügen und Löschen von Subtasks.
+ * Binds functions for adding and deleting subtasks.
  */
 function bindSubtaskManagement() {
   const subtaskInput = document.querySelector(".subtask");
@@ -179,9 +167,9 @@ function bindSubtaskManagement() {
 }
 
 /**
- * Verarbeitet das Hinzufügen einer neuen Subtask.
- * @param {HTMLElement} subtaskInput - Das Input-Feld für Subtasks.
- * @param {HTMLElement} container - Der Container, in den die Subtask eingefügt wird.
+ * Handles adding a new subtask.
+ * @param {HTMLElement} subtaskInput - The input field for subtasks.
+ * @param {HTMLElement} container - The container where the subtask is added.
  */
 function handleAddSubtask(subtaskInput, container) {
   const text = subtaskInput.value.trim();
@@ -194,9 +182,9 @@ function handleAddSubtask(subtaskInput, container) {
 }
 
 /**
- * Erzeugt ein neues Subtask-Element.
- * @param {string} text - Der Subtask-Text.
- * @returns {HTMLElement} Das neu erzeugte Subtask-Element.
+ * Creates a new subtask element.
+ * @param {string} text - The subtask text.
+ * @returns {HTMLElement} The newly created subtask element.
  */
 function createSubtaskItem(text) {
   const newItem = document.createElement("div");
@@ -209,8 +197,8 @@ function createSubtaskItem(text) {
 }
 
 /**
- * Event-Handler zum Löschen einer Subtask.
- * @param {Event} e - Das Eventobjekt.
+ * Event handler for deleting a subtask.
+ * @param {Event} e - The event object.
  */
 function handleSubtaskDeletion(e) {
   if (e.target.classList.contains("delete-icon")) {
@@ -219,10 +207,8 @@ function handleSubtaskDeletion(e) {
   }
 }
 
-/* --------------------- FIREBASE FUNCTIONS --------------------- */
-
 /**
- * Sendet die Task-Daten an Firebase.
+ * Sends task data to Firebase.
  */
 async function addTaskToFirebase() {
   const firebaseURL = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
@@ -248,8 +234,8 @@ async function addTaskToFirebase() {
 }
 
 /**
- * Stellt das Task-Datenobjekt zusammen.
- * @returns {Object} Das Task-Datenobjekt.
+ * Constructs the task data object.
+ * @returns {Object} The task data object.
  */
 function getTaskData() {
   return {
@@ -267,9 +253,9 @@ function getTaskData() {
 }
 
 /**
- * Aktualisiert in Firebase den Task mit der eigenen ID.
- * @param {string} url - Die Firebase URL.
- * @param {string} firebaseId - Die von Firebase zurückgegebene ID.
+ * Updates the task in Firebase with its own ID.
+ * @param {string} url - The Firebase URL.
+ * @param {string} firebaseId - The ID returned by Firebase.
  */
 async function updateFirebaseTaskId(url, firebaseId) {
   const updateURL = url.replace(".json", `/${firebaseId}/id.json`);
@@ -279,29 +265,27 @@ async function updateFirebaseTaskId(url, firebaseId) {
   });
 }
 
-/* --------------------- UTILITY FUNCTIONS --------------------- */
-
 /**
- * Gibt den getrimmten Wert eines Input-Feldes zurück.
- * @param {string} selector - Der CSS-Selektor des Input-Feldes.
- * @param {string} [fallback=""] - Ein Fallback-Wert, falls nichts gefunden wird.
- * @returns {string} Der Wert des Input-Feldes.
+ * Gets the trimmed value of an input field.
+ * @param {string} selector - The CSS selector of the input field.
+ * @param {string} [fallback=""] - A fallback value if nothing is found.
+ * @returns {string} The value of the input field.
  */
 function getInputValue(selector, fallback = "") {
   return document.querySelector(selector)?.value.trim() || fallback;
 }
 
 /**
- * Liest die aktuell ausgewählte Priorität aus.
- * @returns {string} Den Prioritätswert oder 'low' als Standard.
+ * Reads the currently selected priority.
+ * @returns {string} The priority value or 'low' as default.
  */
 function getSelectedPriority() {
   return document.querySelector(".priority-container .active")?.dataset.priority || "low";
 }
 
 /**
- * Ermittelt die ausgewählten Benutzer.
- * @returns {Array} Array von Objekten mit Benutzernamen.
+ * Retrieves the selected users.
+ * @returns {Array} Array of objects with user names.
  */
 function getSelectedUsers() {
   return [...document.querySelectorAll(".assigned-to-profiles-container div")]
@@ -309,8 +293,8 @@ function getSelectedUsers() {
 }
 
 /**
- * Liest alle vorhandenen Subtasks aus.
- * @returns {Array} Array von Subtask-Objekten.
+ * Reads all existing subtasks.
+ * @returns {Array} Array of subtask objects.
  */
 function getSubtasks() {
   return [...document.querySelectorAll(".subtasks-scroll-container .subtask-item span")].map(span => ({
@@ -320,8 +304,8 @@ function getSubtasks() {
 }
 
 /**
- * Ermittelt die aktuell ausgewählte Kategorie.
- * @returns {string} Der Wert der ausgewählten Kategorie oder ein Standardwert.
+ * Retrieves the currently selected category.
+ * @returns {string} The value of the selected category or a default value.
  */
 function getSelectedCategory() {
   const activeItem = document.querySelector(".category-item.selected");
@@ -329,7 +313,7 @@ function getSelectedCategory() {
 }
 
 /**
- * Löscht alle Eingaben und entfernt ausgewählte Elemente.
+ * Clears all inputs and removes selected elements.
  */
 function clearForm() {
   [".input", ".description", ".date-input", ".select-task", ".subtask"].forEach(sel => {
@@ -342,7 +326,7 @@ function clearForm() {
 }
 
 /**
- * Schließt das Task-Modal.
+ * Closes the task modal.
  */
 function closeModal() {
   const modal = document.getElementById("taskModal");
@@ -350,8 +334,8 @@ function closeModal() {
 }
 
 /**
- * Validiert das Formular und passt den Status des Create-Buttons an.
- * @returns {boolean} true, wenn das Formular gültig ist, ansonsten false.
+ * Validates the form and adjusts the status of the Create button.
+ * @returns {boolean} true if the form is valid, otherwise false.
  */
 function validateForm() {
   const title = getInputValue(".input");
