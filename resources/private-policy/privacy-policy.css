@@ -54,6 +54,12 @@ a{
     border-radius: 50%;
 }
 
+.footer-navigation-external a{
+    height: 60px;
+    border-radius: 50%;
+    /* flex-direction: row; */
+}
+
 h1 {
     font-size: 61px;
     font-weight: 700;
@@ -456,3 +462,5 @@ main {
 .last-paragraph{
   padding-bottom:32px;
 }
+
+

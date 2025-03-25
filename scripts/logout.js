@@ -53,7 +53,7 @@ function setupDropdownLinks(menu) {
     const newLink = replaceElementWithClone(link);
     newLink.addEventListener('click', function(event) {
       event.stopPropagation();
-      if (newLink.href.includes('../login-signup/login.html')) {
+      if (newLink.href.includes('./login-signup/login.html')) {
         handleLogout(event, newLink.href);
       }
     });

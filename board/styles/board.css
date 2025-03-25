@@ -474,3 +474,10 @@ h6 {
 
     }
 }
+
+
+.board-bar{
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
