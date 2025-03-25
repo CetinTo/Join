@@ -22,7 +22,7 @@ main {
     margin: 20px auto;
     background: #f6f7f9;
     padding: 20px;
-    overflow: visible !important; /* Sicherstellen, dass Inhalte nicht abgeschnitten werden */
+    /* overflow: visible !important; Sicherstellen, dass Inhalte nicht abgeschnitten werden */
     padding-top: 0; /* Kein Padding oben, damit der Abstand nur durch h1 margin bestimmt wird */
   
 }
@@ -37,8 +37,8 @@ main p {
 
 section {
     flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden; 
+    /* overflow-y: auto; */
+    /* overflow-x: hidden;  */
 
 }
 
@@ -64,7 +64,7 @@ h1 {
     font-size: 61px;
     font-weight: 700;
     color: black;
-    margin-top: 100px !important; /* Abstand von 100px zum Header */
+    /* margin-top: 100px !important; Abstand von 100px zum Header */
     margin-bottom: 20px;
     padding-top: 0; /* Kein zusätzliches Padding */
     line-height: 1.2;
@@ -183,11 +183,11 @@ p1{
     display: none; /* Seitenmenü auf mobil ausblenden */
   }
 
-  .header-and-main-container {
+  /* .header-and-main-container {
     width: 100%;
     height: auto;
     min-height: 100vh;
-  }
+  } */
 
   /* Header-Anpassungen */
   .header {
@@ -439,6 +439,15 @@ p1{
   h1 {
     margin-top: 100px !important;
   }
+
+  .main-container-privacy {
+    margin-top:86px !important;
+    height:100vh !important;
+  }
+
+  .help-container{
+    justify-content: center;
+  }
 }
 
 /* Header fixieren */
@@ -455,7 +464,7 @@ main {
   display: flex;
   flex-direction: column;
   padding: 0 10px;
-  overflow: visible; /* Verhindert, dass h1 abgeschnitten wird */
+  /* overflow: visible; Verhindert, dass h1 abgeschnitten wird */
 }
 
 
@@ -464,3 +473,36 @@ main {
 }
 
 
+.main-container-privacy{
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+}
+
+@media (max-width: 650px) {
+  .main-container-privacy {
+    box-sizing: border-box;
+    overflow-y: scroll;
+    margin-top:86px !important;
+  
+  }
+
+  
+}
+
+@media (max-width: 780px) {
+  .main-container-privacy {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh;
+    padding-bottom: 500px; /* falls mobile-nav-bar überlappt */
+  }
+
+  section {
+    overflow-y: visible !important;
+  }
+
+  main {
+    overflow: visible !important;
+  }
+}

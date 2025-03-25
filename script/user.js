@@ -36,20 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 3. If user is guest, disable restricted links
-    if (currentUser.isGuest) {
-      disableRestrictedLinks();
-    }
+    // 👇 Einschränkungen für Gäste entfernt
+    // if (currentUser.isGuest) {
+    //   disableRestrictedLinks();
+    // }
   }
 
   // ... rest of your existing code ...
 });
 
+
 /**
  * Disables links that a guest user should not click
+ * (Aktuell nicht verwendet, da Gäste Zugriff haben sollen)
  */
 function disableRestrictedLinks() {
-  // 1) Disable links in side menus (desktop + responsive):
   const restrictedHrefs = [
     './add-task/addtask.html',
     './board/board.html',
@@ -57,7 +58,6 @@ function disableRestrictedLinks() {
   ];
 
   restrictedHrefs.forEach((href) => {
-    // Use querySelectorAll so we disable *all* matching links:
     const links = document.querySelectorAll(`a[href="${href}"]`);
     links.forEach(link => {
       link.removeAttribute('href');
@@ -67,7 +67,6 @@ function disableRestrictedLinks() {
     });
   });
 
-  // 2) Disable "Board" divs with onclick="goToBoard()" in your summary area
   const boardDivs = document.querySelectorAll('[onclick="goToBoard()"]');
   boardDivs.forEach((div) => {
     div.removeAttribute('onclick');
@@ -76,8 +75,6 @@ function disableRestrictedLinks() {
     div.addEventListener('click', (e) => e.preventDefault());
   });
 }
-
-
 
 
 /**
