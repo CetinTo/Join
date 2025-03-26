@@ -14,16 +14,10 @@ function setupModalButton(addButtonId, modalId) {
 }
 
 /**
-<<<<<<< HEAD
  * Fügt einen globalen Event-Listener hinzu, der das Schließen des Modals ermöglicht,
  * wenn außerhalb des Modals geklickt wird.
  *
  * @param {string} modalId - Die ID des Modals, das geschlossen werden soll.
-=======
- * Adds a global event listener to close the modal
- * when clicking outside of it.
- * @param {string} modalId - The ID of the modal to be closed.
->>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
  */
 function setupModalClose(modalId) {
   const modal = document.getElementById(modalId);
@@ -37,13 +31,8 @@ function setupModalClose(modalId) {
 }
 
 /**
-<<<<<<< HEAD
  * Schaltet die Anzeige des Modals um.
  * Wird global als window.toggleModal zur Verfügung gestellt.
-=======
- * Toggles the display state of the modal with ID 'taskModal'.
- * Registered globally as window.toggleModal.
->>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
  */
 function toggleModal() {
   const modal = document.getElementById('taskModal');
@@ -53,13 +42,8 @@ function toggleModal() {
 }
 
 /**
-<<<<<<< HEAD
  * Initialisiert das Account-Dropdown, sodass beim Klick
  * auf den Account-Button das Dropdown-Menü angezeigt bzw. versteckt wird.
-=======
- * Initializes the account dropdown behavior.
- * Shows/hides dropdown on button click and closes it when clicking outside.
->>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
  */
 function setupAccountDropdown() {
   const accountButton = document.querySelector('.account');
@@ -79,7 +63,6 @@ function setupAccountDropdown() {
 }
 
 /**
-<<<<<<< HEAD
  * Ermöglicht die Weiterleitung zur Add-Task-Seite auf mobilen Geräten
  */
 function setupMobileAddTaskRedirect() {
@@ -103,18 +86,11 @@ function setupMobileAddTaskRedirect() {
 // Initialisierung, sobald der DOM geladen ist
 document.addEventListener("DOMContentLoaded", () => {
   // Modal-Buttons initialisieren
-=======
- * Initializes modal buttons, modal close logic, account dropdown,
- * and registers global modal toggle after DOM is loaded.
- */
-document.addEventListener("DOMContentLoaded", () => {
->>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
   setupModalButton('addTaskButtonTodo', 'taskModal');
   setupModalButton('addTaskButtonInProgress', 'taskModal');
   setupModalButton('addTaskButtonAwaitFeedback', 'taskModal');
   setupModalButton('addTaskButton', 'taskModal');
 
-<<<<<<< HEAD
   // Mobile Weiterleitung einrichten
   setupMobileAddTaskRedirect();
 
@@ -127,10 +103,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // Globale Funktion toggleModal verfügbar machen
   window.toggleModal = toggleModal;
 });
-=======
-  setupModalClose('taskModal');
-  setupAccountDropdown();
-
-  window.toggleModal = toggleModal;
-});
->>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1

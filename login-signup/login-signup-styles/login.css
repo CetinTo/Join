@@ -413,6 +413,11 @@ footer a:hover{
 }
 
 @media (max-width: 500px) {
+
+  .legal-modal-footer a{
+    font-size: 12px;
+  }
+
   .login-modal {
       width: 90%; 
   }
