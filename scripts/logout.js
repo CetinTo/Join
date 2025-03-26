@@ -1,5 +1,6 @@
 /**
  * Initializes the logout and dropdown functionality for the account button.
+ * Replaces event listeners, sets up toggling, and logout behavior.
  */
 function initializeLogout() {
   const accountBtn = document.querySelector('.account');
@@ -20,7 +21,7 @@ function initializeLogout() {
 /**
  * Replaces a DOM element with its clone to remove all existing event listeners.
  * @param {HTMLElement} element - The element to be cloned and replaced.
- * @returns {HTMLElement} - The new cloned element.
+ * @returns {HTMLElement} The new cloned element without any attached listeners.
  */
 function replaceElementWithClone(element) {
   const clone = element.cloneNode(true);
@@ -29,7 +30,7 @@ function replaceElementWithClone(element) {
 }
 
 /**
- * Adds a click event listener to toggle the dropdown menu.
+ * Adds a click event listener to toggle the visibility of the dropdown menu.
  * @param {HTMLElement} button - The account button.
  * @param {HTMLElement} menu - The dropdown menu.
  */
@@ -43,9 +44,9 @@ function setupDropdownToggle(button, menu) {
 }
 
 /**
- * Adds click event listeners to each link inside the dropdown menu.
- * Handles logout when the link points to 'login.html'.
- * @param {HTMLElement} menu - The dropdown menu.
+ * Adds click event listeners to links inside the dropdown menu.
+ * Specifically handles logout when the link points to the login page.
+ * @param {HTMLElement} menu - The dropdown menu containing links.
  */
 function setupDropdownLinks(menu) {
   const links = menu.querySelectorAll('a');
@@ -53,7 +54,7 @@ function setupDropdownLinks(menu) {
     const newLink = replaceElementWithClone(link);
     newLink.addEventListener('click', function(event) {
       event.stopPropagation();
-      if (newLink.href.includes('../login-signup/login.html')) {
+      if (newLink.href.includes('http://join-419.developerakademie.net/join/login-signup/login.html')) {
         handleLogout(event, newLink.href);
       }
     });
@@ -61,8 +62,9 @@ function setupDropdownLinks(menu) {
 }
 
 /**
- * Handles the logout process by clearing localStorage and redirecting.
- * @param {MouseEvent} event - The click event.
+ * Handles the logout process by clearing relevant localStorage keys
+ * and redirecting to the provided login URL.
+ * @param {MouseEvent} event - The click event triggering logout.
  * @param {string} redirectUrl - The URL to redirect to after logout.
  */
 function handleLogout(event, redirectUrl) {
@@ -75,7 +77,8 @@ function handleLogout(event, redirectUrl) {
 }
 
 /**
- * Closes the dropdown menu when clicking outside of it or the button.
+ * Adds an event listener to close the dropdown menu
+ * when clicking outside of the menu or account button.
  * @param {HTMLElement} button - The account button.
  * @param {HTMLElement} menu - The dropdown menu.
  */

@@ -26,10 +26,21 @@ body {
   flex-direction: column;
 }
 
+<<<<<<< HEAD
 /* JOIN Logo in der Seitenleiste */
 .sidebar-logo {
   width: 100px;
   margin: 66px auto 100px;
+=======
+main {
+    max-width: 90%;
+    margin: 20px auto;
+    background: #f6f7f9;
+    padding: 20px;
+    /* overflow: visible !important; Sicherstellen, dass Inhalte nicht abgeschnitten werden */
+    padding-top: 0; /* Kein Padding oben, damit der Abstand nur durch h1 margin bestimmt wird */
+  
+>>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
 }
 
 /* Footer-Links in der Seitenleiste */
@@ -38,12 +49,20 @@ body {
   margin-bottom: 100px;
 }
 
+<<<<<<< HEAD
 .sidebar-footer-link {
   display: block;
   padding: 10px 20px;
   color: white;
   text-decoration: none;
   font-size: 16px;
+=======
+section {
+    flex: 1;
+    /* overflow-y: auto; */
+    /* overflow-x: hidden;  */
+
+>>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
 }
 
 .sidebar-footer-link.active {
@@ -62,11 +81,29 @@ body {
   flex-direction: column;
 }
 
+<<<<<<< HEAD
 /* Scrollbarer Textbereich */
 .text-content {
   padding: 40px;
   overflow-y: auto;
   flex: 1;
+=======
+.footer-navigation-external a{
+    height: 60px;
+    border-radius: 50%;
+    /* flex-direction: row; */
+}
+
+h1 {
+    font-size: 61px;
+    font-weight: 700;
+    color: black;
+    /* margin-top: 100px !important; Abstand von 100px zum Header */
+    margin-bottom: 20px;
+    padding-top: 0; /* Kein zusätzliches Padding */
+    line-height: 1.2;
+    clear: both;
+>>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
 }
 
 /* Scrollbar-Stil */
@@ -131,6 +168,7 @@ body {
   cursor: pointer;
 }
 
+<<<<<<< HEAD
 /* JOIN Logo rechts */
 .join-logo-right {
   position: absolute;
@@ -139,6 +177,76 @@ body {
   width: auto;
   height: 40px;
   display: none;  /* Logo immer ausgeblendet */
+=======
+/* Responsive Design für mobile Geräte */
+@media (max-width: 768px) {
+  .side-menu {
+    display: none; /* Seitenmenü auf mobil ausblenden */
+  }
+
+  /* .header-and-main-container {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+  } */
+
+  /* Header-Anpassungen */
+  .header {
+    width: 100%;
+    padding: 0;
+  }
+
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+  }
+
+  .main-header > div:first-child {
+    font-size: 16px;
+  }
+
+  /* Logo und Titel anpassen */
+  .logo-container-side-menu-responsive {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-right-side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .account {
+    width: 48px;
+    height: 48px;
+  }
+
+  .help-container {
+    padding: 0 20px;
+    margin-bottom: 20px;
+  }
+
+  .help-container h1 {
+    font-size: 36px;
+  }
+
+  main {
+    max-width: 100%;
+    padding: 10px 20px;
+    margin: 0;
+  }
+
+  p, h2, h3 {
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+>>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
 }
 
 /* Überschriften und Text */
@@ -186,6 +294,15 @@ p, li {
   .join-logo-right {
     display: none; /* Unter 300px ausblenden */
   }
+
+  .main-container-privacy {
+    margin-top:86px !important;
+    height:100vh !important;
+  }
+
+  .help-container{
+    justify-content: center;
+  }
 }
 
 /* Media Query für Tablets/Mobile */
@@ -226,6 +343,7 @@ section {
 }
 
 main {
+<<<<<<< HEAD
   padding-bottom: 50px; /* Etwas Abstand am Ende */
 }
 
@@ -234,3 +352,50 @@ main {
   padding-top: 100px; /* Mehr Platz zwischen Header und Überschrift */
   margin-bottom: 30px;
 }
+=======
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  /* overflow: visible; Verhindert, dass h1 abgeschnitten wird */
+}
+
+
+.last-paragraph{
+  padding-bottom:32px;
+}
+
+
+.main-container-privacy{
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+}
+
+@media (max-width: 650px) {
+  .main-container-privacy {
+    box-sizing: border-box;
+    overflow-y: scroll;
+    margin-top:86px !important;
+  
+  }
+
+  
+}
+
+@media (max-width: 780px) {
+  .main-container-privacy {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh;
+    padding-bottom: 500px; /* falls mobile-nav-bar überlappt */
+  }
+
+  section {
+    overflow-y: visible !important;
+  }
+
+  main {
+    overflow: visible !important;
+  }
+}
+>>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1

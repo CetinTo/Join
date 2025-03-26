@@ -1,28 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. If there's a "Guest Log in" button, attach a listener
+  /**
+   * Attaches click listener to guest login button if it exists.
+   * Sets guest user data in localStorage and redirects to index.
+   */
   const guestBtn = document.querySelector('.guest-btn');
   if (guestBtn) {
     guestBtn.addEventListener('click', (event) => {
       event.preventDefault();
 
-      // Mark user as guest in localStorage
       localStorage.setItem('currentUser', JSON.stringify({
         name: 'Guest',
         isGuest: true
       }));
 
-      // Go to index.html
-      window.location.href = '../index.html'; 
-      // or './index.html' depending on your folder structure
+      window.location.href = '../index.html';
     });
   }
 
-  // 2. Load current user from localStorage
+  /**
+   * Loads current user from localStorage and updates UI accordingly.
+   */
   const currentUserData = localStorage.getItem('currentUser');
   if (currentUserData) {
     const currentUser = JSON.parse(currentUserData);
 
-    // --- Existing code to show name, initials, etc. ---
     const nameSpan = document.querySelector('.username-span');
     if (nameSpan) {
       nameSpan.textContent = currentUser.name;
@@ -36,20 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 3. If user is guest, disable restricted links
-    if (currentUser.isGuest) {
-      disableRestrictedLinks();
-    }
+    // Guest restrictions (currently not applied)
+    // if (currentUser.isGuest) {
+    //   disableRestrictedLinks();
+    // }
   }
-
-  // ... rest of your existing code ...
 });
 
+
 /**
- * Disables links that a guest user should not click
+ * Disables access to restricted links for guest users.
+ * Currently not in use.
  */
 function disableRestrictedLinks() {
-  // 1) Disable links in side menus (desktop + responsive):
   const restrictedHrefs = [
     './add-task/addtask.html',
     './board/board.html',
@@ -57,7 +57,6 @@ function disableRestrictedLinks() {
   ];
 
   restrictedHrefs.forEach((href) => {
-    // Use querySelectorAll so we disable *all* matching links:
     const links = document.querySelectorAll(`a[href="${href}"]`);
     links.forEach(link => {
       link.removeAttribute('href');
@@ -67,7 +66,6 @@ function disableRestrictedLinks() {
     });
   });
 
-  // 2) Disable "Board" divs with onclick="goToBoard()" in your summary area
   const boardDivs = document.querySelectorAll('[onclick="goToBoard()"]');
   boardDivs.forEach((div) => {
     div.removeAttribute('onclick');
@@ -78,10 +76,10 @@ function disableRestrictedLinks() {
 }
 
 
-
-
 /**
- * Generates initials from a user's full name.
+ * Returns the initials of a given full name.
+ * @param {string} name - The full name of the user.
+ * @returns {string} The initials in uppercase.
  */
 function getInitials(name) {
   const parts = name.trim().split(/\s+/);

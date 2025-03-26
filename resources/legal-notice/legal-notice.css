@@ -95,6 +95,58 @@ body {
   right: 0;
   height: 80px;
   background-color: white;
+<<<<<<< HEAD
+=======
+  /* display: block; */
+  width: 100%;
+}
+
+small{
+  padding-bottom:32px;
+}
+
+@media (max-width: 925px) and (min-width: 300px) {
+  section {
+    /* overflow-y: scroll; */
+  }
+  
+  section::-webkit-scrollbar {
+    width: 8px;
+    display: block;
+  }
+  
+  section::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  section::-webkit-scrollbar-thumb {
+    background-color: #28abe2;
+    border-radius: 10px;
+    border: 2px solid #f1f1f1;
+  }
+  
+  section {
+    scrollbar-width: thin;
+    scrollbar-color: #28abe2 #f1f1f1;
+  }
+}
+
+@media (max-width: 299px) {
+  section {
+    /* overflow-y: auto; */
+  }
+  
+  section::-webkit-scrollbar {
+    display: none;
+  }
+  
+  section {
+    scrollbar-width: none;
+  }
+}
+
+.help-container {
+>>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -138,11 +190,103 @@ body {
   cursor: pointer;
 }
 
+<<<<<<< HEAD
 /* JOIN Logo rechts */
 .join-logo-right {
   position: absolute;
   right: 0;
   top: 80px;
+=======
+@media (max-width: 768px) {
+  .side-menu {
+    display: none;
+  }
+
+  .header-and-main-container {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+
+  }
+
+  .header {
+    width: 100%;
+    padding: 0;
+  }
+
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+  }
+
+  .main-header > div:first-child {
+    font-size: 16px;
+  }
+
+  .logo-container-side-menu-responsive {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-right-side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-header {
+    padding: 8px 12px;
+  }
+
+  .main-header > div:first-child {
+    font-size: 14px;
+  }
+
+  .help-container {
+    padding: 0 12px;
+  }
+
+  .help-container h1 {
+    font-size: 24px;
+  }
+
+  h1 {
+    margin-top: 100px !important;
+  }
+}
+
+@media (max-width: 320px) {
+  .main-header > div:first-child {
+    font-size: 12px;
+  }
+
+  .help-container h1 {
+    font-size: 20px;
+  }
+
+  h1 {
+    margin-top: 100px !important;
+  }
+}
+
+@media (max-width: 925px) {
+  .main-header > div:first-child {
+    display: none;
+  }
+
+  h1 {
+    margin-top: 100px !important;
+  }
+}
+
+.header-logo {
+  display: none;
+  height: 32px;
+>>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
   width: auto;
   height: 40px;
   display: none;  /* Logo immer ausgeblendet */
@@ -200,8 +344,17 @@ p, li {
   .main-header > div:first-child {
     display: none; /* Zwischen 925px und 300px ausblenden */
   }
+
+  .main-container{
+    margin-top:86px;
+  }
+
+  .help-container{
+    justify-content:center;
+  }
 }
 
+<<<<<<< HEAD
 /* Hauptinhalt scrollbar machen */
 .header-and-main-container {
   width: 100%;
@@ -230,3 +383,18 @@ main {
   margin-bottom: 30px;
 }
 
+=======
+@media (max-width:300px){
+  .main-container{
+    margin-top:0;
+    margin-bottom:86px;
+}
+}
+
+.main-container{
+  overflow-x: hidden;
+  height:100vh;
+  overflow-y: auto;
+  /* margin-top:86px; */
+}
+>>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1

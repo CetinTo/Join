@@ -10,19 +10,13 @@ function initAddModalInteractions() {
   const closeBtn = document.querySelector(".close-modal-button");
   const clearBtn = document.querySelector(".clear-btn");
 
-  // Statt openModal() nun openAddModal()
   openBtn.addEventListener("click", openAddModal);
-
-  // Statt closeModal() nun closeAddModal()
   closeBtn.addEventListener("click", closeAddModal);
   clearBtn.addEventListener("click", closeAddModal);
-
-  // Overlay-Klick schließt Add-Modal
   modal.addEventListener("click", handleAddModalOverlayClick);
 
   createBtn.addEventListener("click", async function (e) {
     e.preventDefault();
-    // saveContactToFirebase() bleibt gleich
     const success = await saveContactToFirebase();
     if (success) closeAddModal();
   });
@@ -63,9 +57,6 @@ function handleAddModalOverlayClick(e) {
 
 /**
  * Generates a profile badge class based on the user's name.
- * (Du kannst den Namen gern beibehalten oder ebenfalls umbenennen,
- * solange du nicht auch in contacts.js dieselbe Funktion hast.)
- *
  * @param {string} name - The name to hash.
  * @returns {string} The corresponding badge class.
  */
@@ -103,8 +94,8 @@ function showSuccessPopup() {
 }
 
 /**
- * Saves a new contact to Firebase.
- * @returns {Promise<boolean>} True if successful.
+ * Saves a new contact to Firebase and updates the contact list.
+ * @returns {Promise<boolean>} True if the save was successful, false otherwise.
  */
 async function saveContactToFirebase() {
   const { name, email, phone } = getContactFormValues();
@@ -114,7 +105,6 @@ async function saveContactToFirebase() {
     await postContactToFirebase({ name, email, phone });
     showSuccessPopup();
     clearContactInputs();
-    // Ruft loadContactsFromFirebase() aus contacts.js auf
     loadContactsFromFirebase();
     return true;
   } catch (error) {
@@ -125,7 +115,7 @@ async function saveContactToFirebase() {
 
 /**
  * Reads and trims contact form inputs.
- * @returns {{ name: string, email: string, phone: string }}
+ * @returns {{ name: string, email: string, phone: string }} The input values.
  */
 function getContactFormValues() {
   const name = document.querySelector("input[placeholder='Name']").value.trim();
@@ -135,11 +125,11 @@ function getContactFormValues() {
 }
 
 /**
- * Checks if contact form inputs are valid.
- * @param {string} name  - Contact name
- * @param {string} email - Contact email
- * @param {string} phone - Contact phone
- * @returns {boolean} Whether inputs are valid
+ * Validates the contact form inputs.
+ * @param {string} name - Contact name.
+ * @param {string} email - Contact email.
+ * @param {string} phone - Contact phone.
+ * @returns {boolean} Whether the inputs are valid.
  */
 function validateContactInputs(name, email, phone) {
   if (!name || !email || !phone) {
@@ -150,8 +140,9 @@ function validateContactInputs(name, email, phone) {
 }
 
 /**
- * Sends a new contact to Firebase (POST).
+ * Sends a new contact to Firebase (HTTP POST request).
  * @param {Object} contact - The new contact data.
+ * @returns {Promise<void>}
  */
 async function postContactToFirebase(contact) {
   const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
@@ -175,18 +166,19 @@ function clearContactInputs() {
 }
 
 /* ---------------------- EDIT MODAL ---------------------- */
+
 document.addEventListener("DOMContentLoaded", initEditModal);
 
 /**
- * Initializes event listeners for the edit modal.
+ * Initializes event listeners for the edit contact modal.
  */
 function initEditModal() {
   const modal = document.querySelector(".modal-overlay-edit");
   const closeBtn = document.querySelector(".close-modal-button-edit");
 
-  closeBtn.addEventListener("click", closeEditModal);
+  closeBtn?.addEventListener("click", closeEditModal);
 
-  modal.addEventListener("click", function (e) {
+  modal?.addEventListener("click", function (e) {
     if (e.target === modal) {
       closeEditModal();
     }
@@ -194,7 +186,7 @@ function initEditModal() {
 }
 
 /**
- * Closes the edit contact modal (unchanged).
+ * Closes the edit contact modal with fade-out animation.
  */
 function closeEditModal() {
   const modal = document.querySelector(".modal-overlay-edit");

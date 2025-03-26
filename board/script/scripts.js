@@ -90,6 +90,5 @@ async function updateTaskColumnInFirebase(taskId, newColumn) {
       throw new Error(`Fehler beim Updaten der Task-Spalte: ${response.statusText}`);
     }
   } catch (error) {
-    // Error handling can be implemented here if needed
   }
 }

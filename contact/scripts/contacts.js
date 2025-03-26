@@ -1,7 +1,6 @@
 /**
  * Returns the initials of a given full name.
  * If the name is empty, returns "--".
- *
  * @param {string} fullName - The full name.
  * @returns {string} The initials in uppercase.
  */
@@ -15,7 +14,6 @@ function getInitials(fullName) {
 
 /**
  * Chooses a CSS class name based on the provided name.
- *
  * @param {string} name - The name used to calculate a color hash.
  * @returns {string} The CSS class name.
  */
@@ -40,7 +38,6 @@ function getColorClass(name) {
 
 /**
  * Loads contacts from Firebase and initiates rendering.
- *
  * @async
  * @returns {Promise<void>}
  */
@@ -65,7 +62,6 @@ async function loadContactsFromFirebase() {
 
 /**
  * Renders the list of contacts grouped by their first letter.
- *
  * @param {Array} contactsArray - Array of [contactId, contact] pairs.
  * @param {Object} contacts - The complete contacts object.
  */
@@ -86,7 +82,6 @@ function renderContacts(contactsArray, contacts) {
 
 /**
  * Creates a DOM element for a new alphabetical row.
- *
  * @param {string} letter - The letter to display.
  * @returns {HTMLElement} The DOM element for the row.
  */
@@ -99,7 +94,6 @@ function createAlphabeticRow(letter) {
 
 /**
  * Creates a DOM element for an individual contact.
- *
  * @param {Object} contact - The contact object.
  * @param {string} contactId - The unique contact ID.
  * @param {Object} contacts - The complete contacts object.
@@ -122,11 +116,8 @@ function createContactElement(contact, contactId, contacts) {
   return div;
 }
 
-/* --------------------- DISPLAY DETAILS --------------------- */
-
 /**
  * Displays the detailed view of a contact.
- *
  * @param {Object} contact - The contact object.
  * @param {string} contactId - The unique contact ID.
  * @param {HTMLElement} selectedElement - The selected DOM element.
@@ -168,7 +159,6 @@ function setContactsBodyDisplay() {
 
 /**
  * Updates the UI state for contact selection.
- *
  * @param {HTMLElement} selectedElement - The element of the selected contact.
  */
 function updateActiveContact(selectedElement) {
@@ -180,7 +170,6 @@ function updateActiveContact(selectedElement) {
 
 /**
  * Builds the HTML for the contact details section.
- *
  * @param {Object} contact - The contact object.
  * @param {string} contactId - The unique contact ID.
  * @returns {string} The HTML string.
@@ -218,11 +207,8 @@ function buildContactDetailsHTML(contact, contactId) {
   `;
 }
 
-/* --------------------- POPUP ACTIONS --------------------- */
-
 /**
  * Sets up the event listeners for the action popup.
- *
  * @param {HTMLElement} detailsSection - The contact details container.
  */
 function setupPopupActions(detailsSection) {
@@ -239,7 +225,6 @@ function setupPopupActions(detailsSection) {
 
 /**
  * Attaches event listeners for the edit and delete actions.
- *
  * @param {HTMLElement} actionPopup - The popup container.
  */
 function setupEditDeleteListeners(actionPopup) {
@@ -263,7 +248,6 @@ function setupEditDeleteListeners(actionPopup) {
 
 /**
  * Closes the popup if clicked outside.
- *
  * @param {HTMLElement} actionButton - The button that toggles the popup.
  * @param {HTMLElement} actionPopup - The popup container.
  */
@@ -275,11 +259,9 @@ function setupDocumentClickListener(actionButton, actionPopup) {
   });
 }
 
-/* --------------------- FIREBASE & EDIT --------------------- */
 
 /**
  * Fetches a single contact from Firebase.
- *
  * @async
  * @param {string} contactId - The unique contact ID.
  * @returns {Promise<Object|null>} The contact object or null on error.
@@ -300,7 +282,6 @@ async function fetchContact(contactId) {
 
 /**
  * Updates the profile badge in the edit modal.
- *
  * @param {Object} contact - The contact object.
  */
 function updateEditModalBadge(contact) {
@@ -320,7 +301,6 @@ function updateEditModalBadge(contact) {
 
 /**
  * Opens the edit modal and fills the fields with contact data.
- *
  * @param {Object} contact - The contact object.
  * @param {string} contactId - The unique contact ID.
  */
@@ -342,7 +322,6 @@ function openEditModal(contact, contactId) {
 
 /**
  * Saves the edited contact to Firebase and updates the view.
- *
  * @async
  * @param {Event} event - The click event of the save button.
  */
@@ -358,11 +337,14 @@ async function saveEditedContact(event) {
   };
 
   try {
-    const response = await fetch(`https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts/${id}.json`, {
-      method: "PUT",
-      body: JSON.stringify(updated),
-      headers: { "Content-Type": "application/json" }
-    });
+    const response = await fetch(
+      `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts/${id}.json`,
+      {
+        method: "PUT",
+        body: JSON.stringify(updated),
+        headers: { "Content-Type": "application/json" }
+      }
+    );
     if (!response.ok) {
       throw new Error(`Error saving: ${response.status} ${response.statusText}`);
     }
@@ -376,7 +358,6 @@ async function saveEditedContact(event) {
 
 /**
  * Closes the modal specified by the selector.
- *
  * @param {string} selector - The CSS selector for the modal.
  */
 function closeModal(selector) {
@@ -389,7 +370,6 @@ function closeModal(selector) {
 
 /**
  * Deletes a contact from Firebase and updates the view.
- *
  * @async
  * @param {string} contactId - The unique contact ID.
  */
@@ -429,6 +409,9 @@ function reloadPage() {
 
 /* --------------------- EVENT LISTENERS --------------------- */
 
+/**
+ * Handles edit button clicks and opens edit modal.
+ */
 document.addEventListener("click", async (event) => {
   if (event.target.matches(".edit-contact-btn")) {
     const id = event.target.dataset.contactId;
@@ -437,6 +420,9 @@ document.addEventListener("click", async (event) => {
   }
 });
 
+/**
+ * Handles delete button clicks and deletes the contact.
+ */
 document.addEventListener("click", async (event) => {
   if (event.target.matches(".delete-btn")) {
     const id = event.target.dataset.contactId ||
@@ -445,6 +431,9 @@ document.addEventListener("click", async (event) => {
   }
 });
 
+/**
+ * Handles delete inside modal popup.
+ */
 document.addEventListener("click", function(event) {
   if (
     event.target.matches('.edit-delete-btn-modal') ||
@@ -459,8 +448,14 @@ document.addEventListener("click", function(event) {
   }
 });
 
+/**
+ * Initializes contact list on DOM load.
+ */
 document.addEventListener("DOMContentLoaded", loadContactsFromFirebase);
 
+/**
+ * Handles back button click on small screens.
+ */
 document.addEventListener('DOMContentLoaded', function() {
   const backImg = document.querySelector('.contacts_headline-resp img[alt="return button"]');
   if (backImg) {
@@ -468,6 +463,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+/**
+ * Adjusts layout on window resize.
+ */
 window.addEventListener('resize', function() {
   if (window.innerWidth >= 925) {
     const body = document.querySelector('.Contacts-body');

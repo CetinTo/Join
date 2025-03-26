@@ -4,7 +4,8 @@
  */
 function logout() {
   localStorage.removeItem('currentUser'); 
-  window.location.href = './login-signup/login.html'; 
+  window.location.href = 'http://join-419.developerakademie.net/join/login-signup/login.html';
+
 }
 
 /**
@@ -12,5 +13,11 @@ function logout() {
  */
 function logoutToLogin() {
   localStorage.removeItem('currentUser'); 
+<<<<<<< HEAD
   window.location.href = '../login-signup/login.html'; 
 } 
+=======
+  window.location.href = 'http://join-419.developerakademie.net/join/login-signup/login.html';
+
+}
+>>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1

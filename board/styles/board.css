@@ -475,6 +475,7 @@ h6 {
     }
 }
 
+<<<<<<< HEAD
 /* Mobile Task-Hinzufügung ausblenden bei Bildschirmbreite unter 500px */
 @media (max-width: 500px) {
     #mobileAddTaskContainer,
@@ -524,3 +525,11 @@ h6 {
       display: none !important;
     }
   } 
+=======
+
+.board-bar{
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+>>>>>>> c13b19985c13c537e5fe4b138a9209aeaa5b3cc1
