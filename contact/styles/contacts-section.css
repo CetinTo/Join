@@ -1014,6 +1014,14 @@ h4{
        
     }
 
+    .contact-list-email{
+        font-size: 12px;
+    }
+
+    .contact-list-phone{
+        font-size: 14px;
+    }
+
 
     .profile-badge-big {
         width: 60px;
