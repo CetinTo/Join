@@ -1,4 +1,28 @@
 /**
+ * Array zur Speicherung aller Kontakte
+ * @type {Array}
+ */
+if (typeof contacts === 'undefined') {
+    var contacts = [];
+}
+
+/**
+ * Lädt die Kontakte beim Start der Anwendung
+ */
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        // Lade existierende Kontakte aus Firebase
+        const response = await fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json');
+        const data = await response.json();
+        if (data) {
+            contacts = Object.values(data);
+        }
+    } catch (error) {
+        console.error('Fehler beim Laden der Kontakte:', error);
+    }
+});
+
+/**
  * Returns the initials of a given full name.
  * If the name is empty, returns "--".
  * @param {string} fullName - The full name.
@@ -473,3 +497,139 @@ window.addEventListener('resize', function() {
     document.querySelector('.contacts-main-section').classList.remove('contact-selected');
   }
 });
+
+/**
+ * Event-Listener für den "Create contact" Button im Modal
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    const createBtn = document.querySelector('.create-contact-btn');
+    if (createBtn) {
+        createBtn.onclick = function(e) {
+            e.preventDefault();
+            createContact();
+        };
+    }
+});
+
+/**
+ * Generiert eine zufällige Farbe für den Kontakt-Avatar
+ * @returns {string} Eine zufällige Farbe im HEX-Format
+ */
+function getRandomColor() {
+    const colors = [
+        '#FF7A00',  // Orange
+        '#9327FF',  // Lila
+        '#6E52FF',  // Blau-Violett
+        '#FC71FF',  // Pink
+        '#FFBB2B',  // Gelb
+        '#1FD7C1',  // Mint
+        '#462F8A',  // Dunkelblau
+        '#FF0000',  // Rot
+        '#28ABE2',  // Hellblau
+        '#FF745E'   // Koralle
+    ];
+    
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
+/**
+ * Erstellt einen neuen Kontakt
+ */
+async function createContact() {
+    // Validierung durchführen
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    
+    clearErrorMessages();
+    
+    let isValid = true;
+    
+    // Name validieren (darf nicht leer sein)
+    if (!nameInput.value.trim()) {
+        displayErrorMessage(nameInput, 'Bitte geben Sie einen Namen ein');
+        isValid = false;
+    }
+    
+    // Telefonnummer validieren (nur Zahlen)
+    if (phoneInput.value && !/^\d+$/.test(phoneInput.value)) {
+        displayErrorMessage(phoneInput, 'Bitte geben Sie nur Zahlen ein');
+        isValid = false;
+    }
+    
+    // E-Mail validieren (muss @ enthalten)
+    if (emailInput.value && !emailInput.value.includes('@')) {
+        displayErrorMessage(emailInput, 'Bitte geben Sie eine gültige E-Mail-Adresse ein');
+        isValid = false;
+    }
+    
+    // Wenn Validierung fehlschlägt, Funktion abbrechen
+    if (!isValid) {
+        return;
+    }
+
+    // Neuen Kontakt erstellen
+    let contact = {
+        'name': nameInput.value,
+        'email': emailInput.value,
+        'phone': phoneInput.value,
+        'color': getRandomColor(),
+        'initials': getInitials(nameInput.value)
+    };
+    
+    try {
+        // Direkt in Firebase speichern
+        const response = await fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json', {
+            method: 'POST',
+            body: JSON.stringify(contact),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Fehler beim Speichern des Kontakts');
+        }
+
+        // Modal schließen und Liste aktualisieren
+        closeAddModal();
+        loadContactsFromFirebase(); // Liste neu laden
+        showSuccessPopup(); // Erfolgsmeldung anzeigen
+        
+    } catch (error) {
+        console.error('Fehler:', error);
+        alert('Fehler beim Speichern des Kontakts');
+    }
+}
+
+/**
+ * Zeigt eine Fehlermeldung unter dem Eingabefeld an
+ */
+function displayErrorMessage(inputElement, message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.style.color = 'red';
+    errorDiv.style.fontSize = '12px';
+    errorDiv.style.marginTop = '4px';
+    errorDiv.textContent = message;
+    
+    // Existierende Fehlermeldung entfernen
+    const existingError = inputElement.parentNode.querySelector('.error-message');
+    if (existingError) {
+        existingError.remove();
+    }
+    
+    // Neue Fehlermeldung hinzufügen
+    inputElement.parentNode.appendChild(errorDiv);
+    inputElement.style.borderColor = 'red';
+}
+
+/**
+ * Entfernt alle Fehlermeldungen
+ */
+function clearErrorMessages() {
+    document.querySelectorAll('.error-message').forEach(el => el.remove());
+    document.querySelectorAll('input').forEach(el => {
+        el.style.borderColor = '';
+    });
+}

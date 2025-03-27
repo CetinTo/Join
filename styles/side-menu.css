@@ -146,15 +146,7 @@
 }
 
 .external-bottom-menu {
-    display: flex !important;
-    justify-content: space-around !important;
-    align-items: center !important;
-    width: 300px !important;
-    position: fixed !important;
-    bottom: 0 !important;
-    background-color: #2A3647 !important;
-    padding: 10px !important;
-    z-index: 999 !important;
+    display: none !important;
 }
 
 .selected-menu-resources-external,
@@ -207,28 +199,19 @@
 /* Responsive Styles */
 @media (max-width: 925px) {
     .side-menu {
-        display: none; /* Side-Menu ausblenden */
+        display: none !important;
     }
 
     .external-bottom-menu {
-        display: flex !important;
-        justify-content: space-around !important;
-        align-items: center !important;
-        width: 300px !important;
-        position: fixed !important;
-        bottom: 0 !important;
-        background-color: #2A3647 !important;
-        padding: 10px !important;
-        z-index: 999 !important;
+        width: 100% !important;
+        max-width: 300px !important;
+        justify-content: center !important;
     }
 
     .selected-menu-resources-external,
     .selected-menu-resources-external-legal {
         font-size: 12px !important;
-        width: 140px !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
+        padding: 8px !important;
     }
 
     .header-logo-none-resp{
@@ -345,6 +328,10 @@
         justify-content: center;
         align-items: center;
     }
+
+    .main-section {
+        padding-bottom: 80px !important; /* Platz für den Footer */
+    }
 }
     
     
@@ -392,4 +379,41 @@
     .selected-menu-resources-external-legal {
         width: 90px !important;
     }
+}
+
+/* Stellen Sie sicher, dass die main-section immer sichtbar ist */
+.main-section {
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Footer für Responsive-View */
+@media (max-width: 925px) {
+  .external-bottom-menu {
+    width: 100% !important;
+    max-width: 300px !important;
+    justify-content: center !important;
+  }
+  
+  .selected-menu-resources-external,
+  .selected-menu-resources-external-legal {
+    font-size: 12px !important;
+    padding: 8px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .selected-menu-resources-external,
+  .selected-menu-resources-external-legal {
+    font-size: 11px !important;
+    padding: 6px !important;
+  }
+}
+
+@media (max-width: 300px) {
+  .selected-menu-resources-external,
+  .selected-menu-resources-external-legal {
+    font-size: 10px !important;
+    padding: 4px !important;
+  }
 }

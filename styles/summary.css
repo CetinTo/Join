@@ -329,6 +329,19 @@ name-span {
         display:none;
     }
 
+    .clear-btn{
+        width: 110px;
+        
+    }
+
+    .create-btn{
+        width: 110px;
+        
+    }
+
+    
+
+
     .header{
         height: 70px;
     }
@@ -516,10 +529,6 @@ name-span {
         font-size: 56px;
     }
 
-    .main-section{
-        /* align-items:flex-start; */
-
-    }
 
     .logo-content-container{
         margin-left: 8px;
@@ -823,6 +832,7 @@ name-span {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    height: 20px;
   }
 
   .create-btn {

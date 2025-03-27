@@ -131,12 +131,9 @@
             <span class="add-task-btn-text">Add task</span>
             <img src="../img/plus add task mobile.png" alt="+">
           </button>
-          <a href="../add-task/addtask.html" class="add-task-button-a">
-            <button class=" add-task-button-resp" >
-              <!-- <span class="add-task-btn-text">Add task</span> -->
-              <img src="../img/plus add task mobile.png" alt="+">
-            </button>
-          </a>
+          <button class="add-task-button-resp" onclick="openAddTaskModal(); return false;">
+            <img src="../img/plus add task mobile.png" alt="+">
+          </button>
         </div>
       </div>
       <div class="input-box-responsive">
@@ -159,8 +156,8 @@
           <button class="icon-button" id="addTaskButtonTodo">
             <img src="../img/plus-button-icon.png" alt="Add Task">
           </button>
-          <button class="icon-button-responsive" >
-            <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
+          <button class="icon-button-responsive" onclick="openAddTaskModal(); return false;">
+            <img src="../img/plus-button-icon.png" alt="Add Task">
           </button>
         </div>
         <div class="task-board-container" id="toDoColumn">
@@ -173,8 +170,8 @@
           <button class="icon-button" id="addTaskButtonInProgress">
             <img src="../img/plus-button-icon.png" alt="Add Task">
           </button>
-          <button class="icon-button-responsive" >
-            <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
+          <button class="icon-button-responsive" onclick="openAddTaskModal(); return false;">
+            <img src="../img/plus-button-icon.png" alt="Add Task">
           </button>
         </div>
         <div class="task-board-container" id="inProgress">
@@ -187,8 +184,8 @@
           <button class="icon-button" id="addTaskButtonAwaitFeedback">
             <img src="../img/plus-button-icon.png" alt="Await Feedback">
           </button>
-          <button class="icon-button-responsive" >
-            <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
+          <button class="icon-button-responsive" onclick="openAddTaskModal(); return false;">
+            <img src="../img/plus-button-icon.png" alt="Add Task">
           </button>
         </div>
         <div class="task-board-container" id="awaitFeedback">
@@ -563,6 +560,16 @@
 
 
 
+  </script>
+  <script>
+    function openAddTaskModal() {
+      document.getElementById('taskModal').style.display = 'flex';
+      return false;
+    }
+
+    function closeModalAndReload() {
+      document.getElementById('taskModal').style.display = 'none';
+    }
   </script>
 </body>
 </html>

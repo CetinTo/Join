@@ -320,30 +320,38 @@ header {
 }
 
 /* Footer */
-footer {
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-  font-size: 12px;
-  color: #888;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-  top: auto;
+footer.footer, 
+.footer {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  padding: 0 15px !important;
+  box-sizing: border-box !important;
+  position: fixed !important;
+  bottom: 20px !important;
 }
 
-footer a{
-  text-decoration: none;
-  color: #2a3647;
-  padding-left: 12px;
-  padding-right: 12px;
+footer.footer a, 
+.footer a {
+  font-size: 14px !important;
+  margin: 0 10px !important;
+  white-space: nowrap !important;
 }
 
-footer a:hover{
-  color: #28abe2;
-  font-size: 13px;
+@media (max-width: 400px) {
+  footer.footer a, 
+  .footer a {
+    font-size: 12px !important;
+    margin: 0 8px !important;
+  }
+}
+
+@media (max-width: 300px) {
+  footer.footer a, 
+  .footer a {
+    font-size: 11px !important;
+    margin: 0 5px !important;
+  }
 }
 
 @keyframes fadeOut {
@@ -631,7 +639,7 @@ body.modal-open {
   line-height: 1.5;
 }
 
-/* Footer */
+/* Anpassungen für Legal-Modal-Footer */
 .legal-modal-footer {
   position: fixed;
   bottom: 0;
@@ -642,18 +650,17 @@ body.modal-open {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 20px;
   z-index: 1020;
+  transition: all 0.3s ease;
 }
 
 /* Login-Button */
 .login-button {
-  position: absolute;
-  left: 20px;
   display: flex;
   align-items: center;
   color: white;
   text-decoration: none;
+  margin-left: 20px;
 }
 
 .login-button svg {
@@ -664,8 +671,7 @@ body.modal-open {
 .legal-modal-footer a {
   color: white;
   text-decoration: none;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 0px 10px;
 }
 
 .legal-modal-footer a.active {
@@ -674,54 +680,89 @@ body.modal-open {
   border-radius: 8px;
 }
 
-/* Back-Button ausblenden */
-.back-button {
-  display: none;
-}
-
-/* Anpassung der Überschrift, damit sie nicht mit dem Logo überlappt */
-.legal-modal-content h2 {
-  margin-top: 70px;
-}
-
-/* Anpassungen für kleine Bildschirme */
-@media (max-width: 500px) {
-  .modal-logo-img {
-    width: 30px;
+/* Stil für größere Bildschirme (über 925px) - Als Seitenmenü */
+@media (min-width: 926px) {
+  .legal-modal-footer {
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 20px;
   }
   
-  .legal-modal-content h2 {
-    margin-top: 70px;
+  .login-button {
+    margin: 20px 0;
+    width: 100%;
+    justify-content: center;
+    padding: 15px 0;
   }
-}
-
-@media (max-width: 350px) {
+  
+  .legal-modal-footer div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .legal-modal-footer a {
+    padding: 15px;
+    margin: 5px 0;
+    text-align: center;
+    transition: background-color 0.2s;
+  }
+  
+  .legal-modal-footer a:hover {
+    background-color: #091931;
+    color: #29ABE2;
+  }
+  
+  .legal-modal-footer a.active {
+    background-color: #091931;
+    border-radius: 0;
+  }
+  
+  /* Anpassung für den Modal-Inhalt */
+  .legal-modal-content {
+    margin-left: 200px;
+    width: calc(100% - 200px);
+  }
+  
+  /* Logo-Position anpassen */
   .modal-logo {
-    top: 15px;
-    left: 15px;
-  }
-  
-  .modal-logo-img {
-    width: 25px;
-  }
-  
-  .legal-modal-content h2 {
-    margin-top: 60px;
+    left: 230px;
   }
 }
 
-/* Footer-Links Styling */
-.footer a {
-  color: #2a3647;
-  text-decoration: none;
-  margin: 0 15px;
-  transition: color 0.3s ease;
-  font-size: 16px;
-  cursor: pointer;
+/* Stil für kleinere Bildschirme (unter 925px) - Als Footer */
+@media (max-width: 925px) {
+  .legal-modal-content {
+    width: 100%;
+    padding-bottom: 70px; /* Platz für den Footer */
+  }
+  
+  .legal-modal-footer {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
-/* Hover-Effekt für blaue Farbe */
-.footer a:hover {
-  color: #29ABE2; /* Blau bei Hover */
-  text-decoration: underline;
+/* Anpassungen für sehr kleine Bildschirme */
+@media (max-width: 500px) {
+  .login-button span {
+    display: none; /* Text ausblenden, nur Icon zeigen */
+  }
+  
+  .login-button {
+    margin-left: 10px;
+  }
+  
+  .legal-modal-footer a {
+    font-size: 12px;
+    padding: 5px;
+  }
 }

@@ -1,3 +1,169 @@
+/**
+ * Sobald die Seite geladen ist, werden die Event-Listener hinzugefügt
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Login-Script geladen - Event-Listener werden eingerichtet');
+    
+    // Einfacher Event-Listener für alle Footer-Links
+    const allLinks = document.querySelectorAll('a');
+    
+    allLinks.forEach(link => {
+        // Privacy Policy Links
+        if (link.textContent.includes('Privacy Policy') || 
+            link.textContent.includes('Datenschutz') || 
+            link.textContent.includes('privacy')) {
+            
+            link.onclick = function(e) {
+                e.preventDefault();
+                console.log('Privacy Policy Link geklickt');
+                openPrivacyModal();
+                return false;
+            };
+        }
+        
+        // Legal Notice Links
+        if (link.textContent.includes('Legal Notice') || 
+            link.textContent.includes('Legal notice') || 
+            link.textContent.includes('Impressum') || 
+            link.textContent.includes('legal')) {
+            
+            link.onclick = function(e) {
+                e.preventDefault();
+                console.log('Legal Notice Link geklickt');
+                openLegalModal();
+                return false;
+            };
+        }
+    });
+    
+    // Zusätzlich direkter Zugriff auf die Footer-Links
+    const footerLinks = document.querySelectorAll('.footer a');
+    footerLinks.forEach(link => {
+        if (link.textContent.includes('Privacy')) {
+            console.log('Footer Privacy Link gefunden');
+            link.onclick = function(e) {
+                e.preventDefault();
+                openPrivacyModal();
+                return false;
+            };
+        } else if (link.textContent.includes('Legal')) {
+            console.log('Footer Legal Link gefunden');
+            link.onclick = function(e) {
+                e.preventDefault();
+                openLegalModal();
+                return false;
+            };
+        }
+    });
+    
+    // Close-Button Event-Listener
+    const closeButtons = document.querySelectorAll('.login-button');
+    closeButtons.forEach(button => {
+        button.onclick = function(e) {
+            e.preventDefault();
+            closeModals();
+            return false;
+        };
+    });
+});
+
+/**
+ * Öffnet das Privacy Policy Modal und schließt das Legal Notice Modal
+ */
+function openPrivacyModal() {
+    console.log('Privacy Modal wird geöffnet');
+    
+    // Erst beide Modals schließen
+    const privacyModal = document.getElementById('privacyPolicyModal');
+    const legalModal = document.getElementById('legalNoticeModal');
+    
+    if (privacyModal) privacyModal.style.display = 'none';
+    if (legalModal) legalModal.style.display = 'none';
+    
+    // Dann das Privacy Modal öffnen
+    if (privacyModal) {
+        document.body.classList.add('modal-open');
+        privacyModal.style.display = 'block';
+        
+        // Aktiven Link markieren
+        updateActiveModalLinks('privacy');
+    } else {
+        console.error('Privacy Modal nicht gefunden!');
+    }
+    
+    return false;
+}
+
+/**
+ * Öffnet das Legal Notice Modal und schließt das Privacy Policy Modal
+ */
+function openLegalModal() {
+    console.log('Legal Modal wird geöffnet');
+    
+    // Erst beide Modals schließen
+    const privacyModal = document.getElementById('privacyPolicyModal');
+    const legalModal = document.getElementById('legalNoticeModal');
+    
+    if (privacyModal) privacyModal.style.display = 'none';
+    if (legalModal) legalModal.style.display = 'none';
+    
+    // Dann das Legal Modal öffnen
+    if (legalModal) {
+        document.body.classList.add('modal-open');
+        legalModal.style.display = 'block';
+        
+        // Aktiven Link markieren
+        updateActiveModalLinks('legal');
+    } else {
+        console.error('Legal Modal nicht gefunden!');
+    }
+    
+    return false;
+}
+
+/**
+ * Schließt alle Modals
+ */
+function closeModals() {
+    console.log('Modals werden geschlossen');
+    const privacyModal = document.getElementById('privacyPolicyModal');
+    const legalModal = document.getElementById('legalNoticeModal');
+    
+    if (privacyModal) privacyModal.style.display = 'none';
+    if (legalModal) legalModal.style.display = 'none';
+    
+    document.body.classList.remove('modal-open');
+    return false;
+}
+
+// Wenn die Seite fertig geladen ist, die Funktionen global verfügbar machen
+window.openPrivacyModal = openPrivacyModal;
+window.openLegalModal = openLegalModal;
+window.closeModals = closeModals;
+
+/**
+ * Verarbeitet den Login-Vorgang
+ */
+function handleLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    // Hier kann die eigentliche Login-Logik implementiert werden
+    console.log('Login versucht mit:', email);
+    
+    // Fügen Sie hier Ihre Authentifizierungslogik ein
+    
+    // Beispiel für Weiterleitung nach erfolgreicher Anmeldung
+    // window.location.href = '../index.html';
+}
+
+// Wenn die Seite neu geladen wird, stellen wir sicher, dass alle Modals geschlossen sind
+window.onload = function() {
+    closeModals();
+};
+
 // Event-Listener für die Modal-Links hinzufügen
 document.addEventListener('DOMContentLoaded', function() {
   // Modal-Funktionen einrichten
@@ -61,42 +227,21 @@ function setupModalLinks() {
   });
 }
 
-// Modal-Funktionen
-function openPrivacyModal() {
-  document.getElementById('privacyPolicyModal').style.display = 'block';
-  document.getElementById('legalNoticeModal').style.display = 'none';
-  document.body.classList.add('modal-open');
-}
-
-function openLegalModal() {
-  document.getElementById('legalNoticeModal').style.display = 'block';
-  document.getElementById('privacyPolicyModal').style.display = 'none';
-  document.body.classList.add('modal-open');
-}
-
-function closeModals() {
-  const privacyModal = document.getElementById('privacyPolicyModal');
-  const legalModal = document.getElementById('legalNoticeModal');
-  
-  if (privacyModal) privacyModal.style.display = 'none';
-  if (legalModal) legalModal.style.display = 'none';
-  
-  document.body.classList.remove('modal-open');
-}
-
 // Hilfsfunktion zum Aktualisieren der aktiven Links
 function updateActiveModalLinks(type) {
-  const footerLinks = document.querySelectorAll('.legal-modal-footer a:not(.login-button)');
-  
-  footerLinks.forEach(link => {
-    link.classList.remove('active');
+    const allModalLinks = document.querySelectorAll('.legal-modal-footer a:not(.login-button)');
     
-    if (type === 'privacy' && link.textContent.includes('Privacy')) {
-      link.classList.add('active');
-    } else if (type === 'legal' && link.textContent.includes('Legal')) {
-      link.classList.add('active');
-    }
-  });
+    allModalLinks.forEach(link => {
+        // Aktive Klasse entfernen
+        link.classList.remove('active');
+        
+        // Aktive Klasse entsprechend setzen
+        if (type === 'privacy' && link.textContent.includes('Privacy')) {
+            link.classList.add('active');
+        } else if (type === 'legal' && (link.textContent.includes('Legal') || link.textContent.includes('Impressum'))) {
+            link.classList.add('active');
+        }
+    });
 }
 
 // Initialisierung beim Laden der Seite
@@ -158,34 +303,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (passwordValue === '') {
       showError(passwordInput, 'Bitte ein Passwort eingeben.');
     }
-  }
-  
-  /**
-   * Handles the login form submission and user authentication.
-   * @param {Event} event - The form submit event.
-   * @param {HTMLInputElement} emailInput - The email input field.
-   * @param {HTMLInputElement} passwordInput - The password input field.
-   */
-  function handleLogin(event, emailInput, passwordInput) {
-    event.preventDefault();
-    removeError(emailInput);
-    removeError(passwordInput);
-  
-    const emailValue = emailInput.value.trim();
-    const passwordValue = passwordInput.value.trim();
-    let hasError = false;
-  
-    if (!validateEmail(emailValue)) {
-      showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
-      hasError = true;
-    }
-    if (passwordValue === '') {
-      showError(passwordInput, 'Bitte ein Passwort eingeben.');
-      hasError = true;
-    }
-    if (hasError) return;
-  
-    authenticateUser(emailValue, passwordValue, emailInput, passwordInput);
   }
   
   /**

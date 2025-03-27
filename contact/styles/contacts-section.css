@@ -940,7 +940,7 @@ h4{
 
 @media screen and (max-width:560px){
     .edit-contact-modal{
-        width:347px !important;
+        width:300px !important;
         height: 688px ;
     }
 
@@ -1185,7 +1185,7 @@ h4{
     }
 
     .edit-contact-modal{
-        width: 280px !important;
+        width: 300px !important;
         height:539px !important;        
     }
 
@@ -1235,7 +1235,7 @@ h4{
 
     .modal-left-side{
         height: 185px;
-        width:300px !important;
+        
     }    
 
     .edit-contact-modal-input-section{
