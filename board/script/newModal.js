@@ -463,10 +463,10 @@ function getSelectedPriority() {
  */
 function getPriorityPath(priority) {
   switch (priority) {
-    case 'urgent': return '../../img/priority-img/urgent.png';
-    case 'medium': return '../../img/priority-img/medium.png';
-    case 'low':    return '../../img/priority-img/low.png';
-    default:       return '../../img/priority-img/medium.png';
+    case 'urgent': return '../img/priority-img/urgent.png';
+    case 'medium': return '../img/priority-img/medium.png';
+    case 'low':    return '../img/priority-img/low.png';
+    default:       return '../img/priority-img/medium.png';
   }
 }
 

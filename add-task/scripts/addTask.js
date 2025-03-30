@@ -212,11 +212,13 @@ async function addTaskToFirebase() {
       }
     );
     clearForm();
-    // window.location.reload();
+    // Weiterleitung nach erfolgreichem Erstellen:
+    window.location.href = "../board/board.html";
   } finally {
     isSaving = false;
   }
 }
+
 
 /**
  * @function validateForm
