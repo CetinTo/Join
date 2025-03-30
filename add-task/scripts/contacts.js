@@ -165,18 +165,38 @@ function toggleCheckboxState(contact, checkboxImg, div) {
 function updateAssignedToProfile() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
   assignedContainer.innerHTML = "";
-
-  selectedContacts.forEach(contact => {
-    const initials = getInitials(contact.name);
-    const colorClass = getColorClass(contact.name, contactsArray);
-
-    const profileBubble = document.createElement("div");
-    profileBubble.classList.add("profile-badge", colorClass);
-    profileBubble.textContent = initials;
-
-    assignedContainer.appendChild(profileBubble);
-  });
+  
+  const maxVisible = 3; // maximal sichtbare Profile
+  
+  if (selectedContacts.length <= maxVisible) {
+    // Zeige alle Kontakte, wenn es 3 oder weniger sind
+    selectedContacts.forEach(contact => {
+      const initials = getInitials(contact.name);
+      const colorClass = getColorClass(contact.name, contactsArray);
+      const profileBubble = document.createElement("div");
+      profileBubble.classList.add("profile-badge", colorClass);
+      profileBubble.textContent = initials;
+      assignedContainer.appendChild(profileBubble);
+    });
+  } else {
+    // Zeige die ersten 3 Kontakte
+    selectedContacts.slice(0, maxVisible).forEach(contact => {
+      const initials = getInitials(contact.name);
+      const colorClass = getColorClass(contact.name, contactsArray);
+      const profileBubble = document.createElement("div");
+      profileBubble.classList.add("profile-badge", colorClass);
+      profileBubble.textContent = initials;
+      assignedContainer.appendChild(profileBubble);
+    });
+    // Füge eine Bubble mit der Anzahl der restlichen Kontakte hinzu
+    const extraCount = selectedContacts.length - maxVisible;
+    const extraBubble = document.createElement("div");
+    extraBubble.classList.add("profile-badge", "extra-bubble");
+    extraBubble.textContent = `+${extraCount}`;
+    assignedContainer.appendChild(extraBubble);
+  }
 }
+
 
 /**
  * Determines the color class for a contact profile

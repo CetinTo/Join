@@ -428,3 +428,34 @@ small{
   overflow-y: auto;
   /* margin-top:86px; */
 }
+
+
+@media (max-width:400px){
+  .footer-navigation-external span{
+    width:100px;
+  }
+
+  .external-bottom-menu{
+    width:240px;
+  }
+}
+
+@media (max-width:350px){
+  .bottom-login-div{
+    width:70px !important;
+    padding-left:12px;
+  }
+
+  .login-responsive-text{
+    width:70px !important;
+  }
+
+  .nav-item{
+    width:70px;
+  }
+
+  .footer-navigation{
+    gap:24px;
+  }
+
+}

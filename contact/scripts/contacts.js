@@ -109,7 +109,7 @@ function createContactElement(contact, contactId, contacts) {
     <div class="profile-badge-contacts ${color}">${initials}</div>
     <div>
       <div class="contact-list-name">${contact.name}</div>
-      <div class="contact-list-email">${contact.email}</div>
+      <div class="contact-list-email main-email">${contact.email}</div>
     </div>
   `;
   div.addEventListener("click", () => displayContactDetails(contact, contactId, div));

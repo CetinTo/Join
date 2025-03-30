@@ -506,3 +506,18 @@ main {
     overflow: visible !important;
   }
 }
+
+
+@media (max-width:370px){
+  .selected-menu-resources-external{
+    width:100px;
+  }
+
+  .selected-menu-resources-external-legal{
+    width:100px;
+  }
+
+  .external-bottom-menu{
+    width:auto;
+  }
+}

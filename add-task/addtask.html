@@ -15,10 +15,18 @@
     <link rel="stylesheet" href="../styles/standard.css" />
     <link rel="stylesheet" href="../styles/profile-dropdown.css" />
     <link rel="stylesheet" href="../add-task/addtaskstyles/add-task-style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
     <link rel="stylesheet" href="../styles/summary.css">
+
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/de.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="./scripts/datepicker.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+
+
+
+
     <script src="../add-task/scripts/scripts.js" defer></script>
     <script src="./scripts/contacts.js"></script>
     <script src="../script/dropdown.js"></script>
@@ -143,7 +151,8 @@
                 <span>Due date<required-field>*</required-field></span>
                 <div class="date-input-container">
                   <input type="text" id="date-input" class="date-input" placeholder="dd/mm/yyyy" />
-                  <img src="../img/icon/event.png" alt="Calendar Icon" class="calendar-icon" onclick="openDatePicker()" />
+                  <img src="../img/icon/event.png" alt="Calendar Icon" class="calendar-icon" 
+                       onclick="openDatePickerAddTask('date-input')" />
                 </div>
               </div>
               <div class="flrow">
@@ -189,7 +198,10 @@
                 </div>
                 <div class="subtasks-scroll-container"></div>
               </div>
+              <span class="required-text"><required-field>*</required-field>This field is required</span>
+
             </form>
+
           </div>
         </div>
       </div>

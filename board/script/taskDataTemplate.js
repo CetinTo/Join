@@ -1,22 +1,72 @@
-// ------------------------------
-// GLOBAL VARIABLES
-// ------------------------------
 /**
- * Current task that is being accessed.
  * @global
  * @type {Object|null}
  */
 window.currentTask = null;
 /**
- * ID of the current task.
  * @global
  * @type {string|null}
  */
 window.currentTaskId = null;
 
-// ------------------------------
-// SUBTASK & PRIORITY HANDLING
-// ------------------------------
+/**
+ * Ermittelt die "echte" Gesamtanzahl an Kontakten,
+ * auch wenn der letzte Eintrag so etwas wie { name: "+3" } ist.
+ * Gibt ein Objekt zurück:
+ *  {
+ *    realUsers: [...],       // Array ohne den +x-Eintrag
+ *    totalCount: <Number>    // Anzahl realer Einträge + plusWert
+ *  }
+ */
+function getRealUserArrayAndCount(users) {
+  if (!users || !Array.isArray(users)) {
+    return { realUsers: [], totalCount: 0 };
+  }
+  let placeholderCount = 0;
+  // Letzter Eintrag
+  const last = users[users.length - 1];
+  if (
+    last &&
+    typeof last.name === 'string' &&
+    last.name.trim().startsWith('+')
+  ) {
+    // Versuch, die Zahl hinter dem "+"
+    const parsed = parseInt(last.name.trim().replace('+', ''));
+    if (!isNaN(parsed)) {
+      placeholderCount = parsed; // z.B. 3
+      // Entferne den letzten Eintrag aus dem "realUsers" Array
+      users = users.slice(0, users.length - 1);
+    }
+  }
+  // Nun haben wir das "bereinigte" Array + placeholderCount
+  return {
+    realUsers: users,
+    totalCount: users.length + placeholderCount
+  };
+}
+
+/**
+ * Renders the user badges for a task.
+ * @param {Array} users - Array of user objects.
+ * @param {number} [maxToShow=3] - Maximum number of badges to display.
+ * @returns {string} HTML string for the badges.
+ */
+function renderUserBadges(users, maxToShow = 3) {
+  // Hier rufen wir zuerst getRealUserArrayAndCount auf
+  const { realUsers, totalCount } = getRealUserArrayAndCount(users);
+  let badges = '';
+  // Zeige die ersten maxToShow "realUsers" an
+  realUsers.slice(0, maxToShow).forEach(u => {
+    // Nutze hier z.B. "initials" oder "name" – je nach Bedarf
+    const initials = u.initials || '?';
+    badges += `<div class="profile-badge-floating-${u.color || 'gray'}">${initials}</div>`;
+  });
+  // Wenn totalCount > maxToShow, zeige ein extra Badge an
+  if (totalCount > maxToShow) {
+    badges += `<div class="profile-badge-floating-gray">+${totalCount - maxToShow}</div>`;
+  }
+  return badges;
+}
 
 /**
  * Updates the status of a subtask and adjusts the progress accordingly.
@@ -43,7 +93,7 @@ function updateSubtaskStatus(taskId, subtaskIndex, newStatus) {
 /**
  * Returns a textual label for the priority based on the icon path.
  * @param {string} iconPath - Path of the priority icon.
- * @returns {string} "Urgent", "Medium", "Low" or "Unknown".
+ * @returns {string} Priority label.
  */
 function getPriorityLabel(iconPath) {
   if (!iconPath) return "Unknown";
@@ -56,7 +106,7 @@ function getPriorityLabel(iconPath) {
 /**
  * Extracts the priority from the icon path.
  * @param {string} iconPath - Path of the priority icon.
- * @returns {string} "urgent", "medium" or "low" (default: "medium").
+ * @returns {string} Extracted priority.
  */
 function extractPriority(iconPath) {
   if (!iconPath) return 'medium';
@@ -66,13 +116,7 @@ function extractPriority(iconPath) {
   if (lower.includes('low')) return 'low';
   return 'medium';
 }
-
-// Added to make extractPriority global
-window.extractPriority = extractPriority;  // <-- IMPORTANT LINE
-
-// ------------------------------
-// MODAL RENDERING
-// ------------------------------
+window.extractPriority = extractPriority;
 
 /**
  * Renders the header of the task modal based on the task data.
@@ -89,12 +133,16 @@ function renderModalHeader(task, modal) {
   document.getElementById('modalPriorityText').innerText = getPriorityLabel(task.priority);
   document.getElementById('modalPriorityIcon').src = task.priority || "";
   const assign = document.getElementById('modalAssignedTo');
-  assign.innerHTML = task.users.map(u =>
-    `<div class="flexrow profile-names">
-       <div class="profile-badge-floating-${u.color || 'gray'}">${u.initials || '?'}</div>
-       <span class="account-name">${u.name || 'Unknown'}</span>
-     </div>`
-  ).join("");
+  assign.innerHTML = task.users && Array.isArray(task.users)
+    ? task.users.map(u =>
+        `<div class="flexrow profile-names">
+           <div class="profile-badge-floating-${u.color || 'gray'}">${u.initials || '?'}</div>
+           <span class="account-name">${u.name || 'Unknown'}</span>
+         </div>`
+      ).join("")
+    : "";
+
+  console.log("renderModalHeader – task:", task.firebaseKey, task.title, "users:", task.users, task.users?.length);
 }
 
 /**
@@ -136,10 +184,6 @@ function openTaskModal(task) {
   modal.style.display = 'flex';
 }
 
-// ------------------------------
-// FIREBASE UPDATE
-// ------------------------------
-
 /**
  * Updates the column of a task in Firebase.
  * @param {string} taskId - The ID of the task.
@@ -158,13 +202,8 @@ async function updateTaskColumnInFirebase(taskId, newColumn) {
   } catch (e) { }
 }
 
-// ------------------------------
-// COLUMN CHECK & DRAG & DROP
-// ------------------------------
-
 /**
- * Checks all columns (class "task-board-container") and toggles
- * the placeholder image depending on whether tasks are present.
+ * Checks all columns and toggles the placeholder image depending on whether tasks are present.
  */
 function checkColumns() {
   document.querySelectorAll('.task-board-container').forEach(col => {
@@ -176,8 +215,7 @@ function checkColumns() {
 }
 
 /**
- * Sets up drag & drop. Adds event listeners for dragstart and dragend
- * to the cards (class "draggable-cards") and enables dropping in columns (class "task-board-container").
+ * Sets up drag & drop for tasks.
  */
 function enableDragAndDrop() {
   document.querySelectorAll('.draggable-cards').forEach(card => {
@@ -193,10 +231,6 @@ function enableDragAndDrop() {
   });
 }
 
-// ------------------------------
-// TASK ELEMENT CREATION & GENERATION
-// ------------------------------
-
 /**
  * Creates a DOM element for a task.
  * @param {Object} task - The task data.
@@ -207,9 +241,18 @@ function createTaskElement(task) {
         completed = task.subtasks ? task.subtasks.filter(st => st.completed).length : 0,
         progress = total ? (completed / total) * 100 : 0;
   const mapping = { urgent: "../img/icon-urgent.png", medium: "../img/priority-img/medium.png", low: "../img/icon-low.png" };
-  let prio = extractPriority(task.priority); 
+  let prio = extractPriority(task.priority);
   if (!mapping[prio]) prio = "medium";
   const taskPriority = mapping[prio];
+
+  // Hier nutzen wir unsere renderUserBadges-Funktion, die +3 interpretiert.
+  const userBadges = renderUserBadges(task.users, 3);
+
+  // Bestimme, ob der Fortschrittsbereich angezeigt werden soll:
+  const progressStyle = total > 0 ? "" : "display: none;";
+
+  console.log("createTaskElement – task:", task.firebaseKey, task.title, "users:", task.users, task.users?.length);
+
   const el = document.createElement("div");
   el.classList.add("draggable-cards");
   el.id = task.firebaseKey || task.id;
@@ -223,7 +266,7 @@ function createTaskElement(task) {
     </div>
     <div><h5 class="card-label-user-story-h5 padding-left">${task.title}</h5></div>
     <div><h6 class="card-label-user-story-h6 padding-left">${task.description}</h6></div>
-    <div class="task-progress">
+    <div class="task-progress" style="${progressStyle}">
       <div class="progress-main-container">
         <div class="progress-container">
           <div class="progress-bar" style="width: ${progress}%;"></div>
@@ -233,7 +276,7 @@ function createTaskElement(task) {
     </div>
     <div class="card-footer">
       <div class="padding-left profile-badge-container">
-        ${task.users ? task.users.map(u => `<div class="profile-badge-floating-${u.color}">${u.initials}</div>`).join("") : ""}
+        ${userBadges}
       </div>
       <div class="priority-container-img">
         <img src="${taskPriority}" alt="Priority" onerror="this.src='../img/priority-img/medium.png'" class="priority-container-img">
@@ -242,9 +285,9 @@ function createTaskElement(task) {
   return el;
 }
 
+
 /**
  * Generates all task elements and inserts them into their respective columns.
- * Also sets up event listeners for modal, drag & drop, and dropdown.
  * @param {Array<Object>} tasksData - Array of task data.
  */
 function generateTasks(tasksData) {
@@ -260,43 +303,47 @@ function generateTasks(tasksData) {
     });
     const ddIcon = taskEl.querySelector('.drag-drop-icon');
     if (ddIcon) {
-      ddIcon.addEventListener("click", function(e) {
+      ddIcon.addEventListener("click", function (e) {
         e.stopPropagation();
         let dd = taskEl.querySelector(".move-to-dropdown");
-        if (dd) dd.classList.toggle("visible");
-        else {
-          dd = document.createElement("div");
-          dd.classList.add("move-to-dropdown");
-          dd.innerHTML = `
-            <div class="dropdown-header">Move To</div>
-            <div class="dropdown-option" data-status="toDoColumn">To do</div>
-            <div class="dropdown-option" data-status="inProgress">In Progress</div>
-            <div class="dropdown-option" data-status="awaitFeedback">Await Feedback</div>
-            <div class="dropdown-option" data-status="done">Done</div>
-          `;
-          taskEl.appendChild(dd);
-          dd.classList.add("visible");
-          dd.querySelectorAll(".dropdown-option").forEach(option => {
-            option.addEventListener("click", async function(ev) {
-              ev.stopPropagation();
-              const ns = option.dataset.status;
-              await updateTaskColumnInFirebase(taskEl.id, ns);
-              const newCol = document.getElementById(ns);
-              if (newCol) newCol.appendChild(taskEl);
-              dd.classList.remove("visible");
-              checkColumns();
-            });
-          });
+        if (dd) {
+          dd.classList.toggle("visible");
+          return;
         }
+        dd = document.createElement("div");
+        dd.classList.add("move-to-dropdown");
+        dd.innerHTML = `
+          <div class="dropdown-header">Move To</div>
+          <div class="dropdown-option" data-status="toDoColumn">To do</div>
+          <div class="dropdown-option" data-status="inProgress">In Progress</div>
+          <div class="dropdown-option" data-status="awaitFeedback">Await Feedback</div>
+          <div class="dropdown-option" data-status="done">Done</div>
+        `;
+        const offsetTop = ddIcon.offsetTop + ddIcon.offsetHeight;
+        const offsetLeft = ddIcon.offsetLeft;
+        dd.style.position = "absolute";
+        dd.style.top = `${offsetTop}px`;
+        dd.style.left = `${offsetLeft}px`;
+        dd.style.zIndex = 10;
+        taskEl.appendChild(dd);
+        dd.classList.add("visible");
+        dd.querySelectorAll(".dropdown-option").forEach(option => {
+          option.addEventListener("click", async function (ev) {
+            ev.stopPropagation();
+            const ns = option.dataset.status;
+            await updateTaskColumnInFirebase(taskEl.id, ns);
+            const newCol = document.getElementById(ns);
+            if (newCol) newCol.appendChild(taskEl);
+            dd.classList.remove("visible");
+            checkColumns();
+          });
+        });
       });
     }
-  })
+  });
   checkColumns();
 }
 
-// ------------------------------
-// EXPORTS
-// ------------------------------
 export {
   generateTasks,
   openTaskModal,

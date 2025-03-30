@@ -93,6 +93,7 @@
     display: flex;
     flex-direction: row;
     gap: 16px;
+    background-color:white;
 }
 
 
@@ -490,6 +491,7 @@ h4{
 @media (min-width:925px){
     .contacts-body{
         display: block;
+        background-color: white;
     }
 }
 
@@ -702,6 +704,15 @@ h4{
     .menu-content-div{
         height:45px !important;
     }
+
+    .close-modal-button {
+        filter: brightness(0) invert(1) !important;
+    }
+
+    .close-modal-button-edit{
+        filter:brightness(0) invert(1);
+    }
+    
    
 }
 
@@ -1185,8 +1196,8 @@ h4{
     }
 
     .edit-contact-modal{
-        width: 280px !important;
-        height:539px !important;        
+        width: 340px !important;
+        height:700px !important;        
     }
 
     .edit-contact-modal-input-section{
@@ -1205,12 +1216,16 @@ h4{
     }
 
     .edit-profile-img-circle{
-        top:160px !important;
+        top:220px !important;
     }
 
     .edit-close-btn-div{
         top:21px !important;
     }
+
+
+
+
 
 }
 
@@ -1230,12 +1245,12 @@ h4{
 
 @media (max-width: 400px){
     .contact-list{
-        width: 314px;
+        width: 298px;
     }
 
     .modal-left-side{
         height: 185px;
-        width:300px !important;
+        width:100% !important;
     }    
 
     .edit-contact-modal-input-section{
@@ -1256,3 +1271,57 @@ h4{
         gap:0;
     }
 }
+
+@media (max-width: 440px){
+    .profile-badge-contacts{
+        margin-left:0px;
+        width:31px;
+        height:31px;
+    }
+
+    .contact-list-name{
+        font-size:18px;
+    }
+
+    .main-email{
+        font-size:12px;
+    }
+
+    .contact-selected .headline-contact{
+        margin-bottom:64px !important;
+        overflow-y:auto;
+        height:auto;
+    }
+
+    .contact-action-button{
+        bottom:86px;
+        position:fixed;
+    }
+
+    .contact-action-popup{
+        position:fixed;
+        bottom:150px;
+    }
+
+
+
+
+}
+
+
+@media (max-height:700px){
+    .selected-profile-main{
+        padding-top:0;
+    }
+
+    .contact-information-text{
+        padding-top:0;
+    }
+}
+
+
+
+  input:valid {
+    border: 2px solid green;
+  }
+  

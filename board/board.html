@@ -152,55 +152,57 @@
         <span id="errorTaskFoundMobile" class="no-tasks-found-message" style="display: none;">Keine Ergebnisse gefunden</span>
       </div>
     </div>
-    <div class="board-bar">
-      <div class="board-bar-item">
-        <div class="tasks-headline">
-          <h2>To do</h2>
-          <button class="icon-button" id="addTaskButtonTodo">
-            <img src="../img/plus-button-icon.png" alt="Add Task">
-          </button>
-          <button class="icon-button-responsive" >
-            <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
-          </button>
+    <div class="wrapper">
+      <div class="board-bar">
+        <div class="board-bar-item">
+          <div class="tasks-headline">
+            <h2>To do</h2>
+            <button class="icon-button" id="addTaskButtonTodo">
+              <img src="../img/plus-button-icon.png" alt="Add Task">
+            </button>
+            <button class="icon-button-responsive" >
+              <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
+            </button>
+          </div>
+          <div class="task-board-container" id="toDoColumn">
+            <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+          </div>
         </div>
-        <div class="task-board-container" id="toDoColumn">
-          <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+        <div class="board-bar-item">
+          <div class="tasks-headline">
+            <h2>In progress</h2>
+            <button class="icon-button" id="addTaskButtonInProgress">
+              <img src="../img/plus-button-icon.png" alt="Add Task">
+            </button>
+            <button class="icon-button-responsive" >
+              <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
+            </button>
+          </div>
+          <div class="task-board-container" id="inProgress">
+            <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+          </div>
         </div>
-      </div>
-      <div class="board-bar-item">
-        <div class="tasks-headline">
-          <h2>In progress</h2>
-          <button class="icon-button" id="addTaskButtonInProgress">
-            <img src="../img/plus-button-icon.png" alt="Add Task">
-          </button>
-          <button class="icon-button-responsive" >
-            <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
-          </button>
+        <div class="board-bar-item">
+          <div class="tasks-headline">
+            <h2>Await feedback</h2>
+            <button class="icon-button" id="addTaskButtonAwaitFeedback">
+              <img src="../img/plus-button-icon.png" alt="Await Feedback">
+            </button>
+            <button class="icon-button-responsive" >
+              <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
+            </button>
+          </div>
+          <div class="task-board-container" id="awaitFeedback">
+            <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+          </div>
         </div>
-        <div class="task-board-container" id="inProgress">
-          <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
-        </div>
-      </div>
-      <div class="board-bar-item">
-        <div class="tasks-headline">
-          <h2>Await feedback</h2>
-          <button class="icon-button" id="addTaskButtonAwaitFeedback">
-            <img src="../img/plus-button-icon.png" alt="Await Feedback">
-          </button>
-          <button class="icon-button-responsive" >
-            <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
-          </button>
-        </div>
-        <div class="task-board-container" id="awaitFeedback">
-          <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
-        </div>
-      </div>
-      <div class="board-bar-item">
-        <div class="tasks-headline">
-          <h2>Done</h2>
-        </div>
-        <div class="task-board-container" id="done">
-          <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+        <div class="board-bar-item">
+          <div class="tasks-headline">
+            <h2>Done</h2>
+          </div>
+          <div class="task-board-container" id="done">
+            <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+          </div>
         </div>
       </div>
     </div>

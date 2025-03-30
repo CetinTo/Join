@@ -212,7 +212,7 @@ async function addTaskToFirebase() {
       }
     );
     clearForm();
-    window.location.reload();
+    // window.location.reload();
   } finally {
     isSaving = false;
   }
@@ -230,7 +230,7 @@ function validateForm() {
     document.querySelectorAll(".assigned-to-profiles-container div").length > 0,
     document.querySelector(".priority-container .active"),
     document.querySelector(".category-item.selected"),
-    document.querySelectorAll(".subtasks-scroll-container .added-subtasks").length > 0
+    // document.querySelectorAll(".subtasks-scroll-container .added-subtasks").length > 0
   ].every(Boolean);
 
   const createBtn = document.querySelector(".create-btn");
