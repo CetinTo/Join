@@ -1,32 +1,36 @@
 function openDatePicker(inputId) {
-    let dateInput = document.getElementById(inputId);
-    if (!dateInput) {
-        console.error("Element not found: " + inputId);
-        return;
-    }
+    const dateInput = document.getElementById(inputId);
+    if (!dateInput) return;
     
-    // Verhindere manuelle Eingaben, indem das Feld readonly gesetzt wird:
+    // Prevent manual input
     dateInput.setAttribute("readonly", "readonly");
-
-    flatpickr(dateInput, {
+    
+    // Wenn bereits eine Flatpickr-Instanz existiert, toggeln:
+    if (dateInput._flatpickr) {
+      dateInput._flatpickr.isOpen ? dateInput._flatpickr.close() : dateInput._flatpickr.open();
+    } else {
+      flatpickr(dateInput, {
         dateFormat: "d/m/Y",
         defaultDate: "today",
-        minDate: "today",      // verhindert die Auswahl vergangener Tage über den Kalender
+        minDate: "today",
         locale: flatpickr.l10ns.de,
-        allowInput: false,     // deaktiviert manuelle Eingaben
+        allowInput: false,
+        disableMobile: true,
         onChange: function(selectedDates, dateStr, instance) {
-            let currentDate = new Date();
-            currentDate.setHours(0, 0, 0, 0);
-            if (selectedDates.length > 0 && selectedDates[0] < currentDate) {
-                // Setzt das Datum auf heute, falls ein Datum in der Vergangenheit gewählt wurde
-                instance.setDate("today", true);
-                alert("Das ausgewählte Datum liegt in der Vergangenheit. Bitte wählen Sie ein aktuelles Datum.");
-            }
+          let currentDate = new Date();
+          currentDate.setHours(0, 0, 0, 0);
+          if (selectedDates.length > 0 && selectedDates[0] < currentDate) {
+            instance.setDate("today", true);
+            alert("Das ausgewählte Datum liegt in der Vergangenheit. Bitte wählen Sie ein aktuelles Datum.");
+          }
         }
-    });
-    
-    dateInput.focus();
-}
+      });
+      // Nach der Initialisierung die Instanz direkt öffnen
+      dateInput._flatpickr.open();
+    }
+  }
+  
+  
 
 
 

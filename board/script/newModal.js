@@ -63,25 +63,100 @@ function setAssigneeBadges(task) {
 }
 
 /**
- * Populates the subtasks list in the edit modal.
- * @param {Object} task - The task object.
+ * Populates the edit subtasks list.
+ * @param {Object} task - The task object containing subtasks.
  */
 function setSubtasksList(task) {
   const list = document.getElementById('editSubtasksList');
   list.innerHTML = "";
   if (task.subtasks && Array.isArray(task.subtasks) && task.subtasks.length) {
-    task.subtasks.forEach(st => {
-      const stDiv = document.createElement("div");
-      stDiv.className = "subtask-item";
-      stDiv.innerHTML = `
-        <span>• ${st.text}</span>
-        <div class="subtask-actions">
-          <img src="../img/pen.png" alt="Edit" class="subtask-edit-edit">
-          <img src="../img/trash.png" alt="Delete" class="subtask-delete-edit">
-        </div>`;
-      list.appendChild(stDiv);
+    task.subtasks.forEach(subtask => {
+      const subtaskItem = createSubtaskItem(subtask);
+      list.appendChild(subtaskItem);
     });
   }
+}
+
+/**
+ * Creates the entire subtask element including text and action buttons.
+ * @param {Object} subtask - The subtask data.
+ * @returns {HTMLElement} - The subtask element.
+ */
+function createSubtaskItem(subtask) {
+  const stDiv = document.createElement("div");
+  stDiv.className = "subtask-item";
+  const span = createSubtaskTextSpan(subtask.text);
+  const actionsDiv = createSubtaskActions();
+  stDiv.appendChild(span);
+  stDiv.appendChild(actionsDiv);
+  const editIcon = actionsDiv.querySelector('.subtask-edit-edit');
+  editIcon.addEventListener('click', () => {
+    replaceSpanWithInput(stDiv, span, subtask.text);
+  });
+  return stDiv;
+}
+
+/**
+ * Creates a <span> element for the subtask text.
+ * @param {string} text - The subtask text.
+ * @returns {HTMLElement} - The <span> element.
+ */
+function createSubtaskTextSpan(text) {
+  const span = document.createElement('span');
+  span.innerText = `• ${text}`;
+  return span;
+}
+
+/**
+ * Creates the container for action icons (edit and delete).
+ * @returns {HTMLElement} - The actions container element.
+ */
+function createSubtaskActions() {
+  const actionsDiv = document.createElement('div');
+  actionsDiv.className = "subtask-actions";
+  const editIcon = document.createElement('img');
+  editIcon.src = "../img/pen.png";
+  editIcon.alt = "Edit";
+  editIcon.className = "subtask-edit-edit";
+  const deleteIcon = document.createElement('img');
+  deleteIcon.src = "../img/trash.png";
+  deleteIcon.alt = "Delete";
+  deleteIcon.className = "subtask-delete-edit";
+  actionsDiv.appendChild(editIcon);
+  actionsDiv.appendChild(deleteIcon);
+  return actionsDiv;
+}
+
+/**
+ * Replaces the text element with an input field to enable editing.
+ * @param {HTMLElement} container - The parent element of the subtask.
+ * @param {HTMLElement} span - The current text element.
+ * @param {string} originalText - The original text.
+ */
+function replaceSpanWithInput(container, span, originalText) {
+  const currentText = span.innerText.replace('• ', '');
+  const input = createEditInput(currentText);
+  container.replaceChild(input, span);
+  input.focus();
+  input.addEventListener('blur', () => {
+    const newText = input.value.trim();
+    const finalText = newText !== '' ? newText : originalText;
+    const newSpan = createSubtaskTextSpan(finalText);
+    container.replaceChild(newSpan, input);
+  });
+}
+
+/**
+ * Creates an input field for editing the subtask text.
+ * @param {string} text - The text to be edited.
+ * @returns {HTMLElement} - The input field element.
+ */
+function createEditInput(text) {
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = text;
+  input.classList.add('responsive-subtask-input'); // CSS-Klasse hinzufügen
+  return input;
 }
 
 /**
@@ -164,10 +239,8 @@ async function updateTaskInFirebase(task) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(task)
     });
-    if (!response.ok) throw new Error(`Update fehlgeschlagen: ${response.statusText}`);
-  } catch (error) {
-    console.error(error);
-  }
+    if (!response.ok) throw new Error(`Update failed: ${response.statusText}`);
+  } catch (error) {}
 }
 
 /**
@@ -212,11 +285,8 @@ async function loadContacts(assignedUsers = []) {
   try {
     const response = await fetch('https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json');
     const contacts = await response.json();
-    console.log('Contacts loaded:', contacts);
     populateAssigneeDropdown(contacts, assignedUsers);
-  } catch (error) {
-    console.error('Error fetching contacts:', error);
-  }
+  } catch (error) {}
 }
 
 /**
@@ -232,13 +302,11 @@ function populateAssigneeDropdown(contacts, assignedUsers) {
   const assignedUserNames = new Set(
     assignedUsers.map(u => u.name.trim().toLowerCase())
   );
-  console.log("Assigned user names:", Array.from(assignedUserNames));
   const selectedContacts = new Set();
   Object.entries(contacts).forEach(([id, contact]) => {
     const item = createDropdownItem(id, contact, selectedContacts, badgesContainer);
     dropdownList.appendChild(item);
     const contactName = contact.name.trim().toLowerCase();
-    console.log("Checking contact:", contactName);
     if (assignedUserNames.has(contactName)) {
       selectedContacts.add(id);
       item.classList.add('selected');
@@ -363,7 +431,7 @@ function createContactBadge(contact, id, container, selectedContacts) {
 
 /**
  * Reads the assignees from the badges.
- * @returns {Array} - Array of user objects with name and color.
+ * @returns {Array<Object>} Array of user objects with name and color.
  */
 function readAssigneesFromBadges() {
   const badges = document.querySelectorAll('#assigneeBadges .assignee-badge');
@@ -404,7 +472,7 @@ function getPriorityPath(priority) {
 
 /**
  * Reads subtasks from the edit modal.
- * @returns {Array} - Array of subtasks.
+ * @returns {Array<Object>} Array of subtasks.
  */
 function readSubtasksFromEditModal() {
   const subtaskItems = document.querySelectorAll('#editSubtasksList .subtask-item');

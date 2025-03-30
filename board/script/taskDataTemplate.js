@@ -3,6 +3,7 @@
  * @type {Object|null}
  */
 window.currentTask = null;
+
 /**
  * @global
  * @type {string|null}
@@ -10,35 +11,24 @@ window.currentTask = null;
 window.currentTaskId = null;
 
 /**
- * Ermittelt die "echte" Gesamtanzahl an Kontakten,
- * auch wenn der letzte Eintrag so etwas wie { name: "+3" } ist.
- * Gibt ein Objekt zurück:
- *  {
- *    realUsers: [...],       // Array ohne den +x-Eintrag
- *    totalCount: <Number>    // Anzahl realer Einträge + plusWert
- *  }
+ * Returns an object containing the real users and total count,
+ * even if the last entry is a placeholder like { name: "+3" }.
+ * @param {Array<Object>} users - Array of user objects.
+ * @returns {{realUsers: Array<Object>, totalCount: number}} Object with realUsers array and totalCount.
  */
 function getRealUserArrayAndCount(users) {
   if (!users || !Array.isArray(users)) {
     return { realUsers: [], totalCount: 0 };
   }
   let placeholderCount = 0;
-  // Letzter Eintrag
   const last = users[users.length - 1];
-  if (
-    last &&
-    typeof last.name === 'string' &&
-    last.name.trim().startsWith('+')
-  ) {
-    // Versuch, die Zahl hinter dem "+"
+  if (last && typeof last.name === 'string' && last.name.trim().startsWith('+')) {
     const parsed = parseInt(last.name.trim().replace('+', ''));
     if (!isNaN(parsed)) {
-      placeholderCount = parsed; // z.B. 3
-      // Entferne den letzten Eintrag aus dem "realUsers" Array
+      placeholderCount = parsed;
       users = users.slice(0, users.length - 1);
     }
   }
-  // Nun haben wir das "bereinigte" Array + placeholderCount
   return {
     realUsers: users,
     totalCount: users.length + placeholderCount
@@ -47,21 +37,17 @@ function getRealUserArrayAndCount(users) {
 
 /**
  * Renders the user badges for a task.
- * @param {Array} users - Array of user objects.
+ * @param {Array<Object>} users - Array of user objects.
  * @param {number} [maxToShow=3] - Maximum number of badges to display.
- * @returns {string} HTML string for the badges.
+ * @returns {string} HTML string representing the badges.
  */
 function renderUserBadges(users, maxToShow = 3) {
-  // Hier rufen wir zuerst getRealUserArrayAndCount auf
   const { realUsers, totalCount } = getRealUserArrayAndCount(users);
   let badges = '';
-  // Zeige die ersten maxToShow "realUsers" an
   realUsers.slice(0, maxToShow).forEach(u => {
-    // Nutze hier z.B. "initials" oder "name" – je nach Bedarf
     const initials = u.initials || '?';
     badges += `<div class="profile-badge-floating-${u.color || 'gray'}">${initials}</div>`;
   });
-  // Wenn totalCount > maxToShow, zeige ein extra Badge an
   if (totalCount > maxToShow) {
     badges += `<div class="profile-badge-floating-gray">+${totalCount - maxToShow}</div>`;
   }
@@ -77,17 +63,17 @@ function renderUserBadges(users, maxToShow = 3) {
 function updateSubtaskStatus(taskId, subtaskIndex, newStatus) {
   if (!window.currentTask || window.currentTaskId !== taskId) return;
   window.currentTask.subtasks[subtaskIndex].completed = newStatus;
-  const total = window.currentTask.subtasks.length,
-        completed = window.currentTask.subtasks.filter(st => st.completed).length,
-        newProgress = total ? (completed / total) * 100 : 0;
+  const total = window.currentTask.subtasks.length;
+  const completed = window.currentTask.subtasks.filter(st => st.completed).length;
+  const newProgress = total ? (completed / total) * 100 : 0;
   const url = `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${taskId}.json`;
   fetch(url, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ subtasks: window.currentTask.subtasks, progress: newProgress })
-  })
-  .then(r => { if (!r.ok) throw new Error("Error updating subtask status."); })
-  .catch(err => {});
+  }).then(r => {
+    if (!r.ok) throw new Error("Error updating subtask status.");
+  }).catch(() => {});
 }
 
 /**
@@ -141,8 +127,6 @@ function renderModalHeader(task, modal) {
          </div>`
       ).join("")
     : "";
-
-  console.log("renderModalHeader – task:", task.firebaseKey, task.title, "users:", task.users, task.users?.length);
 }
 
 /**
@@ -199,11 +183,11 @@ async function updateTaskColumnInFirebase(taskId, newColumn) {
       body: JSON.stringify({ column: newColumn })
     });
     if (!r.ok) throw new Error(`Error updating task column: ${r.statusText}`);
-  } catch (e) { }
+  } catch (e) {}
 }
 
 /**
- * Checks all columns and toggles the placeholder image depending on whether tasks are present.
+ * Checks all columns and toggles the placeholder image based on task presence.
  */
 function checkColumns() {
   document.querySelectorAll('.task-board-container').forEach(col => {
@@ -215,7 +199,7 @@ function checkColumns() {
 }
 
 /**
- * Sets up drag & drop for tasks.
+ * Enables drag & drop functionality for tasks.
  */
 function enableDragAndDrop() {
   document.querySelectorAll('.draggable-cards').forEach(card => {
@@ -237,22 +221,19 @@ function enableDragAndDrop() {
  * @returns {HTMLElement} The created task element.
  */
 function createTaskElement(task) {
-  const total = task.subtasks ? task.subtasks.length : 0,
-        completed = task.subtasks ? task.subtasks.filter(st => st.completed).length : 0,
-        progress = total ? (completed / total) * 100 : 0;
-  const mapping = { urgent: "../img/icon-urgent.png", medium: "../img/priority-img/medium.png", low: "../img/icon-low.png" };
+  const total = task.subtasks ? task.subtasks.length : 0;
+  const completed = task.subtasks ? task.subtasks.filter(st => st.completed).length : 0;
+  const progress = total ? (completed / total) * 100 : 0;
+  const mapping = {
+    urgent: "../img/icon-urgent.png",
+    medium: "../img/priority-img/medium.png",
+    low: "../img/icon-low.png"
+  };
   let prio = extractPriority(task.priority);
   if (!mapping[prio]) prio = "medium";
   const taskPriority = mapping[prio];
-
-  // Hier nutzen wir unsere renderUserBadges-Funktion, die +3 interpretiert.
   const userBadges = renderUserBadges(task.users, 3);
-
-  // Bestimme, ob der Fortschrittsbereich angezeigt werden soll:
   const progressStyle = total > 0 ? "" : "display: none;";
-
-  console.log("createTaskElement – task:", task.firebaseKey, task.title, "users:", task.users, task.users?.length);
-
   const el = document.createElement("div");
   el.classList.add("draggable-cards");
   el.id = task.firebaseKey || task.id;
@@ -284,7 +265,6 @@ function createTaskElement(task) {
     </div>`;
   return el;
 }
-
 
 /**
  * Generates all task elements and inserts them into their respective columns.
