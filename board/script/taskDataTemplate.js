@@ -326,19 +326,17 @@ function generateTasks(tasksData) {
 
 /**
  * Reads subtasks from the edit modal.
- * The completed status is taken from the currentTask subtasks.
+ * Instead of defaulting completed to false, it preserves the current completed state.
  * @returns {Array<Object>} Array of subtasks.
  */
 function readSubtasksFromEditModal() {
   const subtaskItems = document.querySelectorAll('#editSubtasksList .subtask-item');
   const subtasks = [];
-  subtaskItems.forEach(item => {
+  subtaskItems.forEach((item, index) => {
     const span = item.querySelector('span');
     if (span) {
       const text = span.innerText.replace('• ', '').trim();
-      // Übernehme den completed-Status aus dem aktuellen Task anhand des Data-Attributs
-      const index = item.dataset.index;
-      const completed = (window.currentTask && window.currentTask.subtasks && window.currentTask.subtasks[index])
+      const completed = window.currentTask && window.currentTask.subtasks && window.currentTask.subtasks[index]
         ? window.currentTask.subtasks[index].completed
         : false;
       subtasks.push({ text, completed });
@@ -359,6 +357,34 @@ function editTaskFromOverlay(event) {
   const modal = document.getElementById('editTaskModal');
   if (modal) modal.style.display = 'flex';
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('confirmEditBtn')?.addEventListener('click', saveEditedTaskToFirebase);
+  const subtaskInput = document.querySelector('.subtask-input');
+  const subtaskCheck = document.querySelector('.subtask-edit-check');
+  const subtasksList = document.getElementById('editSubtasksList');
+  subtaskCheck?.addEventListener('click', () => {
+    const text = subtaskInput.value.trim();
+    if (text !== '') {
+      const newSubtask = document.createElement('div');
+      newSubtask.className = 'subtask-item';
+      newSubtask.innerHTML = `
+        <span>• ${text}</span>
+        <div class="subtask-actions">
+          <img src="../img/pen.png" alt="Edit" class="subtask-edit-edit">
+          <img src="../img/trash.png" alt="Delete" class="subtask-delete-edit">
+        </div>`;
+      newSubtask.dataset.index = window.currentTask.subtasks ? window.currentTask.subtasks.length : 0;
+      subtasksList.appendChild(newSubtask);
+      subtaskInput.value = '';
+    }
+  });
+  subtasksList?.addEventListener('click', e => {
+    if (e.target?.matches('img[alt="Delete"]')) {
+      e.target.closest('.subtask-item')?.remove();
+    }
+  });
+});
 
 /**
  * Fills the edit modal with task details.
@@ -434,7 +460,6 @@ function setSubtasksList(task) {
   if (task.subtasks && Array.isArray(task.subtasks) && task.subtasks.length) {
     task.subtasks.forEach((subtask, index) => {
       const subtaskItem = createSubtaskItem(subtask);
-      // Setze den Index als Data-Attribut, um ihn später in replaceSpanWithInput nutzen zu können.
       subtaskItem.dataset.index = index;
       list.appendChild(subtaskItem);
     });
@@ -508,7 +533,6 @@ function replaceSpanWithInput(container, span, originalText) {
     const finalText = newText !== '' ? newText : originalText;
     const newSpan = createSubtaskTextSpan(finalText);
     container.replaceChild(newSpan, input);
-    // Aktualisiere das aktuelle Task-Objekt, falls vorhanden
     const index = container.dataset.index;
     if (window.currentTask && window.currentTask.subtasks && index !== undefined) {
       window.currentTask.subtasks[index].text = finalText;
@@ -547,10 +571,10 @@ function getSelectedPriority() {
  */
 function getPriorityPath(priority) {
   switch (priority) {
-    case 'urgent': return '../../img/priority-img/urgent.png';
-    case 'medium': return '../../img/priority-img/medium.png';
-    case 'low':    return '../../img/priority-img/low.png';
-    default:       return '../../img/priority-img/medium.png';
+    case 'urgent': return '../img/priority-img/urgent.png';
+    case 'medium': return '../img/priority-img/medium.png';
+    case 'low':    return '../img/priority-img/low.png';
+    default:       return '../img/priority-img/medium.png';
   }
 }
 
@@ -562,7 +586,7 @@ async function saveEditedTaskToFirebase() {
   updateTaskFromInputs();
   await updateTaskInFirebase(currentTask);
   closeEditModal();
-  // Entferne location.reload(), um Änderungen sofort sichtbar zu machen.
+  // location.reload() entfernt, um Änderungen sofort sichtbar zu machen.
 }
 
 /**
@@ -621,14 +645,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (text !== '') {
       const newSubtask = document.createElement('div');
       newSubtask.className = 'subtask-item';
-      // Da es sich um einen neuen Subtask handelt, wird hier kein completed-Status gesetzt (false)
       newSubtask.innerHTML = `
         <span>• ${text}</span>
         <div class="subtask-actions">
           <img src="../img/pen.png" alt="Edit" class="subtask-edit-edit">
           <img src="../img/trash.png" alt="Delete" class="subtask-delete-edit">
         </div>`;
-      // Setze den Index als Data-Attribut (neuer Eintrag ans Ende)
       newSubtask.dataset.index = window.currentTask.subtasks ? window.currentTask.subtasks.length : 0;
       subtasksList.appendChild(newSubtask);
       subtaskInput.value = '';
@@ -641,6 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Exportiere die Funktionen, damit sie in anderen Modulen verwendet werden können.
 export {
   generateTasks,
   openTaskModal,
