@@ -137,22 +137,32 @@ document.addEventListener("DOMContentLoaded", () => {
   loadAwaitFeedbackTaskCounterFromFirebase();
 });
 
-/**
- * Hides the greeting section container after animation ends on small screens.
- */
 document.addEventListener('DOMContentLoaded', () => {
+  // Prüfe, ob die Animation bereits gezeigt wurde
+  const greetingShown = localStorage.getItem('greetingShown');
   const greetingText = document.querySelector('.greeting-section');
-  if (greetingText && window.innerWidth <= 1230) {
+  
+  // Wenn noch nicht gezeigt und die Bildschirmbreite <= 1230 ist, Animation abspielen
+  if (!greetingShown && greetingText && window.innerWidth <= 1230) {
     greetingText.addEventListener('animationend', (e) => {
       if (e.animationName === 'slideText') {
         const greetingContainer = document.querySelector('.greeting-section-container');
         if (greetingContainer) {
           greetingContainer.style.display = 'none';
+          // Animation als gezeigt markieren
+          localStorage.setItem('greetingShown', 'true');
         }
       }
     });
+  } else {
+    // Falls die Animation bereits gezeigt wurde, den Container sofort ausblenden
+    const greetingContainer = document.querySelector('.greeting-section-container');
+    if (greetingContainer) {
+      greetingContainer.style.display = 'none';
+    }
   }
 });
+
 
 /**
  * Sets the --vh CSS variable based on the current viewport height.

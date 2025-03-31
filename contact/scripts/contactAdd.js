@@ -108,11 +108,12 @@ async function saveContactToFirebase() {
     loadContactsFromFirebase();
     return true;
   } catch (error) {
-    alert("Fehler beim Speichern des Kontakts.");
+    // Auch hier den alert entfernen:
+    // alert("Fehler beim Speichern des Kontakts.");
+    console.error("Fehler beim Speichern des Kontakts.", error);
     return false;
   }
 }
-
 /**
  * Reads and trims contact form inputs.
  * @returns {{ name: string, email: string, phone: string }} The input values.
@@ -133,7 +134,9 @@ function getContactFormValues() {
  */
 function validateContactInputs(name, email, phone) {
   if (!name || !email || !phone) {
-    alert("Fehler: Alle Felder müssen ausgefüllt sein.");
+    // Entferne oder ersetze den alert-Aufruf:
+    // alert("Fehler: Alle Felder müssen ausgefüllt sein.");
+    console.error("Fehler: Alle Felder müssen ausgefüllt sein."); // Alternativ: Log im Konsolenfenster
     return false;
   }
   return true;

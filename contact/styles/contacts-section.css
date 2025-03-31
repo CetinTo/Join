@@ -738,6 +738,15 @@ h4{
 }
 
 
+@media (max-width: 600px) {
+    .success-popup {
+      left: 55%;       
+      right: auto;     
+      transform: translateX(-50%); 
+      width: 90%;      
+    }
+  }
+
 
 /* modal edit contact  */
 

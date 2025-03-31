@@ -229,7 +229,7 @@
               <div class="footer-buttons">
                 <button class="clear-btn">Clear X</button>
                 <div class="create-btn-div-add-contact">
-                  <button class="create-btn">
+                  <button class="create-btn" type="button" >
                     Create contact <img src="../img/icon/check.png" alt="" />
                   </button>
                 </div>
@@ -365,7 +365,7 @@
           const isValid = Array.from(formInputs).every(input => input.checkValidity());
           if (!isValid) {
             e.preventDefault(); 
-            alert("Bitte fülle alle Felder korrekt aus.");
+           
           } else {
             
             console.log("Alle Felder gültig, weiter geht's!");

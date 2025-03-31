@@ -854,11 +854,12 @@ h1 {
   }
   
   .move-to-dropdown.visible {
+    left:72px !important;
     width:127px;
     padding: 8px;
     background-color: #2a3647;
     color: white;
-    border-radius: 0 24px 24px 24px;
+    border-radius: 24px 0 24px 24px;
     display: block;
   }
 
