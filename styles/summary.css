@@ -906,3 +906,78 @@ name-span {
         left: 70rem;
     }
   }
+
+
+  @media (max-height:726px){
+    .headline-section{
+        padding-bottom:0;
+    }
+
+    .to-do-section{
+        gap:0;
+    }
+
+  }
+
+
+  @media (max-width:360px){
+    .headline-text{
+        font-size:36px;
+    }
+
+    .headline-section{
+        height:83px;
+        gap:0;
+        padding-top:0;
+    }
+
+    .content-area{
+        gap:0;
+    }
+
+
+    .to-do-div{
+        width:9rem;
+        height:5rem;
+        gap:10;
+        border-radius:16px;
+    }
+
+    .to-do-icon{
+        padding-left:0;
+        width:36px;
+        height:36px;
+
+    }
+
+    .done-div-resp{
+        width:32px;
+    }
+
+    .to-do-div-resp{
+        width:32px;
+    }
+
+    .to-do-div-resp-span{
+        width:40px !important;
+    }
+
+    .to-do-second-section{
+        border-radius:16px;
+    }
+    .hr3{
+        padding-right:12px;
+    }
+
+    .urgent-container{
+        padding-left:12px;
+        width:100px;
+    }
+
+    .tasks-in-board{
+        width:80px !important;
+        height:96px;
+        border-radius:16px;
+    }
+
+  }
