@@ -521,3 +521,10 @@ main {
     width:auto;
   }
 }
+
+
+@media (max-width:380px){
+  .main-container-privacy{
+    padding-bottom:600px;
+  }
+}
