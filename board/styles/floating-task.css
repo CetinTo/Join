@@ -24,7 +24,7 @@
     border-radius: 30px;
     border: 1px solid #D1d1d1;
     box-sizing: border-box; /* Padding und Border in der Breite/Höhe berücksichtigen */
-    overflow-y: none; /* Scrollen, falls der Inhalt zu groß ist */
+    overflow-y: auto; /* Scrollen, falls der Inhalt zu groß ist */
 }
 
 @keyframes slideIn {

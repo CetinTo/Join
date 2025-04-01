@@ -776,6 +776,7 @@ h1 {
         width:300px !important;
         height: 500px !important;
         min-height: 0 ;
+        overflow-x: hidden;
     }
 
     .task-modal-headline h1 {
