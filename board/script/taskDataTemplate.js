@@ -336,6 +336,7 @@ function readSubtasksFromEditModal() {
     const span = item.querySelector('span');
     if (span) {
       const text = span.innerText.replace('• ', '').trim();
+      // Den aktuellen Status aus window.currentTask übernehmen, falls vorhanden.
       const completed = window.currentTask && window.currentTask.subtasks && window.currentTask.subtasks[index]
         ? window.currentTask.subtasks[index].completed
         : false;
@@ -344,6 +345,7 @@ function readSubtasksFromEditModal() {
   });
   return subtasks;
 }
+
 
 /**
  * Opens the edit task modal from an overlay.
@@ -474,16 +476,29 @@ function setSubtasksList(task) {
 function createSubtaskItem(subtask) {
   const stDiv = document.createElement("div");
   stDiv.className = "subtask-item";
+  
+  // Checkbox für den Completed-Status
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.className = "subtask-edit-checkbox";
+  checkbox.checked = subtask.completed;
+
   const span = createSubtaskTextSpan(subtask.text);
+  
   const actionsDiv = createSubtaskActions();
+  stDiv.appendChild(checkbox);
   stDiv.appendChild(span);
   stDiv.appendChild(actionsDiv);
+  
+  // Edit-Icon-Event zum Bearbeiten des Textes
   const editIcon = actionsDiv.querySelector('.subtask-edit-edit');
   editIcon.addEventListener('click', () => {
     replaceSpanWithInput(stDiv, span, subtask.text);
   });
+  
   return stDiv;
 }
+
 
 /**
  * Creates a <span> element for the subtask text.
@@ -528,7 +543,7 @@ function replaceSpanWithInput(container, span, originalText) {
   const input = createEditInput(currentText);
   container.replaceChild(input, span);
   input.focus();
-  input.addEventListener('blur', () => {
+  input.addEventListener('blur', async () => {
     const newText = input.value.trim();
     const finalText = newText !== '' ? newText : originalText;
     const newSpan = createSubtaskTextSpan(finalText);
@@ -536,9 +551,12 @@ function replaceSpanWithInput(container, span, originalText) {
     const index = container.dataset.index;
     if (window.currentTask && window.currentTask.subtasks && index !== undefined) {
       window.currentTask.subtasks[index].text = finalText;
+      // Direktes Speichern des aktualisierten Tasks (inklusive Subtasks)
+      await updateTaskInFirebase(window.currentTask);
     }
   });
 }
+
 
 /**
  * Creates an input field for editing the subtask text.

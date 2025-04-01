@@ -85,16 +85,29 @@ function setSubtasksList(task) {
 function createSubtaskItem(subtask) {
   const stDiv = document.createElement("div");
   stDiv.className = "subtask-item";
+  
+  // Checkbox für den Completed-Status
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.className = "subtask-edit-checkbox";
+  checkbox.checked = subtask.completed;
+  
   const span = createSubtaskTextSpan(subtask.text);
   const actionsDiv = createSubtaskActions();
+  
+  stDiv.appendChild(checkbox);
   stDiv.appendChild(span);
   stDiv.appendChild(actionsDiv);
+  
+  // Edit-Icon-Event zum Bearbeiten des Textes
   const editIcon = actionsDiv.querySelector('.subtask-edit-edit');
   editIcon.addEventListener('click', () => {
     replaceSpanWithInput(stDiv, span, subtask.text);
   });
+  
   return stDiv;
 }
+
 
 /**
  * Creates a <span> element for the subtask text.
@@ -478,16 +491,19 @@ function readSubtasksFromEditModal() {
   const subtaskItems = document.querySelectorAll('#editSubtasksList .subtask-item');
   const subtasks = [];
   subtaskItems.forEach(item => {
+    const checkbox = item.querySelector('.subtask-edit-checkbox');
     const span = item.querySelector('span');
     if (span) {
       subtasks.push({
         text: span.innerText.replace('• ', '').trim(),
-        completed: false
+        completed: checkbox ? checkbox.checked : false
       });
     }
   });
   return subtasks;
 }
+
+
 
 /**
  * Opens the edit task modal from an overlay.

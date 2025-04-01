@@ -357,6 +357,16 @@ h1 {
     .form-right{
         width:100% !important;
     }
+    .headline-div{
+        padding-bottom:26px;
+       
+    }
+
+    .close-modal-div-x img {
+        position:absolute;
+        padding-top:61px !important;
+        padding-right:0 !important;
+    }
 
 
 }

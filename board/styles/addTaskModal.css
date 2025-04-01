@@ -132,6 +132,10 @@ span{
     .headline-div-modal img {
         padding-right: 8px;
     }
+
+    .close-modal-div-x img{
+        padding-top:114px !important;
+    }
 }
 
 .add-task-button-resp{
@@ -144,14 +148,14 @@ span{
 
 @media (max-width:770px){
     .add-task-button{
-        display: none;
+        /* display: none; */
     }
 
     .add-task-btn-text{
-        display: none;
+        /* display: none; */
     }
 
-    .add-task-button-resp{
+    /* .add-task-button-resp{
         display: block ;
         cursor: pointer;
         display: block;
@@ -161,7 +165,7 @@ span{
         width: 40px;
         height: 40px;
         padding: 0;
-    }
+    } */
 
     .add-task-button-a{
         display: block;
@@ -244,12 +248,91 @@ span{
     }
 
     .main-form-div{
-        height:66% !important;
+        height:62% !important;
+    }
+
+    .category-dropdown{
+        padding:6px !important; 
+    }
+
+    .subtask{
+        height:36px !important;
+        width:70% !important;
+        
+    }
+
+    .subtask-wrapper{
+        padding:0 !important;
+    }
+
+    .subtask-container{
+        padding-top:24px;
+    }
+
+    .input{
+        height:36px !important; 
+        max-width:99% !important;
+    }
+
+    .description{
+        width:93%;
+    }
+
+    .description-resp{
+        padding-bottom:24px;
+        padding-top:24px;
+    }
+
+    .dropdown-search{
+        width:91% !important;
+    }
+
+    .date-input{
+        width:91% !important;
+        
+    }
+
+    .date-input-container{
+        width:98%;
+        padding-bottom:24px;
+    }
+
+    .priority-button-urgent{
+        width:98% !important;
+        height: 46px !important;;
     }
 
 
+    .priority-button-medium {
+        width:98% !important;
+        height: 46px !important;
+    }
+
+    .priority-button-low {
+        width:98% !important;
+        height:46px !important;
+    }
+
+    .priority-container{
+        padding-bottom:24px;
+    }
+
+    .footer-btn{
+        flex-direction: row !important;
+    }
+
+    .footer-mid-div{
+        height:50px;
+    }
+
+    .footer-btn{
+        padding-bottom:0;
+    }
 
 }
+
+
+
 
 @media (max-height:670px){
 
