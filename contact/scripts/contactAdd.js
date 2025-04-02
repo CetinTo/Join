@@ -17,6 +17,8 @@ function initAddModalInteractions() {
 
   createBtn.addEventListener("click", async function (e) {
     e.preventDefault();
+    const { name, email, phone } = getContactFormValues();
+    if (!validateContactInputs(name, email, phone)) return;
     const success = await saveContactToFirebase();
     if (success) closeAddModal();
   });
@@ -99,8 +101,7 @@ function showSuccessPopup() {
  */
 async function saveContactToFirebase() {
   const { name, email, phone } = getContactFormValues();
-  if (!validateContactInputs(name, email, phone)) return false;
-
+  // Die Validierung erfolgt in validateContactInputs
   try {
     await postContactToFirebase({ name, email, phone });
     showSuccessPopup();
@@ -108,12 +109,11 @@ async function saveContactToFirebase() {
     loadContactsFromFirebase();
     return true;
   } catch (error) {
-    // Auch hier den alert entfernen:
-    // alert("Fehler beim Speichern des Kontakts.");
     console.error("Fehler beim Speichern des Kontakts.", error);
     return false;
   }
 }
+
 /**
  * Reads and trims contact form inputs.
  * @returns {{ name: string, email: string, phone: string }} The input values.
@@ -127,6 +127,8 @@ function getContactFormValues() {
 
 /**
  * Validates the contact form inputs.
+ * Zusätzlich zur Prüfung, dass alle Felder ausgefüllt sind, wird hier
+ * geprüft, ob die E-Mail wirklich dem Format entspricht.
  * @param {string} name - Contact name.
  * @param {string} email - Contact email.
  * @param {string} phone - Contact phone.
@@ -134,13 +136,27 @@ function getContactFormValues() {
  */
 function validateContactInputs(name, email, phone) {
   if (!name || !email || !phone) {
-    // Entferne oder ersetze den alert-Aufruf:
-    // alert("Fehler: Alle Felder müssen ausgefüllt sein.");
-    console.error("Fehler: Alle Felder müssen ausgefüllt sein."); // Alternativ: Log im Konsolenfenster
+    console.log("Fehler: Alle Felder müssen ausgefüllt sein.");
     return false;
   }
+  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    console.log("Fehler: Bitte eine gültige E-Mail-Adresse eingeben.");
+    return false;
+  }
+  
+  // Telefon: Nur Ziffern, mind. 6 Zeichen
+  const phoneRegex = /^[0-9]{6,}$/;
+  if (!phoneRegex.test(phone)) {
+    console.log("Fehler: Bitte nur gültige Telefonnummern eingeben (mind. 6 Ziffern).");
+    return false;
+  }
+  
   return true;
 }
+
+
 
 /**
  * Sends a new contact to Firebase (HTTP POST request).
