@@ -296,7 +296,7 @@ h1 {
 
 
     .icon-button{
-        display: none;
+        /* display: none; */
     }
   
 
@@ -684,7 +684,7 @@ h1 {
 
     .add-task-button {
         font-size: 14px;
-        margin-left:12px;
+        /* margin-left:12px; */
     }
 
     .board-bar {
@@ -700,7 +700,7 @@ h1 {
     }
 
     .icon-button{
-        display: none;
+        /* display: none; */
     }
 
 
