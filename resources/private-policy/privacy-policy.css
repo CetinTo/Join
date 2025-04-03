@@ -243,3 +243,26 @@ main {
   padding-top: 100px; /* Mehr Platz zwischen Header und Überschrift */
   margin-bottom: 30px;
 }
+
+
+@media (max-width:370px){
+  .selected-menu-resources-external{
+    width:100px;
+  }
+
+  .selected-menu-resources-external-legal{
+    width:100px;
+  }
+
+  .external-bottom-menu{
+    width:auto;
+  }
+}
+
+
+@media (max-width:380px){
+  .main-container-privacy{
+    padding-bottom:600px;
+  }
+}
+

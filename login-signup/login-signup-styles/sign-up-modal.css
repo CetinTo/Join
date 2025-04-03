@@ -349,3 +349,21 @@
 }
 
 
+@media (max-width:380px){
+  .login-modal {
+    width:280px !important;
+    height:400px !important;
+  }
+
+  .input-group input {
+    padding: 10px 0px 5px 10px;
+  }
+
+  .login-moda{
+    margin-bottom:12px !important;
+  }
+
+  .sign-up-modal-header{
+    padding-top:0;
+  }
+}

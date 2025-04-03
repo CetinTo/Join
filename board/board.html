@@ -131,9 +131,17 @@
             <span class="add-task-btn-text">Add task</span>
             <img src="../img/plus add task mobile.png" alt="+">
           </button>
+<<<<<<< HEAD
           <button class="add-task-button-resp" onclick="openAddTaskModal(); return false;">
             <img src="../img/plus add task mobile.png" alt="+">
           </button>
+=======
+          <!-- <a href="../add-task/addtask.html" class="add-task-button-a">
+            <button class=" add-task-button-resp" >
+              <img src="../img/plus add task mobile.png" alt="+">
+            </button>
+          </a> -->
+>>>>>>> 59f836d950a247b2b5cafbc505f4d3bdc6dd5d68
         </div>
       </div>
       <div class="input-box-responsive">
@@ -149,6 +157,7 @@
         <span id="errorTaskFoundMobile" class="no-tasks-found-message" style="display: none;">Keine Ergebnisse gefunden</span>
       </div>
     </div>
+<<<<<<< HEAD
     <div class="board-bar">
       <div class="board-bar-item">
         <div class="tasks-headline">
@@ -159,10 +168,39 @@
           <button class="icon-button-responsive" onclick="openAddTaskModal(); return false;">
             <img src="../img/plus-button-icon.png" alt="Add Task">
           </button>
+=======
+    <div class="wrapper">
+      <div class="board-bar">
+        <div class="board-bar-item">
+          <div class="tasks-headline">
+            <h2>To do</h2>
+            <button class="icon-button" id="addTaskButtonTodo">
+              <img src="../img/plus-button-icon.png" alt="Add Task">
+            </button>
+            <!-- <button class="icon-button-responsive" >
+              <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
+            </button> -->
+          </div>
+          <div class="task-board-container" id="toDoColumn">
+            <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+          </div>
+>>>>>>> 59f836d950a247b2b5cafbc505f4d3bdc6dd5d68
         </div>
-        <div class="task-board-container" id="toDoColumn">
-          <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+        <div class="board-bar-item">
+          <div class="tasks-headline">
+            <h2>In progress</h2>
+            <button class="icon-button" id="addTaskButtonInProgress">
+              <img src="../img/plus-button-icon.png" alt="Add Task">
+            </button>
+            <!-- <button class="icon-button-responsive" >
+              <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
+            </button> -->
+          </div>
+          <div class="task-board-container" id="inProgress">
+            <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+          </div>
         </div>
+<<<<<<< HEAD
       </div>
       <div class="board-bar-item">
         <div class="tasks-headline">
@@ -198,6 +236,29 @@
         </div>
         <div class="task-board-container" id="done">
           <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+=======
+        <div class="board-bar-item">
+          <div class="tasks-headline">
+            <h2>Await feedback</h2>
+            <button class="icon-button" id="addTaskButtonAwaitFeedback">
+              <img src="../img/plus-button-icon.png" alt="Await Feedback">
+            </button>
+            <!-- <button class="icon-button-responsive" >
+              <a href="../add-task/addtask.html"><img src="../img/plus-button-icon.png" alt="Add Task"></a>
+            </button> -->
+          </div>
+          <div class="task-board-container" id="awaitFeedback">
+            <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+          </div>
+        </div>
+        <div class="board-bar-item">
+          <div class="tasks-headline">
+            <h2>Done</h2>
+          </div>
+          <div class="task-board-container" id="done">
+            <img src="../img/no-tasks-to-do.png" alt="no tasks to do" class="empty-state-img">
+          </div>
+>>>>>>> 59f836d950a247b2b5cafbc505f4d3bdc6dd5d68
         </div>
       </div>
     </div>
@@ -254,7 +315,7 @@
               <span>Title<required-field>*</required-field></span>
               <input type="text" class="input" placeholder="Enter a title">
             </div>
-            <div class="flrow">
+            <div class="flrow description-resp">
               <span>Description</span>
               <textarea placeholder="Enter a Description" class="description"></textarea>
             </div>
@@ -332,7 +393,7 @@
               </div>
             </div>
             <div class="footer-btn">
-              <div class="clear-btn" onclick="toggleModal()">Clear x</div>
+              <div class="clear-btn clear-btn-board-add-task" onclick="toggleModal()">Clear x</div>
               <div class="create-btn">Create <img src="../img/icon/check.png" alt=""></div>
             </div>
           </div>

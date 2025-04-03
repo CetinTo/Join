@@ -180,6 +180,7 @@ h1 {
 }
 
 .draggable-cards {
+    position:relative;
     border-radius: 24px;
     background-color: white;
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.075);
@@ -475,6 +476,7 @@ h6 {
     }
 }
 
+<<<<<<< HEAD
 /* Mobile Task-Hinzufügung ausblenden bei Bildschirmbreite unter 500px */
 @media (max-width: 500px) {
     #mobileAddTaskContainer,
@@ -524,3 +526,25 @@ h6 {
       display: none !important;
     }
   } 
+=======
+
+/* .board-bar{
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    max-width:1280px;
+} */
+
+
+.wrapper {
+    width: 100vw;             
+    overflow-y: scroll;        
+    scrollbar-width: auto;     
+    -ms-overflow-style: auto;  
+  }
+  
+
+  .wrapper::-webkit-scrollbar {
+    width: 12px;             
+  }
+>>>>>>> 59f836d950a247b2b5cafbc505f4d3bdc6dd5d68

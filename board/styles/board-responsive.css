@@ -226,8 +226,9 @@ h1 {
         padding-left:0;
     }
 
-    .main-div{
-        /* overflow-x: hidden; */
+
+    .wrapper{
+        width:75vw !important;
     }
 }
 
@@ -261,6 +262,10 @@ h1 {
         background-color: #888; /* Grauton */
         border-radius: 3px;     /* Abgerundete Ecken */
       }
+
+      .wrapper{
+        width:85vw;
+      }
       
 
 
@@ -291,7 +296,7 @@ h1 {
 
 
     .icon-button{
-        display: none;
+        /* display: none; */
     }
   
 
@@ -352,6 +357,16 @@ h1 {
     .form-right{
         width:100% !important;
     }
+    .headline-div{
+        padding-bottom:26px;
+       
+    }
+
+    .close-modal-div-x img {
+        position:absolute;
+        padding-top:61px !important;
+        padding-right:0 !important;
+    }
 
 
 }
@@ -387,6 +402,10 @@ h1 {
     h1{
         padding-top:12px;
         padding-bottom:12px;
+    }
+
+    .wrapper{
+        width:100vw !important;
     }
 
 }
@@ -665,7 +684,7 @@ h1 {
 
     .add-task-button {
         font-size: 14px;
-        margin-left:12px;
+        /* margin-left:12px; */
     }
 
     .board-bar {
@@ -681,7 +700,7 @@ h1 {
     }
 
     .icon-button{
-        display: none;
+        /* display: none; */
     }
 
 
@@ -755,7 +774,7 @@ h1 {
     }
 
     .assigned-to-container{
-        height:113px !important;
+        height:auto !important;
     }
 
 
@@ -767,6 +786,7 @@ h1 {
         width:300px !important;
         height: 500px !important;
         min-height: 0 ;
+        overflow-x: hidden;
     }
 
     .task-modal-headline h1 {
@@ -843,14 +863,17 @@ h1 {
     z-index: 10;
     display: none;
   }
+  
   .move-to-dropdown.visible {
-    padding:8px;
+    left:72px !important;
+    width:127px;
+    padding: 8px;
     background-color: #2a3647;
-    color:white;
-    border-radius: 0 24px 24px 24px;
-    left:50%;
+    color: white;
+    border-radius: 24px 0 24px 24px;
     display: block;
   }
+
   .move-to-dropdown .dropdown-header {
     font-weight: 300;
     padding: 5px;
@@ -865,3 +888,9 @@ h1 {
     background-color:#55657aa4;
   }
   
+
+  @media (max-width:1300px){
+    .wrapper {
+        width:81vw;
+    }
+  }

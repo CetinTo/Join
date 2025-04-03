@@ -243,7 +243,7 @@ function getTaskData() {
     description: getInputValue(".description", "No description provided"),
     dueDate: getInputValue(".date-input"),
     id: null,
-    priority: `../../img/priority-img/${getSelectedPriority()}.png`,
+    priority: `../img/priority-img/${getSelectedPriority()}.png`,
     progress: 0,
     title: getInputValue(".input"),
     users: getSelectedUsers(),

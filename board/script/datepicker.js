@@ -1,19 +1,38 @@
 function openDatePicker(inputId) {
-    let dateInput = document.getElementById(inputId);
-    if (!dateInput) {
-        console.error("Element not found: " + inputId);
-        return;
+    const dateInput = document.getElementById(inputId);
+    if (!dateInput) return;
+    
+    // Prevent manual input
+    dateInput.setAttribute("readonly", "readonly");
+    
+    // Wenn bereits eine Flatpickr-Instanz existiert, toggeln:
+    if (dateInput._flatpickr) {
+      dateInput._flatpickr.isOpen ? dateInput._flatpickr.close() : dateInput._flatpickr.open();
+    } else {
+      flatpickr(dateInput, {
+        dateFormat: "d/m/Y",
+        defaultDate: "today",
+        minDate: "today",
+        locale: flatpickr.l10ns.de,
+        allowInput: false,
+        disableMobile: true,
+        onChange: function(selectedDates, dateStr, instance) {
+          let currentDate = new Date();
+          currentDate.setHours(0, 0, 0, 0);
+          if (selectedDates.length > 0 && selectedDates[0] < currentDate) {
+            instance.setDate("today", true);
+            alert("Das ausgewählte Datum liegt in der Vergangenheit. Bitte wählen Sie ein aktuelles Datum.");
+          }
+        }
+      });
+      // Nach der Initialisierung die Instanz direkt öffnen
+      dateInput._flatpickr.open();
     }
-    let currentDate = new Date();
-    
-    flatpickr(dateInput, {
-        dateFormat: "d/m/Y",  
-        defaultDate: currentDate, 
-        locale: flatpickr.l10ns.de, 
-    });
-    
-    dateInput.focus();
-}
+  }
+  
+  
+
+
 
 function setPriority(priority) {
     let allButtons = document.querySelectorAll('.priority-button-urgent, .priority-button-medium, .priority-button-low');

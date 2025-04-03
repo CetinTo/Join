@@ -188,6 +188,7 @@
               <hr class="hr-modal-add-new-contact">
             </div>
           </div>
+<<<<<<< HEAD
         </div>
         <div class="add-contact-modal-input-section">
           <div class="close-btn-div">
@@ -219,16 +220,64 @@
                     Create contact <img src="../img/icon/check.png" alt="" />
                   </button>
                 </div>
+=======
+      </div>
+      <div class="add-contact-modal-input-section">
+        <div class="close-btn-div">
+          <img src="../img/close-icon.png" alt="close button" class="close-modal-button" />
+        </div>
+        <div class="profile-img-input-div">
+          <div class="profile-img-circle">
+            <img src="../img/person.png" alt="" />
+          </div>
+          <div class="input-and-buttons">
+            <div class="input-div">
+              <div class="input-container">
+                <input type="text" name="name" placeholder="Name" required
+                       pattern="^[A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ\- ]+$"
+                       title="Nur Buchstaben, Bindestrich oder Leerzeichen erlaubt"
+                       oninput="this.value = this.value.replace(/[^A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ \-]/g, '')" />
+                <img src="../img/icon/person.png" class="input-icon" />
+              </div>
+              
+              <div class="input-container">
+                <input type="email" name="email" placeholder="Email" required
+                       pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                       title="Bitte eine gültige E-Mail-Adresse eingeben" />
+                <img src="../img/icon/mail.png" class="input-icon" />
+              </div>
+              
+              <div class="input-container">
+                <input type="tel" name="phone" placeholder="Telefonnummer" required
+                       title="Bitte nur Zahlen eingeben (mind. 6 Zeichen)"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                <img src="../img/icon/phone.png" class="input-icon" />
+              </div>
+              
+            </div>
+            <div class="footer-buttons">
+              <button class="clear-btn">Clear X</button>
+              <div class="create-btn-div-add-contact">
+                <button class="create-btn" type="button">
+                  Create contact <img src="../img/icon/check.png" alt="" />
+                </button>
+>>>>>>> 59f836d950a247b2b5cafbc505f4d3bdc6dd5d68
               </div>
             </form>
           </div>
         </div>
       </div>
+      
+      
+      
+      
+      
+      </div>
     </div>
     <div class="modal-overlay-edit">
       <div class="edit-contact-modal">
         <div></div>
-        <div class="  edit-modal-left-side modal-left-side ">
+        <div class="  edit-modal-left-side modal-left-side edit-modal-left-side-resp">
           <div class="add-contact-content-div edit-contact-content-div ">
             <img src="../img/capa_white.png" alt="">
             <div>
@@ -248,16 +297,22 @@
             <div class="input-and-buttons edit-input-and-buttons">
               <div class="input-div edit-input-div">
                 <div class="input-container edit-input-container">
-                  <input type="text" placeholder="Name" />
+                  <input type="text" name="edit-name" placeholder="Name" required
+                         pattern="^[A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ\- ]+$"
+                         title="Nur Buchstaben, Bindestriche oder Leerzeichen erlaubt" />
                   <img src="../img/icon/person.png" class="input-icon edit-input-icon" />
                 </div>
                 <div class="input-container edit-input-container">
-                  <input type="email" placeholder="Email" />
+                  <input type="email" name="edit-email" placeholder="Email" required
+                         pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                         title="Bitte eine gültige E-Mail-Adresse eingeben" />
                   <img src="../img/icon/mail.png" class="input-icon edit-input-icon" />
                 </div>
                 <div class="input-container edit-input-container">
-                  <input type="tel" placeholder="Telefonnummer" />
-                  <img src="../img/icon/phone.png" class="input-icon edit-input-icon " />
+                  <input type="tel" name="edit-phone" placeholder="Telefonnummer" required
+                  pattern="^[0-9+\-\(\) ]{6,}$"
+                  title="Nur gültige Telefonnummern erlaubt (mind. 6 Zeichen, keine Buchstaben)" />
+                             <img src="../img/icon/phone.png" class="input-icon edit-input-icon" />
                 </div>
               </div>
               <div class="footer-buttons edit-footer-buttons">
@@ -326,5 +381,38 @@
             <span>Contacts</span>
         </a>
     </div> -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const formInputs = document.querySelectorAll("input");
+        const createBtn = document.querySelector(".create-btn");
+      
+        formInputs.forEach(input => {
+          input.addEventListener("input", () => {
+            if (input.checkValidity()) {
+              input.style.borderColor = "green";
+            } else {
+              input.style.borderColor = "red";
+            }
+          });
+        });
+      
+        createBtn.addEventListener("click", (e) => {
+          const isValid = Array.from(formInputs).every(input => input.checkValidity());
+          if (!isValid) {
+            e.preventDefault(); 
+           
+          } else {
+            
+            console.log("Alle Felder gültig, weiter geht's!");
+          }
+        });
+      });
+      </script>
+      
+    
+
   </body>
+
+
+
 </html>

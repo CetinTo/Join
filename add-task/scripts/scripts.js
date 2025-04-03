@@ -32,6 +32,18 @@ function setPriority(priority) {
   validateForm();
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+  // Falls kein Prioritätsbutton aktiv ist, setze Medium als Standard
+  const activeButton = document.querySelector(".priority-container div.active");
+  if (!activeButton) {
+    const mediumButton = document.querySelector(".priority-button-medium");
+    if (mediumButton) {
+      mediumButton.classList.add("active");
+    }
+  }
+});
+
+
 /**
  * Deactivates all priority buttons
  * @param {NodeListOf<HTMLElement>} buttons
