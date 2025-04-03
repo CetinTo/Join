@@ -1,17 +1,11 @@
 /**
- * @type {HTMLElement|null} Currently selected task element during drag.
- */
-
-
-/**
  * @type {HTMLElement} Placeholder element used during drag-and-drop.
  */
 const dragPlaceholder = document.createElement("div");
 dragPlaceholder.classList.add("placeholder-drag");
 
 /**
- * Adds empty state images to columns with no tasks.
- * Checks each column and appends an image if empty.
+ * Fügt Spalten ohne Aufgaben ein leeres Bild hinzu.
  */
 function ensureEmptyStateImages() {
   document.querySelectorAll(".task-board-container").forEach(column => {
@@ -28,69 +22,80 @@ function ensureEmptyStateImages() {
 }
 
 /**
- * Shows or hides empty state images depending on column content.
+ * Zeigt oder versteckt leere Statusbilder je nach Spalteninhalt.
  */
 function checkColumns() {
   document.querySelectorAll(".task-board-container").forEach(column => {
     const imgElement = column.querySelector(".empty-state-img");
     const hasTasks = column.querySelectorAll(".draggable-cards").length > 0;
-    if (imgElement) {
-      imgElement.style.display = hasTasks ? "none" : "block";
-    }
+    if (imgElement) imgElement.style.display = hasTasks ? "none" : "block";
   });
 }
 
 /**
- * Gets the task element after which the dragged item should be inserted.
- * @param {HTMLElement} container - The column container.
- * @param {number} y - Vertical coordinate.
- * @returns {HTMLElement|undefined} Element after which to insert.
+ * Ermittelt das Element, nach dem das gezogene Element eingefügt werden soll.
+ * @param {HTMLElement} container - Der Spaltencontainer.
+ * @param {number} y - Vertikale Koordinate.
+ * @returns {HTMLElement|undefined} Das Bezugselement.
  */
 function getDragAfterElement(container, y) {
   const draggable = [...container.querySelectorAll(".draggable-cards:not(.dragging)")];
-  return draggable.reduce((closest, child) => {
-    const box = child.getBoundingClientRect();
-    const offset = y - box.top - box.height / 2;
-    return offset < 0 && offset > closest.offset ? { offset, element: child } : closest;
-  }, { offset: -Infinity }).element;
+  return draggable.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      return offset < 0 && offset > closest.offset ? { offset, element: child } : closest;
+    },
+    { offset: -Infinity }
+  ).element;
 }
 
 /**
- * Attaches mouse drag events to a task.
- * @param {HTMLElement} task - Task card element.
+ * Handler für dragstart bei Desktop.
+ * @param {DragEvent} e
+ */
+function handleTaskDragStart(e) {
+  selectedTask = e.target;
+  setTimeout(() => {
+    selectedTask.classList.add("dragging");
+    selectedTask.style.transform = "rotate(5deg) scale(1.05)";
+  }, 0);
+}
+
+/**
+ * Handler für dragend bei Desktop.
+ */
+function handleTaskDragEnd() {
+  if (selectedTask) {
+    selectedTask.classList.remove("dragging");
+    selectedTask.style.transform = "rotate(0deg) scale(1)";
+    selectedTask = null;
+  }
+  if (dragPlaceholder.parentNode) dragPlaceholder.parentNode.removeChild(dragPlaceholder);
+  checkColumns();
+}
+
+/**
+ * Bindet Desktop-Drag-Events an eine Aufgabe.
+ * @param {HTMLElement} task
  */
 function attachDesktopDragEvents(task) {
-  task.addEventListener("dragstart", e => {
-    selectedTask = e.target;
-    setTimeout(() => {
-      selectedTask.classList.add("dragging");
-      selectedTask.style.transform = "rotate(5deg) scale(1.05)";
-    }, 0);
-  });
-
-  task.addEventListener("dragend", () => {
-    if (selectedTask) {
-      selectedTask.classList.remove("dragging");
-      selectedTask.style.transform = "rotate(0deg) scale(1)";
-      selectedTask = null;
-    }
-    if (dragPlaceholder.parentNode) {
-      dragPlaceholder.parentNode.removeChild(dragPlaceholder);
-    }
-    checkColumns();
-  });
+  task.addEventListener("dragstart", handleTaskDragStart);
+  task.addEventListener("dragend", handleTaskDragEnd);
 }
 
 /**
- * Updates the drag placeholder position during touch movement.
- * @param {Touch} touch - Touch point.
- * @param {HTMLElement[]} columns - Array of column containers.
+ * Aktualisiert die Position des Drag-Platzhalters anhand der Touch-Koordinaten.
+ * @param {Touch} touch
+ * @param {HTMLElement[]} columns
  */
 function updateDragPlaceholderForColumns(touch, columns) {
   columns.forEach(column => {
     const rect = column.getBoundingClientRect();
-    if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
-        touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+    if (
+      touch.clientX >= rect.left && touch.clientX <= rect.right &&
+      touch.clientY >= rect.top && touch.clientY <= rect.bottom
+    ) {
       const afterEl = getDragAfterElement(column, touch.clientY);
       if (!afterEl) {
         if (!column.contains(dragPlaceholder)) column.appendChild(dragPlaceholder);
@@ -104,89 +109,141 @@ function updateDragPlaceholderForColumns(touch, columns) {
 }
 
 /**
- * Attaches touch drag events to a task.
- * @param {HTMLElement} task - Task card.
- * @param {HTMLElement[]} columns - Columns for drop.
+ * Startet den Touch-Drag-Vorgang.
+ * @param {HTMLElement} task
+ * @param {Touch} touch
+ */
+function startTouchDragging(task, touch) {
+  selectedTask = task;
+  task.classList.add("dragging");
+  task.style.transform = "rotate(5deg) scale(1.05)";
+  task.style.position = "fixed";
+  task.style.zIndex = "1000";
+  const rect = task.getBoundingClientRect();
+  task.dataset.offsetX = (touch.clientX - rect.left).toString();
+  task.dataset.offsetY = (touch.clientY - rect.top).toString();
+}
+
+/**
+ * Aktualisiert die Position einer Aufgabe basierend auf Touch-Koordinaten.
+ * @param {HTMLElement} task
+ * @param {Touch} touch
+ */
+function updateTaskPosition(task, touch) {
+  const offsetX = parseFloat(task.dataset.offsetX) || 0;
+  const offsetY = parseFloat(task.dataset.offsetY) || 0;
+  task.style.left = `${touch.clientX - offsetX}px`;
+  task.style.top = `${touch.clientY - offsetY}px`;
+}
+
+/**
+ * Setzt das Styling einer Aufgabe zurück.
+ * @param {HTMLElement} task
+ */
+function resetTask(task) {
+  task.classList.remove("dragging");
+  task.style.transform = "rotate(0deg) scale(1)";
+  task.style.position = task.style.zIndex = "";
+}
+
+/**
+ * Ermittelt das Drop-Ziel anhand eines Touch-Events.
+ * @param {Touch} touch
+ * @returns {HTMLElement|null}
+ */
+function getDropTargetFromTouch(touch) {
+  let dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+  while (dropTarget && !dropTarget.classList.contains("task-board-container")) {
+    dropTarget = dropTarget.parentElement;
+  }
+  return dropTarget;
+}
+
+/* ---------- Touch-Handler als separate Funktionen ---------- */
+
+/**
+ * Handler für touchstart.
+ * @param {TouchEvent} e
+ */
+function handleTouchStart(e) {
+  const task = e.currentTarget;
+  const state = task._touchDragState;
+  const touch = e.touches[0];
+  state.initialTouchX = touch.clientX;
+  state.initialTouchY = touch.clientY;
+  state.longPressTimeout = setTimeout(() => {
+    state.isTouchDragging = true;
+    startTouchDragging(task, touch);
+  }, 500);
+}
+
+/**
+ * Handler für touchmove.
+ * @param {TouchEvent} e
+ */
+function handleTouchMove(e) {
+  const task = e.currentTarget;
+  const state = task._touchDragState;
+  const touch = e.touches[0];
+  if (!state.isTouchDragging) {
+    const dx = Math.abs(touch.clientX - state.initialTouchX);
+    const dy = Math.abs(touch.clientY - state.initialTouchY);
+    if (dx > state.moveThreshold || dy > state.moveThreshold) {
+      clearTimeout(state.longPressTimeout);
+      return;
+    }
+  }
+  if (!state.isTouchDragging) return;
+  e.preventDefault();
+  updateTaskPosition(task, touch);
+  updateDragPlaceholderForColumns(touch, state.columns);
+}
+
+/**
+ * Handler für touchend.
+ * @param {TouchEvent} e
+ */
+function handleTouchEnd(e) {
+  const task = e.currentTarget, state = task._touchDragState; clearTimeout(state.longPressTimeout);
+  if (state.isTouchDragging && selectedTask === task) {
+    const touch = e.changedTouches[0], dropTarget = getDropTargetFromTouch(touch);
+    if (dropTarget) {
+      dropTarget.contains(dragPlaceholder)
+        ? dropTarget.insertBefore(task, dragPlaceholder)
+        : dropTarget.appendChild(task), updateTaskColumnInFirebase(task.id, dropTarget.id);
+    } else {
+      task.style.position = "";
+    }
+    resetTask(task);
+    selectedTask = null; state.isTouchDragging = false; dragPlaceholder.parentNode && dragPlaceholder.parentNode.removeChild(dragPlaceholder);
+    checkColumns();
+  }
+}
+
+/**
+ * Handler für touchcancel.
+ * @param {TouchEvent} e
+ */
+function handleTouchCancel(e) {
+  const task = e.currentTarget, state = task._touchDragState;
+  clearTimeout(state.longPressTimeout);
+  state.isTouchDragging = false;
+}
+
+/**
+ * Bindet Touch-Drag-Events an eine Aufgabe und speichert den benötigten Status am Element.
+ * @param {HTMLElement} task
+ * @param {HTMLElement[]} columns
  */
 function attachTouchDragEvents(task, columns) {
-  let longPressTimeout;
-  let isTouchDragging = false;
-  let initialTouchX = 0;
-  let initialTouchY = 0;
-  const moveThreshold = 10;
-
-  function handleTouchStart(e) {
-    const touch = e.touches[0];
-    initialTouchX = touch.clientX;
-    initialTouchY = touch.clientY;
-    longPressTimeout = setTimeout(() => {
-      isTouchDragging = true;
-      selectedTask = task;
-      task.classList.add("dragging");
-      task.style.transform = "rotate(5deg) scale(1.05)";
-      task.style.position = "fixed";
-      task.style.zIndex = "1000";
-      const rect = task.getBoundingClientRect();
-      task.dataset.offsetX = (initialTouchX - rect.left).toString();
-      task.dataset.offsetY = (initialTouchY - rect.top).toString();
-    }, 500);
-  }
-
-  function handleTouchMove(e) {
-    const touch = e.touches[0];
-    if (!isTouchDragging) {
-      const dx = Math.abs(touch.clientX - initialTouchX);
-      const dy = Math.abs(touch.clientY - initialTouchY);
-      if (dx > moveThreshold || dy > moveThreshold) {
-        clearTimeout(longPressTimeout);
-        return;
-      }
-    }
-    if (!isTouchDragging) return;
-    e.preventDefault();
-    const offsetX = parseFloat(task.dataset.offsetX) || 0;
-    const offsetY = parseFloat(task.dataset.offsetY) || 0;
-    task.style.left = `${touch.clientX - offsetX}px`;
-    task.style.top = `${touch.clientY - offsetY}px`;
-    updateDragPlaceholderForColumns(touch, columns);
-  }
-
-  function handleTouchEnd(e) {
-    clearTimeout(longPressTimeout);
-    if (isTouchDragging && selectedTask === task) {
-      const touch = e.changedTouches[0];
-      let dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-      while (dropTarget && !dropTarget.classList.contains("task-board-container")) {
-        dropTarget = dropTarget.parentElement;
-      }
-      if (dropTarget) {
-        if (dropTarget.contains(dragPlaceholder)) {
-          dropTarget.insertBefore(task, dragPlaceholder);
-        } else {
-          dropTarget.appendChild(task);
-        }
-        updateTaskColumnInFirebase(task.id, dropTarget.id);
-      } else {
-        task.style.position = "";
-      }
-      task.classList.remove("dragging");
-      task.style.transform = "rotate(0deg) scale(1)";
-      task.style.position = "";
-      task.style.zIndex = "";
-      selectedTask = null;
-      isTouchDragging = false;
-      if (dragPlaceholder.parentNode) {
-        dragPlaceholder.parentNode.removeChild(dragPlaceholder);
-      }
-      checkColumns();
-    }
-  }
-
-  function handleTouchCancel() {
-    clearTimeout(longPressTimeout);
-    isTouchDragging = false;
-  }
-
+  task._touchDragState = {
+    longPressTimeout: null,
+    isTouchDragging: false,
+    initialTouchX: 0,
+    initialTouchY: 0,
+    moveThreshold: 10,
+    columns: columns
+  };
   task.addEventListener("touchstart", handleTouchStart);
   task.addEventListener("touchmove", handleTouchMove);
   task.addEventListener("touchend", handleTouchEnd);
@@ -194,8 +251,8 @@ function attachTouchDragEvents(task, columns) {
 }
 
 /**
- * Attaches dragover event to column.
- * @param {HTMLElement} column - Column element.
+ * Bindet dragover-Event an eine Spalte.
+ * @param {HTMLElement} column
  */
 function attachColumnDragOverEvent(column) {
   column.addEventListener("dragover", e => {
@@ -212,8 +269,8 @@ function attachColumnDragOverEvent(column) {
 }
 
 /**
- * Attaches drop event to column.
- * @param {HTMLElement} column - Column element.
+ * Bindet drop-Event an eine Spalte.
+ * @param {HTMLElement} column
  */
 function attachColumnDropEvent(column) {
   column.addEventListener("drop", e => {
@@ -228,17 +285,15 @@ function attachColumnDropEvent(column) {
       selectedTask.style.transform = "rotate(0deg) scale(1)";
       updateTaskColumnInFirebase(selectedTask.id, column.id);
     }
-    if (dragPlaceholder.parentNode) {
-      dragPlaceholder.parentNode.removeChild(dragPlaceholder);
-    }
+    dragPlaceholder.parentNode && dragPlaceholder.parentNode.removeChild(dragPlaceholder);
     checkColumns();
   });
 }
 
 /**
- * Initializes drag functionality for tasks.
- * @param {NodeListOf<HTMLElement>} tasks - Task elements.
- * @param {NodeListOf<HTMLElement>} columns - Column elements.
+ * Initialisiert Drag-Events für Aufgaben.
+ * @param {NodeListOf<HTMLElement>} tasks
+ * @param {NodeListOf<HTMLElement>} columns
  */
 function initializeTasks(tasks, columns) {
   tasks.forEach(task => {
@@ -248,8 +303,8 @@ function initializeTasks(tasks, columns) {
 }
 
 /**
- * Initializes drag-related events for columns.
- * @param {NodeListOf<HTMLElement>} columns - Column elements.
+ * Initialisiert Drag-Events für Spalten.
+ * @param {NodeListOf<HTMLElement>} columns
  */
 function initializeColumns(columns) {
   columns.forEach(column => {
@@ -259,7 +314,7 @@ function initializeColumns(columns) {
 }
 
 /**
- * Initializes drag and drop behavior.
+ * Initialisiert das Drag-and-Drop-Verhalten.
  */
 function initializeDragAndDrop() {
   const tasks = document.querySelectorAll(".draggable-cards");

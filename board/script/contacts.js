@@ -247,59 +247,85 @@ function addTaskToFirebase() {
 /* =============================== */
 
 /**
- * Initializes all relevant event listeners on page load.
+ * Sets up a listener to close the dropdown when außerhalb geklickt wird.
  */
-function initEventListeners() {
+function setupOutsideClickListener() {
   document.addEventListener("click", event => {
     const dropdown = document.querySelector(".custom-dropdown");
     if (dropdown && !dropdown.contains(event.target)) {
       closeDropdown();
     }
   });
-
-  document.addEventListener("DOMContentLoaded", () => {
-    loadContactsFromFirebase();
-
-    const dropdownSearch = document.querySelector(".dropdown-search");
-    const arrowClosed = document.querySelector(".search-icon");
-    const arrowOpen = document.querySelector(".search-icon-active");
-
-    dropdownSearch?.addEventListener("click", toggleDropdown);
-    arrowClosed?.addEventListener("click", toggleDropdown);
-    arrowOpen?.addEventListener("click", toggleDropdown);
-
-    const createBtn = document.querySelector(".create-btn");
-    createBtn?.addEventListener("click", () => {
-      if (validateForm()) {
-        addTaskToFirebase();
-      }
-    });
-
-    const inputSelectors = [".input", ".date-input", ".select-task"];
-    inputSelectors.forEach(selector => {
-      document.querySelector(selector)?.addEventListener("input", validateForm);
-    });
-
-    const priorityContainer = document.querySelector(".priority-container");
-    priorityContainer?.addEventListener("click", validateForm);
-
-    const assignedContainer = document.querySelector(".assigned-to-profiles-container");
-    if (assignedContainer) {
-      const observer = new MutationObserver(validateForm);
-      observer.observe(assignedContainer, { childList: true });
-    }
-
-    validateForm();
-  });
 }
 
+/**
+ * Sets up all dropdown-related event listeners.
+ */
+function setupDropdownListeners() {
+  const dropdownSearch = document.querySelector(".dropdown-search");
+  const arrowClosed = document.querySelector(".search-icon");
+  const arrowOpen = document.querySelector(".search-icon-active");
 
+  dropdownSearch?.addEventListener("click", toggleDropdown);
+  arrowClosed?.addEventListener("click", toggleDropdown);
+  arrowOpen?.addEventListener("click", toggleDropdown);
+}
 
 /**
- * Application entry point.
+ * Sets up event listeners for Form-Validierung und Task-Erstellung.
  */
+function setupFormListeners() {
+  // Task erstellen
+  const createBtn = document.querySelector(".create-btn");
+  createBtn?.addEventListener("click", () => {
+    if (validateForm()) {
+      addTaskToFirebase();
+    }
+  });
+
+  // Eingabefelder
+  const inputSelectors = [".input", ".date-input", ".select-task"];
+  inputSelectors.forEach(selector => {
+    document.querySelector(selector)?.addEventListener("input", validateForm);
+  });
+
+  // Priority Container
+  const priorityContainer = document.querySelector(".priority-container");
+  priorityContainer?.addEventListener("click", validateForm);
+
+  // Beobachten des assigned profiles Containers
+  const assignedContainer = document.querySelector(".assigned-to-profiles-container");
+  if (assignedContainer) {
+    const observer = new MutationObserver(validateForm);
+    observer.observe(assignedContainer, { childList: true });
+  }
+}
+
+/**
+ * Initialisiert alle Event Listener, wenn das DOM vollständig geladen ist.
+ */
+function setupDOMContentLoadedListeners() {
+  loadContactsFromFirebase();
+  setupDropdownListeners();
+  setupFormListeners();
+  validateForm();
+}
+
+/**
+ * Initialisiert alle relevanten Event Listener.
+ */
+function initEventListeners() {
+  setupOutsideClickListener();
+  document.addEventListener("DOMContentLoaded", setupDOMContentLoadedListeners);
+}
+
+// Anwendung starten
 function initApp() {
   initEventListeners();
 }
 
 initApp();
+
+
+
+
