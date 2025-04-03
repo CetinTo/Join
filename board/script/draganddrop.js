@@ -1,7 +1,7 @@
 /**
  * @type {HTMLElement|null} Currently selected task element during drag.
  */
-// let selectedTask = null;
+
 
 /**
  * @type {HTMLElement} Placeholder element used during drag-and-drop.

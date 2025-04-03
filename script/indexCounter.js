@@ -138,30 +138,18 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Prüfe, ob die Animation bereits gezeigt wurde
-  const greetingShown = localStorage.getItem('greetingShown');
   const greetingText = document.querySelector('.greeting-section');
+  const greetingContainer = document.querySelector('.greeting-section-container');
   
-  // Wenn noch nicht gezeigt und die Bildschirmbreite <= 1230 ist, Animation abspielen
-  if (!greetingShown && greetingText && window.innerWidth <= 1230) {
+  if (greetingText && greetingContainer) {
     greetingText.addEventListener('animationend', (e) => {
       if (e.animationName === 'slideText') {
-        const greetingContainer = document.querySelector('.greeting-section-container');
-        if (greetingContainer) {
-          greetingContainer.style.display = 'none';
-          // Animation als gezeigt markieren
-          localStorage.setItem('greetingShown', 'true');
-        }
+        greetingContainer.style.display = 'none';
       }
     });
-  } else {
-    // Falls die Animation bereits gezeigt wurde, den Container sofort ausblenden
-    const greetingContainer = document.querySelector('.greeting-section-container');
-    if (greetingContainer) {
-      greetingContainer.style.display = 'none';
-    }
   }
 });
+
 
 
 /**
