@@ -160,43 +160,88 @@ function toggleCheckboxState(contact, checkboxImg, div) {
 }
 
 /**
- * Updates the display of assigned profiles
+ * Creates a profile bubble element for a given contact.
+ * @param {Object} contact - The contact object.
+ * @returns {HTMLElement} The profile bubble element.
+ */
+function createProfileBubble(contact) {
+  const initials = getInitials(contact.name);
+  const colorClass = getColorClass(contact.name, contactsArray);
+  const bubble = document.createElement("div");
+  bubble.classList.add("profile-badge", colorClass);
+  bubble.textContent = initials;
+  return bubble;
+}
+
+/**
+ * Creates an extra bubble element displaying the number of additional contacts.
+ * @param {number} extraCount - The number of extra contacts.
+ * @returns {HTMLElement} The extra bubble element.
+ */
+function createExtraBubble(extraCount) {
+  const bubble = document.createElement("div");
+  bubble.classList.add("profile-badge", "extra-bubble");
+  bubble.textContent = `+${extraCount}`;
+  return bubble;
+}
+
+/**
+ * Updates the display of assigned profiles.
  */
 function updateAssignedToProfile() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
   assignedContainer.innerHTML = "";
-  
-  const maxVisible = 3; // maximal sichtbare Profile
+  const maxVisible = 3;
   
   if (selectedContacts.length <= maxVisible) {
-    // Zeige alle Kontakte, wenn es 3 oder weniger sind
     selectedContacts.forEach(contact => {
-      const initials = getInitials(contact.name);
-      const colorClass = getColorClass(contact.name, contactsArray);
-      const profileBubble = document.createElement("div");
-      profileBubble.classList.add("profile-badge", colorClass);
-      profileBubble.textContent = initials;
-      assignedContainer.appendChild(profileBubble);
+      assignedContainer.appendChild(createProfileBubble(contact));
     });
   } else {
-    // Zeige die ersten 3 Kontakte
     selectedContacts.slice(0, maxVisible).forEach(contact => {
-      const initials = getInitials(contact.name);
-      const colorClass = getColorClass(contact.name, contactsArray);
-      const profileBubble = document.createElement("div");
-      profileBubble.classList.add("profile-badge", colorClass);
-      profileBubble.textContent = initials;
-      assignedContainer.appendChild(profileBubble);
+      assignedContainer.appendChild(createProfileBubble(contact));
     });
-    // Füge eine Bubble mit der Anzahl der restlichen Kontakte hinzu
     const extraCount = selectedContacts.length - maxVisible;
-    const extraBubble = document.createElement("div");
-    extraBubble.classList.add("profile-badge", "extra-bubble");
-    extraBubble.textContent = `+${extraCount}`;
-    assignedContainer.appendChild(extraBubble);
+    assignedContainer.appendChild(createExtraBubble(extraCount));
   }
 }
 
+
+/**
+ * Stops event propagation if applicable.
+ * @param {Event} [event] - The triggering event.
+ */
+function stopEventPropagation(event) {
+  if (event && typeof event.stopPropagation === "function") {
+    event.stopPropagation();
+  }
+}
+
+/**
+ * Checks if the event target is inside the dropdown.
+ * @param {Event} event - The triggering event.
+ * @param {HTMLElement} dropdown - The dropdown element.
+ * @returns {boolean} True if the event target is inside the dropdown.
+ */
+function isInsideDropdown(event, dropdown) {
+  return event && dropdown.contains(event.target);
+}
+
+/**
+ * Toggles the dropdown visibility.
+ * @param {Event} [event] - The triggering event.
+ */
+function toggleDropdown(event) {
+  const dropdown = document.querySelector(".custom-dropdown");
+  stopEventPropagation(event);
+  
+  if (!isInsideDropdown(event, dropdown)) {
+    closeDropdown();
+    return;
+  }
+  
+  dropdown.classList.contains("active") ? closeDropdown() : openDropdown();
+}
 
 /**
  * Determines the color class for a contact profile
@@ -206,34 +251,11 @@ function updateAssignedToProfile() {
  */
 function getColorClass(name, contacts) {
   const contact = contacts.find(c => c.name === name);
-  return contact && contact.color ? `profile-badge-${contact.color.replace("#", "")}` : 'profile-badge-default';
+  return contact && contact.color
+    ? `profile-badge-${contact.color.replace("#", "")}`
+    : "profile-badge-default";
 }
 
-/**
- * Toggles the dropdown visibility
- * @param {Event} [event] - The triggering event
- */
-function toggleDropdown(event) {
-  const dropdown = document.querySelector(".custom-dropdown");
-  const dropdownList = document.querySelector(".dropdown-list");
-  const arrowClosed = document.querySelector(".search-icon");
-  const arrowOpen = document.querySelector(".search-icon-active");
-
-  if (event && typeof event.stopPropagation === "function") {
-    event.stopPropagation();
-  }
-
-  if (!event || !dropdown.contains(event.target)) {
-    closeDropdown();
-    return;
-  }
-
-  if (dropdown.classList.contains("active")) {
-    closeDropdown();
-  } else {
-    openDropdown();
-  }
-}
 
 /**
  * Opens the dropdown menu
@@ -266,30 +288,45 @@ function closeDropdown() {
 }
 
 /**
- * Validates the form and enables/disables the create button
- * @returns {boolean} Returns whether the form is valid
+ * Checks if all required fields of the form are filled.
+ * @returns {boolean} True if the form is valid.
  */
-function validateForm() {
+function isFormValid() {
   const title = document.querySelector(".input").value.trim();
   const dueDate = document.querySelector(".date-input").value.trim();
   const category = document.querySelector(".select-task").value;
   const assignedUsers = selectedContacts.length > 0;
   const prioritySelected = document.querySelector(".priority-container .active") !== null;
+  return title && dueDate && category && assignedUsers && prioritySelected;
+}
 
+/**
+ * Updates the create button's appearance and interactivity based on the form validity.
+ * @param {boolean} isValid - Indicates whether the form is valid.
+ */
+function updateCreateButton(isValid) {
   const createBtn = document.querySelector(".create-btn");
-
-  if (title && dueDate && category && assignedUsers && prioritySelected) {
+  if (isValid) {
     createBtn.classList.remove("disabled");
     createBtn.style.pointerEvents = "auto";
     createBtn.style.opacity = "1";
-    return true;
   } else {
     createBtn.classList.add("disabled");
     createBtn.style.pointerEvents = "none";
     createBtn.style.opacity = "0.5";
-    return false;
   }
 }
+
+/**
+ * Validates the form by checking all required fields and updates the create button.
+ * @returns {boolean} Returns true if the form is valid.
+ */
+function validateForm() {
+  const valid = isFormValid();
+  updateCreateButton(valid);
+  return valid;
+}
+
 
 // ---------------------------
 // Event Listener Registrations
@@ -316,25 +353,46 @@ document.addEventListener("DOMContentLoaded", function () {
   arrowOpen.addEventListener("click", toggleDropdown);
 });
 
-/** Sets up validation and task creation */
-document.addEventListener("DOMContentLoaded", function () {
+/**
+ * Sets up the event listener for the create button.
+ */
+function setupTaskCreationListener() {
   document.querySelector(".create-btn").addEventListener("click", function () {
     if (validateForm()) {
       addTaskToFirebase(); // assumed to exist
     }
   });
+}
 
+/**
+ * Sets up event listeners on form inputs to trigger validation.
+ */
+function setupFormValidationListeners() {
   document.querySelector(".input").addEventListener("input", validateForm);
   document.querySelector(".date-input").addEventListener("input", validateForm);
   document.querySelector(".select-task").addEventListener("change", validateForm);
   document.querySelector(".priority-container").addEventListener("click", validateForm);
+}
 
+/**
+ * Sets up a MutationObserver on the assigned profiles container for validation.
+ */
+function setupAssignedContainerObserver() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
-
   if (assignedContainer) {
     const observer = new MutationObserver(validateForm);
     observer.observe(assignedContainer, { childList: true });
   }
+}
 
+/**
+ * Initializes validation and task creation event listeners.
+ */
+function initializeValidationAndTaskCreation() {
+  setupTaskCreationListener();
+  setupFormValidationListeners();
+  setupAssignedContainerObserver();
   validateForm();
-});
+}
+
+document.addEventListener("DOMContentLoaded", initializeValidationAndTaskCreation);

@@ -334,22 +334,26 @@ function closeModal() {
 }
 
 /**
- * Validates the form and adjusts the status of the Create button.
- * @returns {boolean} true if the form is valid, otherwise false.
+ * Checks if the task form is valid.
+ * @returns {boolean} True if valid, otherwise false.
  */
-function validateForm() {
+function isTaskFormValid() {
   const title = getInputValue(".input");
   const dueDate = getInputValue(".date-input");
   const category = document.querySelector(".category-item.selected")?.dataset.value;
   const assignedUsers = document.querySelectorAll(".assigned-to-profiles-container div").length > 0;
   const prioritySelected = !!document.querySelector(".priority-container .active");
   const hasSubtask = document.querySelectorAll(".added-subtasks").length > 0;
+  return title && dueDate && category && assignedUsers && prioritySelected && hasSubtask;
+}
 
+/**
+ * Updates the appearance and interactivity of the Create button.
+ * @param {boolean} isValid - Whether the form is valid.
+ */
+function updateCreateButtonState(isValid) {
   const createBtn = document.querySelector(".create-btn");
-  const isValid = title && dueDate && category && assignedUsers && prioritySelected && hasSubtask;
-
-  if (!createBtn) return false;
-
+  if (!createBtn) return;
   if (isValid) {
     createBtn.classList.remove("disabled");
     createBtn.style.pointerEvents = "auto";
@@ -359,7 +363,15 @@ function validateForm() {
     createBtn.style.pointerEvents = "none";
     createBtn.style.opacity = "0.5";
   }
+}
 
+/**
+ * Validates the form and adjusts the status of the Create button.
+ * @returns {boolean} True if the form is valid, otherwise false.
+ */
+function validateForm() {
+  const isValid = isTaskFormValid();
+  updateCreateButtonState(isValid);
   return isValid;
 }
 

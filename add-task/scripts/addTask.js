@@ -166,58 +166,78 @@ async function handleTaskCreation() {
 let isSaving = false;
 
 /**
- * @function addTaskToFirebase
- * @description Compiles form data, sends a POST request to Firebase, updates the record with its new ID, clears the form, and reloads the page.
+ * Creates a task object based on current form inputs.
+ * @param {string} mainInputValue - The trimmed main input value.
+ * @returns {object} The task data object.
+ */
+function getTaskData(mainInputValue) {
+  const description = document.querySelector(".description").value.trim() || "No description provided";
+  const dueDate = document.querySelector(".date-input").value;
+  const priority = `../../img/priority-img/${
+    document.querySelector(".priority-container .active")?.dataset.priority || "low"
+  }.png`;
+  const users = [...document.querySelectorAll(".assigned-to-profiles-container div")].map(
+    user => ({ name: user.innerText.trim() })
+  );
+  const subtasks = [...document.querySelectorAll(".subtasks-scroll-container .added-subtasks")].map(
+    () => ({ completed: false, text: mainInputValue })
+  );
+  const category = document.querySelector(".category-item.selected")?.dataset.value || "Technical task";
+  return { column: "toDoColumn", description, dueDate, id: null, priority, title: mainInputValue, users, subtasks, category };
+}
+
+/**
+ * Sends a POST request to Firebase to create a new task.
+ * @param {object} taskData - The task data object.
+ * @returns {Promise<string>} The Firebase-generated ID for the task.
+ */
+async function postTaskData(taskData) {
+  const response = await fetch(
+    "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(taskData)
+    }
+  );
+  return (await response.json()).name;
+}
+
+/**
+ * Updates the task record in Firebase with its new ID.
+ * @param {string} firebaseId - The Firebase-generated ID.
+ * @returns {Promise<void>}
+ */
+async function updateTaskId(firebaseId) {
+  await fetch(
+    `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${firebaseId}/id.json`,
+    {
+      method: "PUT",
+      body: JSON.stringify(firebaseId)
+    }
+  );
+}
+
+/**
+ * Adds a new task to Firebase by creating the task data, posting it, updating the record,
+ * clearing the form, and redirecting to the board page.
  * @returns {Promise<void>}
  */
 async function addTaskToFirebase() {
   if (isSaving) return;
   isSaving = true;
-
   const mainInputValue = document.querySelector(".input").value.trim();
-  const taskData = {
-    column: "toDoColumn",
-    description: document.querySelector(".description").value.trim() || "No description provided",
-    dueDate: document.querySelector(".date-input").value,
-    id: null,
-    priority: `../../img/priority-img/${
-      document.querySelector(".priority-container .active")?.dataset.priority || "low"
-    }.png`,
-    title: mainInputValue,
-    users: [...document.querySelectorAll(".assigned-to-profiles-container div")].map(user => ({
-      name: user.innerText.trim()
-    })),
-    subtasks: [...document.querySelectorAll(".subtasks-scroll-container .added-subtasks")].map(() => ({
-      completed: false,
-      text: mainInputValue
-    })),
-    category: document.querySelector(".category-item.selected")?.dataset.value || "Technical task"
-  };
-
+  const taskData = getTaskData(mainInputValue);
   try {
-    const response = await fetch(
-      "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(taskData)
-      }
-    );
-    const firebaseId = (await response.json()).name;
-    await fetch(
-      `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${firebaseId}/id.json`,
-      {
-        method: "PUT",
-        body: JSON.stringify(firebaseId)
-      }
-    );
+    const firebaseId = await postTaskData(taskData);
+    await updateTaskId(firebaseId);
     clearForm();
-    // Weiterleitung nach erfolgreichem Erstellen:
     window.location.href = "../board/board.html";
   } finally {
     isSaving = false;
   }
 }
+
 
 
 /**
@@ -232,7 +252,6 @@ function validateForm() {
     document.querySelectorAll(".assigned-to-profiles-container div").length > 0,
     document.querySelector(".priority-container .active"),
     document.querySelector(".category-item.selected"),
-    // document.querySelectorAll(".subtasks-scroll-container .added-subtasks").length > 0
   ].every(Boolean);
 
   const createBtn = document.querySelector(".create-btn");
