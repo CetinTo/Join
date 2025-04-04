@@ -1,258 +1,461 @@
-/* KOMPLETT NEUE DATEI - ALLES LÖSCHEN UND NUR DIESEN CODE VERWENDEN */
-
-* {
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
 }
 
-body {
-  display: flex;
-  position: relative;
-  height: 100vh;
-  overflow: auto;
-}
-
-/* Linke Seitenleiste */
-.sidebar {
-  width: 232px;
-  height: 100vh;
-  background-color: #2A3647;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-/* JOIN Logo in der Seitenleiste */
-.sidebar-logo {
-  width: 100px;
-  margin: 66px auto 100px;
-}
-
-/* Footer-Links in der Seitenleiste */
-.sidebar-footer {
-  margin-top: auto;
-  margin-bottom: 100px;
-}
-
-.sidebar-footer-link {
-  display: block;
-  padding: 10px 20px;
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.sidebar-footer-link.active {
-  background-color: #091931;
-}
-
-/* Hauptinhalt */
-.main-content {
-  margin-left: 232px;
-  width: calc(100% - 232px);
-  height: 100vh;
-  position: relative;
-  background-color: #f6f7f9;
-  padding-top: 80px; /* Platz für den Header */
-  display: flex;
-  flex-direction: column;
-}
-
-/* Scrollbarer Textbereich */
-.text-content {
-  padding: 40px;
-  overflow-y: auto;
-  flex: 1;
-}
-
-/* Scrollbar-Stil */
-.text-content::-webkit-scrollbar {
-  width: 10px;
-}
-
-.text-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.text-content::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
-}
-
-.text-content::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Kopfzeile */
-.header {
-  position: fixed;
-  top: 0;
-  left: 232px;
-  right: 0;
-  height: 80px;
-  background-color: white;
+.help-header{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 40px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  z-index: 100;
+  flex-direction: row;
 }
 
-.header-title {
-  font-size: 21px;
-  color: #000;
+.sticky-link {
+  position: sticky;
+  top: 0; 
+  z-index: 1000; 
 }
 
-/* JOIN Logo in der Kopfzeile */
-.header-logo {
-  height: 40px;
-  width: auto;
-  display: none; /* Standardmäßig ausgeblendet (Desktop) */
-}
-
-/* Media Query für Tablets/Mobile */
-@media screen and (max-width: 925px) and (min-width: 300px) {
-  .header-logo {
-    display: block; /* Nur zwischen 925px und 300px anzeigen */
-  }
-}
-
-/* Account-Button oben rechts */
-.account {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: white;
-  border: 2px solid #2A3647;
-  color: #2A3647;
+.main-div {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
+  flex-direction: column;
+  height: 100vh;
 }
 
-/* JOIN Logo rechts */
-.join-logo-right {
-  position: absolute;
-  right: 0;
-  top: 80px;
-  width: auto;
-  height: 40px;
-  display: none;  /* Logo immer ausgeblendet */
+main {
+  max-width: 90%;
+  margin: 20px auto;
+  background: #f6f7f9;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* overflow: hidden;  */
+  min-height: calc(100vh - 200px);
 }
 
-/* Überschriften und Text */
+main p {
+  padding-top: 2px;
+  margin: 0; 
+}
+
+h1, h2, h3 {
+  color: #2a3647;
+  margin: 0; 
+}
+
+a{
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+}
+
 h1 {
   font-size: 61px;
   font-weight: 700;
-  margin-bottom: 40px;
-  color: #000;
-  padding-top: 20px; /* Extra Abstand nach oben */
-  position: relative; /* Für z-index */
-  z-index: 10; /* Sicherstellen, dass die Überschrift über anderen Elementen liegt */
+  color: black;
+  margin-top: 100px !important;
+  margin-bottom: 20px;
+  padding-top: 0;
+  line-height: 1.2;
+  clear: both;
+}
+
+p1{
+color:#28abe2
 }
 
 h2 {
-  font-size: 27px;
+  font-size: 1.5em;
+  margin-top: 20px;
+}
+
+h3 {
+  font-size: 20px;
   font-weight: 700;
-  margin-top: 25px;
-  margin-bottom: 10px;
-  color: #000;
+  margin-top: 15px;
 }
 
-p, li {
+p {
+  margin: 10px 0;
+  font-weight: 400;
+  font-size:16px;
+}
+
+ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+h4{
+  font-weight: 400;
   font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 15px;
-  color: #000;
 }
 
-/* Mobile Anpassungen */
-@media (max-width: 924px) {
-  .sidebar {
-    display: none;
-  }
-  
-  .header {
-    left: 0;
-  }
-  
-  .main-content {
-    margin-left: 0;
-    width: 100%;
-  }
+.header {
+position: sticky;
+top: 0;
+z-index: 1000;
+background-color: white;
+/* display: block; */
+width: 100%;
 }
 
-/* Regel für den Text "Kanban Project Management Tool" */
-.main-header > div:first-child {
-  display: block; /* Standardmäßig anzeigen */
+small{
+padding-bottom:32px;
 }
 
-/* Media Query um den Text zwischen 925px und 300px auszublenden */
-@media screen and (max-width: 925px) and (min-width: 300px) {
-  .main-header > div:first-child {
-    display: none; /* Zwischen 925px und 300px ausblenden */
-  }
-
-  .main-container{
-    margin-top:86px;
-  }
-
-  .help-container{
-    justify-content:center;
-  }
+@media (max-width: 925px) and (min-width: 300px) {
+section {
+  /* overflow-y: scroll; */
 }
 
-/* Hauptinhalt scrollbar machen */
+section::-webkit-scrollbar {
+  width: 8px;
+  display: block;
+}
+
+section::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+section::-webkit-scrollbar-thumb {
+  background-color: #28abe2;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+section {
+  scrollbar-width: thin;
+  scrollbar-color: #28abe2 #f1f1f1;
+}
+}
+
+@media (max-width: 299px) {
+section {
+  /* overflow-y: auto; */
+}
+
+section::-webkit-scrollbar {
+  display: none;
+}
+
+section {
+  scrollbar-width: none;
+}
+}
+
+.help-container {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 0 80px;
+}
+
+.help-container h1 {
+font-size: 61px;
+font-weight: 700;
+margin: 0;
+color: #000;
+}
+
+.help-container a {
+height: auto;
+width: auto;
+border-radius: 0;
+}
+
+.help-container .return-btn {
+width: 25px;
+height: 25px;
+cursor: pointer;
+}
+
+@media (max-width: 768px) {
+.side-menu {
+  display: none;
+}
+
 .header-and-main-container {
   width: 100%;
-  height: 100vh;
-  overflow-y: auto;
-  padding-bottom: 40px;
-  /* Mehr Padding oben für bessere Sichtbarkeit der Überschrift */
-  padding-top: 20px;
+  height: auto;
+  min-height: 100vh;
+
 }
 
-/* Sorgt dafür, dass der Text-Container scrollbar ist */
-section {
-  height: auto;
-  overflow-y: visible; /* Änderung zu 'visible' */
-  padding: 0 20px;
-  position: relative;
+.header {
+  width: 100%;
+  padding: 0;
 }
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+}
+
+.main-header > div:first-child {
+  font-size: 16px;
+}
+
+.logo-container-side-menu-responsive {
+  width: 32px;
+  height: 32px;
+}
+
+.header-right-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+}
+
+@media (max-width: 480px) {
+.main-header {
+  padding: 8px 12px;
+}
+
+.main-header > div:first-child {
+  font-size: 14px;
+}
+
+.help-container {
+  padding: 0 12px;
+}
+
+.help-container h1 {
+  font-size: 24px;
+}
+
+h1 {
+  margin-top: 100px !important;
+}
+}
+
+@media (max-width: 320px) {
+.main-header > div:first-child {
+  font-size: 12px;
+}
+
+.help-container h1 {
+  font-size: 20px;
+}
+
+h1 {
+  margin-top: 100px !important;
+}
+}
+
+@media (max-width: 925px) {
+.main-header > div:first-child {
+  display: none;
+}
+
+h1 {
+  margin-top: 100px !important;
+}
+}
+
+.header-logo {
+display: none;
+height: 32px;
+width: auto;
+margin-right: 16px;
+}
+
+@media (max-width: 925px) {
+.header-logo {
+  display: block;
+}
+}
+
+.header-right-side {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.account {
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+font-weight: 600;
+}
+
+@media (max-width: 768px) {
+.header-logo {
+  height: 39px;
+  width: 32px;
+}
+}
+
+.header-and-main-container {
+height: 100vh;
+display: flex;
+flex-direction: column;
+}
+
+@media (max-width: 925px) {
+main {
+  max-height: calc(100vh - 140px);
+  min-height: auto;
+}
+
+section {
+  max-height: calc(100vh - 160px);
+}
+
+.header {
+  display: block !important;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.main-header {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+}
+}
+
+.side-menu {
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+height: 100vh;
+}
+
+.logo-content-container {
+flex-grow: 0;
+}
+
+.policy-container {
+margin-top: auto;
+margin-bottom: 32px;
+}
+
+@media (max-width: 925px) {
+.side-menu {
+  display: none;
+}
+}
+
+.mobile-nav-bar {
+display: none;
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 80px;
+background-color: #2A3647;
+justify-content: space-around;
+align-items: center;
+z-index: 1000;
+}
+
+.nav-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+text-decoration: none;
+color: white;
+font-size: 14px;
+width: 25%;
+}
+
+.nav-item img {
+width: 24px;
+height: 24px;
+margin-bottom: 5px;
+}
+
+@media (max-width: 925px) and (min-width: 300px) {
+.mobile-nav-bar {
+  display: flex;
+}
+
+.header-and-main-container {
+  padding-bottom: 80px;
+}
+
+main {
+  max-height: calc(100vh - 160px);
+}
+}
+
+@media (max-width: 925px) {
+.header {
+  display: block !important;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  width: 100%;
+}
+
+.main-header {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-container{
+  margin-top:86px;
+}
+
+.help-container{
+  justify-content:center;
+}
+}
+
+@media (max-width:300px){
+.main-container{
+  margin-top:0;
+  margin-bottom:86px;
+}
+}
+
+.main-container{
+overflow-x: hidden;
+height:100vh;
+overflow-y: auto;
+/* margin-top:86px; */
+}
+
 
 @media (max-width:400px){
-  .footer-navigation-external span{
-    width:100px;
-  }
+.footer-navigation-external span{
+  width:100px;
+}
 
-  .external-bottom-menu{
-    width:240px;
-  }
+.external-bottom-menu{
+  width:240px;
+}
 }
 
 @media (max-width:350px){
-  .bottom-login-div{
-    width:70px !important;
-    padding-left:12px;
-  }
+.bottom-login-div{
+  width:70px !important;
+  padding-left:12px;
+}
 
-  .login-responsive-text{
-    width:70px !important;
-  }
+.login-responsive-text{
+  width:70px !important;
+}
 
-  .nav-item{
-    width:70px;
-  }
+.nav-item{
+  width:70px;
+}
 
-  .footer-navigation{
-    gap:24px;
-  }
+.footer-navigation{
+  gap:24px;
+}
+
 }

@@ -1,102 +1,102 @@
 .margin_null {
-    margin-left: 0px;
-  }
-  
-  .Contacts {
-    width: 456px;
-    background-color: white;
-    box-shadow: 4px 0px 6px 0px #00000014;
-    padding: 22px 52px;
-    box-sizing: border-box;
-  }
-  
-  .Contact-button {
-    width: 352px;
-    height: 56px;
-    border-radius: 10px;
-    background-color: #2a3647;
-    color: white;
-    padding: 12px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    box-sizing: border-box;
-    margin-bottom: 8px;
-    cursor: pointer;
-  }
-  
-  .Contact-button h2 {
-    font-size: 21px;
-    font-weight: 700;
-  }
-  
-  .Contact-button img {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .ContactsSection {
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    overflow: scroll;
-    height: calc(100vh - 204px);
-    position: relative;
-    padding-right: 0px;
-    margin-right: 0px;
-  }
-  
-  .ContactsSection::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .ContactsSection::-webkit-scrollbar-thumb {
-    border: 0px solid white;
-    background: #a8a8a8;
-    border-radius: 15px;
-  }
-  
-  .ContactsSection::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  margin-left: 0px;
+}
 
-  .Contacts-body {
-    display: flex;
-  }
-  
-  .contacts_headline {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-  }
-  
-  .contacts_headline h2 {
-    font-size: 61px;
-    font-weight: 700;
-    color: black;
-  }
-  
+.Contacts {
+  width: 456px;
+  background-color: white;
+  box-shadow: 4px 0px 6px 0px #00000014;
+  padding: 22px 52px;
+  box-sizing: border-box;
+}
 
-  
-  .contacts_headline p {
-    font-size: 27px;
-    font-weight: 400;
-    color: #2a3647;
-  }
-  
-  .headline-contact {
-    padding: 100px 0px 0px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-  }
-  
-  .Contact:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .Contact-button:hover {
-    background-color: #29abe2;
-  }
+.Contact-button {
+  width: 352px;
+  height: 56px;
+  border-radius: 10px;
+  background-color: #2a3647;
+  color: white;
+  padding: 12px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.Contact-button h2 {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.Contact-button img {
+  width: 32px;
+  height: 32px;
+}
+
+.ContactsSection {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: scroll;
+  height: calc(100vh - 204px);
+  position: relative;
+  padding-right: 0px;
+  margin-right: 0px;
+}
+
+.ContactsSection::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ContactsSection::-webkit-scrollbar-thumb {
+  border: 0px solid white;
+  background: #a8a8a8;
+  border-radius: 15px;
+}
+
+.ContactsSection::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.Contacts-body {
+  display: flex;
+}
+
+.contacts_headline {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.contacts_headline h2 {
+  font-size: 61px;
+  font-weight: 700;
+  color: black;
+}
+
+
+
+.contacts_headline p {
+  font-size: 27px;
+  font-weight: 400;
+  color: #2a3647;
+}
+
+.headline-contact {
+  padding: 100px 0px 0px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.Contact:hover {
+  background-color: #f9f9f9;
+}
+
+.Contact-button:hover {
+  background-color: #29abe2;
+}

@@ -11,16 +11,17 @@
     <link rel="icon" href="./img/capa.png" type="image/png" />
     <link rel="stylesheet" href="./styles/standard.css" />
     <link rel="stylesheet" href="./styles/header.css" />
-    <link rel="stylesheet" href="./styles/side-menu.css">
+    <link rel="stylesheet" href="./styles/side-menu.css" />
     <link rel="stylesheet" href="./styles/summary.css" />
     <link rel="stylesheet" href="./styles/profile-dropdown.css" />
-    <link rel="stylesheet" href="./contact/styles/contacts.css">
-    <link rel="stylesheet" href="./resources/help/help.css">
-    <title>Join - Summary</title>
+    <!-- <link rel="stylesheet" href="../contact/styles/contacts.css" /> -->
+    <!-- <link rel="stylesheet" href="./help.css"> -->
+    <title>Document</title>
     <script src="./script/user.js"></script>
     <script src="./script/indexCounter.js"></script>
-    <script src="./script/logout.js"></script>
+    <script src="./scripts/logout.js"></script>
     <script src="./script/dropdown.js"></script>
+    <script src="./script/logout.js"></script>
   </head>
   <body>
     <div class="side-menu">
@@ -36,7 +37,7 @@
             </a>
           </div>
           <div class="menu-content-div">
-            <a href="./add-task/addtask.html" class="add-task-button">
+            <a href="./add-task/addtask.html"  >
               <img src="./img/icon/add_task.png" alt="add task">
               Add Task
             </a>
@@ -95,13 +96,6 @@
           <div class="dropdown-content-div">
             <div class="dropdown-content-div-text">
               <div>
-                <a href="./resources/private-policy/privacy-policy.html">Privacy Policy</a>
-              </div>
-            </div>
-          </div>
-          <div class="dropdown-content-div">
-            <div class="dropdown-content-div-text">
-              <div>
                 <a href="./resources/legal-notice/legal-notice.html">Legal notice</a>
               </div>
             </div>
@@ -109,7 +103,14 @@
           <div class="dropdown-content-div">
             <div class="dropdown-content-div-text">
               <div>
-                <a href="./login-signup/login.html" onclick="logout()">Logout</a>
+                <a href="./resources/private-policy/privacy-policy.html">Privacy Policy</a>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-content-div" onclick="logout()">
+            <div class="dropdown-content-div-text">
+              <div>
+                <a href="http://join-419.developerakademie.net/join/login-signup/login.html" >Logout</a>
               </div>
             </div>
           </div>

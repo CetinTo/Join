@@ -70,10 +70,10 @@ function setupDropdownLinks(menu) {
 function handleLogout(event, redirectUrl) {
   event.preventDefault();
   console.log('Performing logout...');
-  localStorage.removeItem('currentUser');
   localStorage.removeItem('userEmail');
   localStorage.removeItem('userName');
-  window.location.href = redirectUrl;
+  localStorage.removeItem('currentUser');
+  window.location.href = '/join/login-signup/login.html';
 }
 
 /**
@@ -89,6 +89,26 @@ function setupOutsideClickListener(button, menu) {
       menu.classList.remove('show-dropdown');
     }
   });
+}
+
+/**
+ * Einfache Logout-Funktion, die für alle Seiten verwendet werden kann
+ */
+function logout() {
+  // Benutzer-Daten aus dem LocalStorage löschen
+  localStorage.removeItem('currentUser');
+  localStorage.removeItem('userEmail');
+  localStorage.removeItem('userName');
+  
+  // Zu einem absoluten Pfad umleiten (statt eines relativen Pfads)
+  window.location.href = '/join/login-signup/login.html';
+}
+
+/**
+ * Alternative Logout-Funktion für die onclick-Ereignisse
+ */
+function logoutToLogin() {
+  logout(); // Verwende die Hauptfunktion
 }
 
 // Run initializer after DOM is fully loaded

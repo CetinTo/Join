@@ -27,7 +27,9 @@
     <title>Join</title>
     <style>
       /* Ausblenden des profile-img-circle nur im Edit-Modal */
-      
+      .edit-contact-modal .profile-img-circle {
+        /* display: none !important; */
+      }
 
       /* Sicherstellen, dass das profile-badge-big im Edit-Modal angezeigt wird */
       .edit-contact-modal .profile-badge-big {
@@ -99,7 +101,7 @@
           <div class="headline-header">Kanban Project Management Tool</div>
           <div class="header-right-side">
             <div>
-              <a href="../resources/help/help.html">
+              <a href="./resources/help/help.html">
                 <img src="../img/icon/help.png" alt="" />
               </a>
             </div>
@@ -181,48 +183,63 @@
       <div class="add-contact-modal">
         <div class="modal-left-side">
           <div class="add-contact-content-div">
-            <img src="../img/capa_white.png" alt="">
-            <div>
-              <h1>Add contact</h1>
-              <h3>Tasks are better with a team!</h3>
-              <hr class="hr-modal-add-new-contact">
+              <img src="../img/capa_white.png" alt="">
+              <div>
+                  <h1>Add contact</h1>
+                  <h3>Tasks are better with a team!</h3>
+                  <hr class="hr-modal-add-new-contact">
+              </div>
+          </div>
+      </div>
+      <div class="add-contact-modal-input-section">
+        <div class="close-btn-div">
+          <img src="../img/close-icon.png" alt="close button" class="close-modal-button" />
+        </div>
+        <div class="profile-img-input-div">
+          <div class="profile-img-circle">
+            <img src="../img/person.png" alt="" />
+          </div>
+          <div class="input-and-buttons">
+            <div class="input-div">
+              <div class="input-container">
+                <input type="text" name="name" placeholder="Name" required
+                       pattern="^[A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ\- ]+$"
+                       title="Nur Buchstaben, Bindestrich oder Leerzeichen erlaubt"
+                       oninput="this.value = this.value.replace(/[^A-Za-zÄäÖöÜüßçéèêëáàâäíìîïóòôöúùûüÇÉÈÊËÁÀÂÄÍÌÎÏÓÒÔÖÚÙÛÜ \-]/g, '')" />
+                <img src="../img/icon/person.png" class="input-icon" />
+              </div>
+              
+              <div class="input-container">
+                <input type="email" name="email" placeholder="Email" required
+                       pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                       title="Bitte eine gültige E-Mail-Adresse eingeben" />
+                <img src="../img/icon/mail.png" class="input-icon" />
+              </div>
+              
+              <div class="input-container">
+                <input type="tel" name="phone" placeholder="Telefonnummer" required
+                       title="Bitte nur Zahlen eingeben (mind. 6 Zeichen)"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                <img src="../img/icon/phone.png" class="input-icon" />
+              </div>
+              
+            </div>
+            <div class="footer-buttons">
+              <button class="clear-btn">Clear X</button>
+              <div class="create-btn-div-add-contact">
+                <button class="create-btn" type="button">
+                  Create contact <img src="../img/icon/check.png" alt="" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        <div class="add-contact-modal-input-section">
-          <div class="close-btn-div">
-            <img src="../img/close-icon.png" alt="close button" class="close-modal-button" />
-          </div>
-          <div class="profile-img-input-div">
-            <div class="profile-img-circle">
-              <img src="../img/person.png" alt="" />
-            </div>
-            <form onsubmit="return false;" class="input-and-buttons">
-              <div class="input-div">
-                <div class="input-container">
-                  <input type="text" id="name" placeholder="Name" required />
-                  <img src="../img/icon/person.png" class="input-icon" />
-                </div>
-                <div class="input-container">
-                  <input type="email" id="email" placeholder="Email" />
-                  <img src="../img/icon/mail.png" class="input-icon" />
-                </div>
-                <div class="input-container">
-                  <input type="tel" id="phone" placeholder="Telefonnummer" />
-                  <img src="../img/icon/phone.png" class="input-icon" />
-                </div>
-              </div>
-              <div class="footer-buttons">
-                <button class="clear-btn">Clear X</button>
-                <div class="create-btn-div-add-contact">
-                  <button class="create-contact-btn" onclick="createContact()">
-                    Create contact <img src="../img/icon/check.png" alt="" />
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+      </div>
+      
+      
+      
+      
+      
       </div>
     </div>
     <div class="modal-overlay-edit">
@@ -311,8 +328,8 @@
 
 
     
-    <script src="./scripts/contacts.js"></script>
-    <script src="./scripts/contactAdd.js"></script>
+    <script src="../contact/scripts/contacts.js"></script>
+    <!-- <script src="../contact/scripts/contactAdd.js"></script> -->
     <!-- Footer-Navigation für Mobile -->
     <!-- <div class="footer-navigation">
         <a href="../summary.html" class="nav-item">

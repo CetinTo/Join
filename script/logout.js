@@ -8,12 +8,9 @@ function logout() {
 
 }
 
-/**
- * Alternative Funktion für die Umleitung, die in manchen Teilen der Anwendung verwendet wird
- */
+
 function logoutToLogin() {
   localStorage.removeItem('currentUser'); 
-  localStorage.removeItem('username');
-  localStorage.removeItem('userToken');
-  window.location.href = './login-signup/login.html';
+  window.location.href = 'http://join-419.developerakademie.net/join/login-signup/login.html';
+
 }

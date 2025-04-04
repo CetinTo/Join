@@ -11,23 +11,29 @@
     <title>Log in</title>
     <link rel="stylesheet" href="./login-signup-styles/login.css" />
     <script src="./scripts/login.js"></script>
-  </head>
+    <script src="../script/user.js"></script>
+    </head>
 
   <body>
     
     <div class="logo-container">
       <img src="../img/capa.png" alt="Logo" class="logo animated" />
-      <img src="../img/capa_white.png" alt="Logo" class="logo-resp animated" />
+      <img src="../img/capa_white.png" alt="Logo" class=" logo-resp animated" />
     </div>
 
     <!-- Header -->
     <header>
-      <img src="../img/capa.png" alt="Logo" class="logo-small" />
-      <div class="signup-link header-text">
-        <span>Not a Join user?</span>
-        <button class="signup-btn"><a href="./sign-up.html">Sign up</a></button>
+      <img src="../img/capa.png" alt="Logo" onclick="reload()" class="logo-small" />
+      <div class="signup-link header-text ">
+        <span  >Not a Join user?</span>
+        <button class="signup-btn"><a href="./sign-up.html" >Sign up</a></button>
       </div>
     </header>
+
+    <!-- <br />
+    <br />
+    <br />
+    <br /> -->
 
     <!-- Login Modal -->
     <div class="center-container">
@@ -45,7 +51,6 @@
               class="input-email"
               autocomplete="email"
             />
-            <span class="error-message"></span>
             </div>
 
             <div class="input-group">
@@ -57,7 +62,6 @@
               class="icon-lock"
               autocomplete="current-password"
             />
-            <span class="error-message"></span>
             </div>
 
             <div class="button-div">
@@ -70,77 +74,27 @@
         </div>
       </div>
     </div>
-      
+
+    <div class="signup-link header-text-bottom">
+      <span  >Not a Join user?</span>
+      <button class="signup-btn"><a href="./sign-up.html" >Sign up</a></button>
+    </div>
+    <!-- Footer -->
     <footer class="footer">
-      <a href="#" onclick="return openPrivacyModal();">Privacy Policy</a>
-      <a href="#" onclick="return openLegalModal();">Legal notice</a>
+
+
+      
+      <a href="../resources/private-policy/privacy-policy-external-login.html">Privacy Policy</a>
+
+      <a href="../resources/legal-notice/legal-notice - external-login.html">Legal notice</a>
     </footer>
 
-    <!-- Privacy Policy Modal -->
-    <div id="privacyPolicyModal" class="legal-modal">
-      <div class="modal-logo">
-        <img src="../img/capa.png" alt="Logo" class="modal-logo-img" />
-      </div>
-      <div class="legal-modal-content">
-        <h2>Privacy Policy</h2>
-        <div class="legal-content">
-          <h3>Subtitle</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque odio felis, iaculis ut massa eget, ornare lacinia urna. In dignissim justo eu velit sagittis, in scelerisque nulla convallis. Vestibulum eros lorem, sollicitudin eget eros non, varius aliquam mauris. Sed turpis ipsum, condimentum quis nulla at, lobortis facilisis ipsum. Nunc erat justo, hendrerit vel enim vitae, feugiat mattis dui. In auctor dignissim luctus. Mauris ornare ipsum at ultrices eleifend. Praesent tempus congue magna. Quisque libero erat, pharetra a neque et, imperdiet semper justo.</p>
-          
-          <h3>Subtitle</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque odio felis, iaculis ut massa eget, ornare lacinia urna. In dignissim justo eu velit sagittis, in scelerisque nulla convallis. Vestibulum eros lorem, sollicitudin eget eros non, varius aliquam mauris. Sed turpis ipsum, condimentum quis nulla at, lobortis facilisis ipsum. Nunc erat justo, hendrerit vel enim vitae, feugiat mattis dui. In auctor dignissim luctus. Mauris ornare ipsum at ultrices eleifend. Praesent tempus congue magna. Quisque libero erat, pharetra a neque et, imperdiet semper justo.</p>
-        </div>
-      </div>
-      <div class="legal-modal-footer">
-        <a href="#" class="login-button" onclick="return closeModals();">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-            <polyline points="10 17 15 12 10 7"></polyline>
-            <line x1="15" y1="12" x2="3" y2="12"></line>
-          </svg>
-          <span>Log In</span>
-        </a>
-        <div>
-          <a href="#" class="active" onclick="return openPrivacyModal();">Privacy Policy</a>
-          <a href="#" onclick="return openLegalModal();">Legal Notice</a>
-        </div>
-      </div>
-    </div>
+    <!-- <script src="../script/login.js"></script> -->
 
-    <!-- Legal Notice Modal -->
-    <div id="legalNoticeModal" class="legal-modal">
-      <div class="modal-logo">
-        <img src="../img/capa.png" alt="Logo" class="modal-logo-img" />
-      </div>
-      <div class="legal-modal-content">
-        <h2>Legal Notice</h2>
-        <div class="legal-content">
-          <h3>Imprint</h3>
-          <p>• [Student Names List]</p>
-          <p>• [Address of the JOIN operator - e.g. one of the students]</p>
-          <p>• [Postcode and city]</p>
-          
-          <h3>Acceptance of terms</h3>
-          <p>By accessing and using Join (Product), you acknowledge and agree to the following terms and conditions, and any policies, guidelines, or amendments thereto that may be presented to you from time to time.</p>
-          
-          <h3>Scope and ownership of the product</h3>
-          <p>Join has been developed as part of a student group project in a web development bootcamp at the Developer Akademie GmbH. It has an educational purpose and is not intended for extensive personal & business usage. As such, we cannot guarantee consistent availability, reliability, accuracy, or any other aspect of quality regarding this Product.</p>
-        </div>
-      </div>
-      <div class="legal-modal-footer">
-        <a href="#" class="login-button" onclick="return closeModals();">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-            <polyline points="10 17 15 12 10 7"></polyline>
-            <line x1="15" y1="12" x2="3" y2="12"></line>
-          </svg>
-          <span>Log In</span>
-        </a>
-        <div>
-          <a href="#" onclick="return openPrivacyModal();">Privacy Policy</a>
-          <a href="#" class="active" onclick="return openLegalModal();">Legal Notice</a>
-        </div>
-      </div>
-    </div>
+    <script>
+      function reload() {
+        location.reload();
+      }
+    </script>
   </body>
 </html>

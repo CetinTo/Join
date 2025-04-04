@@ -374,4 +374,3 @@ function validateForm() {
   updateCreateButtonState(isValid);
   return isValid;
 }
-

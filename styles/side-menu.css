@@ -145,18 +145,11 @@
 
 }
 
-.external-bottom-menu {
-    display: none !important;
-}
-
-.selected-menu-resources-external,
-.selected-menu-resources-external-legal {
-    font-size: 12px !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 8px !important;
-    width: 140px !important;
+.external-bottom-menu{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width:300px;
 }
 
 .footer-navigation-external span{
@@ -198,21 +191,6 @@
 
 /* Responsive Styles */
 @media (max-width: 925px) {
-    .side-menu {
-        display: none !important;
-    }
-
-    .external-bottom-menu {
-        width: 100% !important;
-        max-width: 300px !important;
-        justify-content: center !important;
-    }
-
-    .selected-menu-resources-external,
-    .selected-menu-resources-external-legal {
-        font-size: 12px !important;
-        padding: 8px !important;
-    }
 
     .header-logo-none-resp{
         display: block;
@@ -250,6 +228,9 @@
 
     .logo-content-container {
         flex-direction: row;
+        /* justify-content: space-between;
+        align-items: flex-start;
+        width: 100%; */
         justify-content: center;
         gap: 4%;   
         height: 46px;
@@ -321,99 +302,10 @@
         display: flex;
         align-items: end;
     }
-
-    .selected-menu-resources-external-legal {
-        width: 100px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .main-section {
-        padding-bottom: 80px !important; /* Platz für den Footer */
-    }
 }
     
     
 
 .nav-item-external{
     height:60px !important;
-}
-
-/* Neue Media Query für Bildschirme zwischen 300px und 500px */
-@media (min-width: 300px) and (max-width: 500px) {
-    .external-bottom-menu {
-        width: 200px;
-    }
-}
-
-/* Footer Responsive Design */
-@media screen and (max-width: 500px) {
-    .external-bottom-menu {
-        width: 250px !important;
-    }
-
-    .selected-menu-resources-external,
-    .selected-menu-resources-external-legal {
-        width: 110px !important;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .external-bottom-menu {
-        width: 220px !important;
-    }
-
-    .selected-menu-resources-external,
-    .selected-menu-resources-external-legal {
-        width: 100px !important;
-    }
-}
-
-@media screen and (max-width: 300px) {
-    .external-bottom-menu {
-        width: 200px !important;
-    }
-
-    .selected-menu-resources-external,
-    .selected-menu-resources-external-legal {
-        width: 90px !important;
-    }
-}
-
-/* Stellen Sie sicher, dass die main-section immer sichtbar ist */
-.main-section {
-    display: block !important;
-    width: 100% !important;
-}
-
-/* Footer für Responsive-View */
-@media (max-width: 925px) {
-  .external-bottom-menu {
-    width: 100% !important;
-    max-width: 300px !important;
-    justify-content: center !important;
-  }
-  
-  .selected-menu-resources-external,
-  .selected-menu-resources-external-legal {
-    font-size: 12px !important;
-    padding: 8px !important;
-  }
-}
-
-@media (max-width: 400px) {
-  .selected-menu-resources-external,
-  .selected-menu-resources-external-legal {
-    font-size: 11px !important;
-    padding: 6px !important;
-  }
-}
-
-@media (max-width: 300px) {
-  .selected-menu-resources-external,
-  .selected-menu-resources-external-legal {
-    font-size: 10px !important;
-    padding: 4px !important;
-  }
 }

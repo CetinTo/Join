@@ -960,7 +960,7 @@ h4{
 
 @media screen and (max-width:560px){
     .edit-contact-modal{
-        width:300px !important;
+        width:347px !important;
         height: 688px ;
     }
 
@@ -1032,14 +1032,6 @@ h4{
         width: 350px;
         height:579px !important;
        
-    }
-
-    .contact-list-email{
-        font-size: 12px;
-    }
-
-    .contact-list-phone{
-        font-size: 14px;
     }
 
 
@@ -1266,6 +1258,7 @@ h4{
     }
 
     .modal-left-side{
+        height: 185px;
         width:100% !important;
     }    
 

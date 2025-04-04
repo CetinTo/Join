@@ -190,25 +190,7 @@ span{
 }
 
 @media (max-width:770px){
-    .add-task-button{
-        /* display: none; */
-    }
-
-    .add-task-btn-text{
-        /* display: none; */
-    }
-
-    /* .add-task-button-resp{
-        display: block ;
-        cursor: pointer;
-        display: block;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 40px;
-        height: 40px;
-        padding: 0;
-    } */
+   
 
     .add-task-button-a{
         display: block;
@@ -280,9 +262,7 @@ span{
         max-height:419px;
     }
 
-    .form-right {
-        /* margin-bottom:144px; */
-    }
+   
 
     .footer-mid-div{
         height:48px;
