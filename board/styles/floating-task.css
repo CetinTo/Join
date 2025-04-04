@@ -8,6 +8,7 @@
 
 
 .main-section-task-overlay {
+    overflow-x:hidden;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -124,9 +125,10 @@
     justify-content: space-around;
     align-items: flex-start;
     flex-direction: column;
-    width: 445px;
+    width: 345px;
     height:176px;
     padding-left:24px;
+    overflow-y:auto;
 }
 
 .account-name{
@@ -157,8 +159,10 @@
     justify-content: space-evenly;
     align-items: flex-start;
     flex-direction: column;
-    height: 100%;
+    height: 100% !important;
     padding-left:24px;
+    overflow-y: scroll !important;
+    width:100% !important;
 }
 
 
@@ -570,3 +574,15 @@
     }
 
   }
+
+
+
+  @media (max-width:400px){
+    .subtask-container-div{
+        height:46px !important;
+    }
+
+    .main-section-task-overlay{
+        padding:15px;
+    }
+  } 
