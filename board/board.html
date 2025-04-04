@@ -498,74 +498,130 @@
 
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      document.querySelectorAll(".clear-btn").forEach(item => {
-        item.addEventListener("click", function () {
-          location.reload();
-        });
-      });
-    });
-    document.querySelector('.account').addEventListener('click', function(event) {
-      event.stopPropagation();
-      document.querySelector('.dropdown-menu').classList.toggle('show');
-    });
-    document.addEventListener('click', function(event) {
-      const dropdown = document.querySelector('.dropdown-menu');
-      if (!dropdown.contains(event.target) && dropdown.classList.contains('show')) {
-        dropdown.classList.remove('show');
-      }
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-      const subtaskInput = document.querySelector('.subtask');
-      const addIcon = document.querySelector('.add-icon');
-      const iconsDiv = document.querySelector('.subtask-icons-div');
-      const deleteIcon = document.querySelector('.delete-icon');
-      const checkIcon = document.querySelector('.check-icon');
-      subtaskInput.addEventListener('focus', function() {
-        addIcon.style.display = 'none';
-        iconsDiv.style.display = 'flex';
-      });
-      subtaskInput.addEventListener('blur', function() {
-        if (!this.value) {
-          addIcon.style.display = 'block';
-          iconsDiv.style.display = 'none';
-        }
-      });
-      deleteIcon.addEventListener('click', function() {
-        subtaskInput.value = '';
-        addIcon.style.display = 'block';
-        iconsDiv.style.display = 'none';
-        subtaskInput.focus();
-      });
-      checkIcon.addEventListener('click', function() {
-        const subtaskText = subtaskInput.value.trim();
-        if (subtaskText) {
-          const newSubtask = document.createElement('div');
-          newSubtask.classList.add('subtask-item', 'added-subtasks');
-          newSubtask.innerHTML = `
-            <div class="flexrow">
-              <span>${subtaskText}</span>
-            </div>
-            <div class="added-subtask-icons">
-              <div><img src="../img/pen.png" alt="pen"></div>
-              <hr class="subtask-hr">
-              <div class="trash-icon"><img src="../img/trash.png" alt="trash"></div>
-            </div>
-          `;
-          const trashIcon = newSubtask.querySelector('.trash-icon');
-          trashIcon.addEventListener('click', function() {
-            newSubtask.remove();
-            validateForm();
-          });
-          const scrollContainer = document.querySelector('.subtasks-scroll-container');
-          scrollContainer.appendChild(newSubtask);
-          subtaskInput.value = '';
-          addIcon.style.display = 'block';
-          iconsDiv.style.display = 'none';
-          validateForm();
-        }
-      });
-    });
+/**
+ * Sets up click event listeners for all clear buttons to reload the page.
+ */
+ function setupClearButtons() {
+  document.querySelectorAll(".clear-btn").forEach(item => {
+    item.addEventListener("click", () => location.reload());
+  });
+}
+
+/**
+ * Adds a click event listener to the account button to toggle the dropdown menu.
+ */
+function setupAccountDropdown() {
+  document.querySelector('.account').addEventListener('click', event => {
+    event.stopPropagation();
+    document.querySelector('.dropdown-menu').classList.toggle('show');
+  });
+}
+
+/**
+ * Removes the dropdown menu if a click occurs outside of it.
+ */
+function setupOutsideDropdownClick() {
+  document.addEventListener('click', event => {
+    const dropdown = document.querySelector('.dropdown-menu');
+    if (!dropdown.contains(event.target) && dropdown.classList.contains('show')) {
+      dropdown.classList.remove('show');
+    }
+  });
+}
+
+/**
+ * Handles focus and blur events for the subtask input field.
+ * @param {HTMLElement} subtaskInput - The subtask input element.
+ * @param {HTMLElement} addIcon - The element representing the add icon.
+ * @param {HTMLElement} iconsDiv - The container for subtask icons.
+ */
+function handleSubtaskFocusBlur(subtaskInput, addIcon, iconsDiv) {
+  subtaskInput.addEventListener('focus', () => {
+    addIcon.style.display = 'none';
+    iconsDiv.style.display = 'flex';
+  });
+  subtaskInput.addEventListener('blur', function() {
+    if (!this.value) {
+      addIcon.style.display = 'block';
+      iconsDiv.style.display = 'none';
+    }
+  });
+}
+
+/**
+ * Adds click event listeners for the delete and check icons.
+ * @param {HTMLElement} subtaskInput - The subtask input element.
+ * @param {HTMLElement} addIcon - The element representing the add icon.
+ * @param {HTMLElement} iconsDiv - The container for subtask icons.
+ * @param {HTMLElement} deleteIcon - The delete icon element.
+ * @param {HTMLElement} checkIcon - The check icon element.
+ */
+function setupSubtaskIcons(subtaskInput, addIcon, iconsDiv, deleteIcon, checkIcon) {
+  deleteIcon.addEventListener('click', () => {
+    subtaskInput.value = '';
+    addIcon.style.display = 'block';
+    iconsDiv.style.display = 'none';
+    subtaskInput.focus();
+  });
+  checkIcon.addEventListener('click', () => {
+    const subtaskText = subtaskInput.value.trim();
+    if (subtaskText) {
+      const newSubtask = createSubtaskItem(subtaskText);
+      document.querySelector('.subtasks-scroll-container').appendChild(newSubtask);
+      subtaskInput.value = '';
+      addIcon.style.display = 'block';
+      iconsDiv.style.display = 'none';
+      validateForm();
+    }
+  });
+}
+
+/**
+ * Creates a new subtask element with a trash icon.
+ * @param {string} text - The subtask text.
+ * @returns {HTMLElement} The new subtask element.
+ */
+function createSubtaskItem(text) {
+  const newSubtask = document.createElement('div');
+  newSubtask.classList.add('subtask-item', 'added-subtasks');
+  newSubtask.innerHTML = `
+    <div class="flexrow">
+      <span>${text}</span>
+    </div>
+    <div class="added-subtask-icons">
+      <div><img src="../img/pen.png" alt="pen"></div>
+      <hr class="subtask-hr">
+      <div class="trash-icon"><img src="../img/trash.png" alt="trash"></div>
+    </div>
+  `;
+  newSubtask.querySelector('.trash-icon').addEventListener('click', () => {
+    newSubtask.remove();
+    validateForm();
+  });
+  return newSubtask;
+}
+
+/**
+ * Initializes all event listeners for subtask functionality.
+ */
+function setupSubtaskListeners() {
+  const subtaskInput = document.querySelector('.subtask');
+  const addIcon = document.querySelector('.add-icon');
+  const iconsDiv = document.querySelector('.subtask-icons-div');
+  const deleteIcon = document.querySelector('.delete-icon');
+  const checkIcon = document.querySelector('.check-icon');
+  handleSubtaskFocusBlur(subtaskInput, addIcon, iconsDiv);
+  setupSubtaskIcons(subtaskInput, addIcon, iconsDiv, deleteIcon, checkIcon);
+}
+
+// Initializes all functionalities once the DOM content is loaded.
+document.addEventListener("DOMContentLoaded", function() {
+  setupClearButtons();
+  setupAccountDropdown();
+  setupOutsideDropdownClick();
+  setupSubtaskListeners();
+});
+
 
 
 

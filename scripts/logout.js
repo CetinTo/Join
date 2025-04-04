@@ -101,7 +101,7 @@ function logout() {
   localStorage.removeItem('userName');
   
   // Zu einem absoluten Pfad umleiten (statt eines relativen Pfads)
-  window.location.href = '/join/login-signup/login.html';
+  window.location.href = 'https://join-419.developerakademie.net/join/login-signup/login.html';
 }
 
 /**
