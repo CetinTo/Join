@@ -14,8 +14,8 @@ async function loadContacts(assignedUsers = []) {
 
 /**
  * Populates the assignee dropdown with contacts.
- * @param {Object} contacts - The contacts object from Firebase.
- * @param {Array} assignedUsers - Array of already assigned users.
+ * @param {Object} contacts - Das Kontakte-Objekt aus Firebase.
+ * @param {Array} assignedUsers - Array bereits zugewiesener Benutzer.
  */
 function populateAssigneeDropdown(contacts, assignedUsers) {
   const dropdownSelected = document.getElementById('assigneeDropdownSelected');
@@ -27,18 +27,40 @@ function populateAssigneeDropdown(contacts, assignedUsers) {
   );
   const selectedContacts = new Set();
   Object.entries(contacts).forEach(([id, contact]) => {
-    const item = createDropdownItem(id, contact, selectedContacts, badgesContainer);
-    dropdownList.appendChild(item);
-    const contactName = contact.name.trim().toLowerCase();
-    if (assignedUserNames.has(contactName)) {
-      selectedContacts.add(id);
-      item.classList.add('selected');
-      const checkbox = item.querySelector('.custom-checkbox');
-      checkbox.src = "../img/checkboxchecked.png";
-      checkbox.style.filter = "brightness(0) invert(1)";
-      createContactBadge(contact, id, badgesContainer, selectedContacts);
-    }
+    processContactEntry(id, contact, selectedContacts, assignedUserNames, badgesContainer, dropdownList);
   });
+  setupDropdownToggle(dropdownSelected, dropdownList);
+}
+
+/**
+ * Verarbeitet einen einzelnen Kontakt und fügt den entsprechenden Dropdown-Eintrag hinzu.
+ * @param {string} id - Die Kontakt-ID.
+ * @param {Object} contact - Das Kontakt-Objekt.
+ * @param {Set} selectedContacts - Set der bereits ausgewählten Kontakt-IDs.
+ * @param {Set} assignedUserNames - Set der Namen bereits zugewiesener Benutzer.
+ * @param {HTMLElement} badgesContainer - Container für die Badges.
+ * @param {HTMLElement} dropdownList - Das Dropdown-Element.
+ */
+function processContactEntry(id, contact, selectedContacts, assignedUserNames, badgesContainer, dropdownList) {
+  const item = createDropdownItem(id, contact, selectedContacts, badgesContainer);
+  dropdownList.appendChild(item);
+  const contactName = contact.name.trim().toLowerCase();
+  if (assignedUserNames.has(contactName)) {
+    selectedContacts.add(id);
+    item.classList.add('selected');
+    const checkbox = item.querySelector('.custom-checkbox');
+    checkbox.src = "../img/checkboxchecked.png";
+    checkbox.style.filter = "brightness(0) invert(1)";
+    createContactBadge(contact, id, badgesContainer, selectedContacts);
+  }
+}
+
+/**
+ * Richtet die Event-Listener ein, die das Dropdown umschalten.
+ * @param {HTMLElement} dropdownSelected - Das Element, das den aktuell ausgewählten Kontakt anzeigt.
+ * @param {HTMLElement} dropdownList - Das Dropdown-Listelement.
+ */
+function setupDropdownToggle(dropdownSelected, dropdownList) {
   dropdownSelected.addEventListener('click', event => {
     event.stopPropagation();
     dropdownList.style.display = dropdownList.style.display === 'block' ? 'none' : 'block';
@@ -51,28 +73,37 @@ function populateAssigneeDropdown(contacts, assignedUsers) {
 }
 
 /**
+ * Wandelt einen Farbwert in einen einfachen Farbnamen um.
+ * @param {string} colorValue - Der Farbwert (Hex oder Name).
+ * @returns {string} - Der einfache Farbname.
+ */
+function getSimpleColor(colorValue) {
+  if (colorValue.startsWith('#')) {
+    switch (colorValue.toUpperCase()) {
+      case '#F57C00': return 'orange';
+      case '#E74C3C': return 'red';
+      case '#5C6BC0': return 'blue';
+      case '#4CAF50': return 'green';
+      case '#8E44AD': return 'purple';
+      case '#EE00FF': return 'pink';
+      default: return 'default';
+    }
+  }
+  return colorValue;
+}
+
+/**
  * Creates a dropdown item for a contact.
- * @param {string} id - The contact ID.
- * @param {Object} contact - The contact object.
- * @param {Set} selectedContacts - Set of selected contact IDs.
- * @param {HTMLElement} badgesContainer - Container element for badges.
- * @returns {HTMLElement} - The dropdown item element.
+ * @param {string} id - Die Kontakt-ID.
+ * @param {Object} contact - Das Kontakt-Objekt.
+ * @param {Set} selectedContacts - Set der ausgewählten Kontakt-IDs.
+ * @param {HTMLElement} badgesContainer - Container für die Badges.
+ * @returns {HTMLElement} - Das Dropdown-Item.
  */
 function createDropdownItem(id, contact, selectedContacts, badgesContainer) {
   const initials = getInitials(contact.name);
   const colorValue = contact.color || "default";
-  let simpleColor = colorValue;
-  if (colorValue.startsWith('#')) {
-    switch (colorValue.toUpperCase()) {
-      case '#F57C00': simpleColor = 'orange'; break;
-      case '#E74C3C': simpleColor = 'red'; break;
-      case '#5C6BC0': simpleColor = 'blue'; break;
-      case '#4CAF50': simpleColor = 'green'; break;
-      case '#8E44AD': simpleColor = 'purple'; break;
-      case '#EE00FF': simpleColor = 'pink'; break;
-      default: simpleColor = 'default'; break;
-    }
-  }
+  const simpleColor = getSimpleColor(colorValue);
   const item = document.createElement('div');
   item.classList.add('dropdown-item');
   item.innerHTML = `
@@ -92,11 +123,11 @@ function createDropdownItem(id, contact, selectedContacts, badgesContainer) {
 
 /**
  * Handles the selection of a dropdown item.
- * @param {HTMLElement} item - The dropdown item element.
- * @param {string} id - The contact ID.
- * @param {Object} contact - The contact object.
- * @param {Set} selectedContacts - Set of selected contact IDs.
- * @param {HTMLElement} badgesContainer - Container element for badges.
+ * @param {HTMLElement} item - Das Dropdown-Item.
+ * @param {string} id - Die Kontakt-ID.
+ * @param {Object} contact - Das Kontakt-Objekt.
+ * @param {Set} selectedContacts - Set der ausgewählten Kontakt-IDs.
+ * @param {HTMLElement} badgesContainer - Container für die Badges.
  */
 function handleDropdownSelection(item, id, contact, selectedContacts, badgesContainer) {
   const checkbox = item.querySelector('.custom-checkbox');
@@ -117,38 +148,56 @@ function handleDropdownSelection(item, id, contact, selectedContacts, badgesCont
 }
 
 /**
- * Creates a contact badge and appends it to the container.
- * @param {Object} contact - The contact object.
- * @param {string} id - The contact ID.
- * @param {HTMLElement} container - The container element for the badge.
- * @param {Set} selectedContacts - Set of selected contact IDs.
+ * Erstellt ein Badge-Element mit der entsprechenden Klasse.
+ * @param {string} badgeClass - Die CSS-Klasse des Badges.
+ * @returns {HTMLElement} - Das erstellte Badge-Element.
  */
-function createContactBadge(contact, id, container, selectedContacts) {
-  const colorValue = contact.color || "default";
-  let simpleColor = colorValue;
-  if (colorValue.startsWith('#')) {
-    switch (colorValue.toUpperCase()) {
-      case '#F57C00': simpleColor = 'orange'; break;
-      case '#E74C3C': simpleColor = 'red'; break;
-      case '#5C6BC0': simpleColor = 'blue'; break;
-      case '#4CAF50': simpleColor = 'green'; break;
-      case '#8E44AD': simpleColor = 'purple'; break;
-      case '#EE00FF': simpleColor = 'pink'; break;
-      default: simpleColor = 'default'; break;
-    }
-  }
-  const badgeClass = getBadgeClassFromAnyColor(simpleColor);
-  if (container.querySelector(`[data-contact-id="${id}"]`)) return;
+function buildBadgeElement(badgeClass) {
   const badge = document.createElement('div');
   badge.className = `assignee-badge ${badgeClass}`;
+  return badge;
+}
+
+/**
+ * Setzt die Datenattribute und den Text für ein Badge.
+ * @param {HTMLElement} badge - Das Badge-Element.
+ * @param {Object} contact - Das Kontakt-Objekt.
+ * @param {string} id - Die Kontakt-ID.
+ */
+function setBadgeData(badge, contact, id) {
   badge.dataset.contactId = id;
   badge.dataset.contactName = contact.name;
-  badge.dataset.contactColor = simpleColor;
+  badge.dataset.contactColor = getSimpleColor(contact.color || "default");
   badge.textContent = getInitials(contact.name);
+}
+
+/**
+ * Fügt dem Badge einen Klick-Listener hinzu, der das Badge entfernt.
+ * @param {HTMLElement} badge - Das Badge-Element.
+ * @param {Set} selectedContacts - Set der ausgewählten Kontakt-IDs.
+ * @param {string} id - Die Kontakt-ID.
+ */
+function attachBadgeClickListener(badge, selectedContacts, id) {
   badge.addEventListener('click', () => {
     badge.remove();
     selectedContacts.delete(id);
   });
+}
+
+/**
+ * Erstellt ein Kontakt-Badge und fügt es dem Container hinzu.
+ * @param {Object} contact - Das Kontakt-Objekt.
+ * @param {string} id - Die Kontakt-ID.
+ * @param {HTMLElement} container - Der Container für das Badge.
+ * @param {Set} selectedContacts - Set der ausgewählten Kontakt-IDs.
+ */
+function createContactBadge(contact, id, container, selectedContacts) {
+  const simpleColor = getSimpleColor(contact.color || "default");
+  const badgeClass = getBadgeClassFromAnyColor(simpleColor);
+  if (container.querySelector(`[data-contact-id="${id}"]`)) return;
+  const badge = buildBadgeElement(badgeClass);
+  setBadgeData(badge, contact, id);
+  attachBadgeClickListener(badge, selectedContacts, id);
   container.appendChild(badge);
 }
 
