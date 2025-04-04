@@ -29,46 +29,105 @@ function setPriority(priority) {
   validateForm();
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  initCategoryDropdown();
+});
+
 /**
- * Initializes the category dropdown functionality once the DOM content is loaded.
+ * Initializes the category dropdown by retrieving all necessary elements and binding events.
  */
-document.addEventListener("DOMContentLoaded", function () {
+function initCategoryDropdown() {
+  const elems = getCategoryDropdownElements();
+  if (!elems) return;
+  bindCategoryDropdownEvents(elems);
+  bindCategoryDocumentClick(elems);
+}
+
+/**
+ * Retrieves all relevant elements for the category dropdown.
+ * @returns {Object|null} An object with the dropdown elements or null if any are missing.
+ */
+function getCategoryDropdownElements() {
   const categoryDropdown = document.querySelector(".category-dropdown");
+  if (!categoryDropdown) return null;
   const categorySelected = categoryDropdown.querySelector(".category-selected");
   const categoryOptions = categoryDropdown.querySelector(".category-options");
   const categoryItems = categoryDropdown.querySelectorAll(".category-item");
   const originalSelect = document.querySelector(".select-task");
   const dropdownIcon = categoryDropdown.querySelector(".dropdown-icon");
+  if (!categorySelected || !categoryOptions || !dropdownIcon) return null;
+  return { categoryDropdown, categorySelected, categoryOptions, categoryItems, originalSelect, dropdownIcon };
+}
 
-  if (!categoryDropdown || !categorySelected || !categoryOptions || !dropdownIcon) {
-    return;
+/**
+ * Binds event listeners directly required by the dropdown.
+ * @param {Object} elems - The retrieved DOM elements.
+ */
+function bindCategoryDropdownEvents({ categoryDropdown, categoryOptions, dropdownIcon, categorySelected, originalSelect, categoryItems }) {
+  categoryDropdown.addEventListener("click", event =>
+    toggleCategoryDropdown(categoryOptions, dropdownIcon, event)
+  );
+  categoryItems.forEach(option =>
+    option.addEventListener("click", event =>
+      handleCategoryOptionClick(option, categorySelected, originalSelect, categoryOptions, dropdownIcon, event)
+    )
+  );
+}
+
+/**
+ * Binds a global click listener to close the dropdown when clicking outside.
+ * @param {Object} elems - The retrieved DOM elements.
+ */
+function bindCategoryDocumentClick({ categoryDropdown, categoryOptions, dropdownIcon }) {
+  document.addEventListener("click", event =>
+    closeCategoryDropdown(categoryDropdown, categoryOptions, dropdownIcon, event)
+  );
+}
+
+/**
+ * Toggles the visibility of the dropdown and updates the icon.
+ * @param {HTMLElement} categoryOptions - The dropdown options container.
+ * @param {HTMLElement} dropdownIcon - The icon element.
+ * @param {Event} event - The click event.
+ */
+function toggleCategoryDropdown(categoryOptions, dropdownIcon, event) {
+  const isOpen = categoryOptions.style.display === "block";
+  categoryOptions.style.display = isOpen ? "none" : "block";
+  dropdownIcon.src = isOpen ? "../img/arrow_drop_down.png" : "../img/arrow_drop_down_aktive.png";
+  event.stopPropagation();
+}
+
+/**
+ * Updates the selected value, closes the dropdown, and validates the form.
+ * @param {HTMLElement} option - The clicked dropdown option.
+ * @param {HTMLElement} categorySelected - The element showing the selected category.
+ * @param {HTMLElement} originalSelect - The hidden select element.
+ * @param {HTMLElement} categoryOptions - The dropdown options container.
+ * @param {HTMLElement} dropdownIcon - The icon element.
+ * @param {Event} event - The click event.
+ */
+function handleCategoryOptionClick(option, categorySelected, originalSelect, categoryOptions, dropdownIcon, event) {
+  categorySelected.innerText = option.innerText;
+  originalSelect.value = option.getAttribute("data-value");
+  categoryOptions.style.display = "none";
+  dropdownIcon.src = "../img/arrow_drop_down.png";
+  event.stopPropagation();
+  validateForm();
+}
+
+/**
+ * Closes the dropdown if a click occurs outside of it.
+ * @param {HTMLElement} categoryDropdown - The dropdown container.
+ * @param {HTMLElement} categoryOptions - The dropdown options container.
+ * @param {HTMLElement} dropdownIcon - The icon element.
+ * @param {Event} event - The click event.
+ */
+function closeCategoryDropdown(categoryDropdown, categoryOptions, dropdownIcon, event) {
+  if (!categoryDropdown.contains(event.target)) {
+    categoryOptions.style.display = "none";
+    dropdownIcon.src = "../img/arrow_drop_down.png";
   }
-
-  categoryDropdown.addEventListener("click", function (event) {
-    const isOpen = categoryOptions.style.display === "block";
-    categoryOptions.style.display = isOpen ? "none" : "block";
-    dropdownIcon.src = isOpen ? "../img/arrow_drop_down.png" : "../img/arrow_drop_down_aktive.png";
-    event.stopPropagation();
-  });
-
-  categoryItems.forEach(option => {
-    option.addEventListener("click", function (event) {
-      categorySelected.innerText = this.innerText;
-      originalSelect.value = this.getAttribute("data-value");
-      categoryOptions.style.display = "none";
-      dropdownIcon.src = "../img/arrow_drop_down.png";
-      event.stopPropagation();
-      validateForm();
-    });
-  });
-
-  document.addEventListener("click", function (event) {
-    if (!categoryDropdown.contains(event.target)) {
-      categoryOptions.style.display = "none";
-      dropdownIcon.src = "../img/arrow_drop_down.png";
-    }
-  });
-});
+}
 
 /**
  * Updates the task column in Firebase by sending a PATCH request.
@@ -87,8 +146,9 @@ async function updateTaskColumnInFirebase(taskId, newColumn) {
       body: JSON.stringify({ column: newColumn })
     });
     if (!response.ok) {
-      throw new Error(`Fehler beim Updaten der Task-Spalte: ${response.statusText}`);
+      throw new Error(`Error updating task column: ${response.statusText}`);
     }
   } catch (error) {
+    // Error handling
   }
 }
