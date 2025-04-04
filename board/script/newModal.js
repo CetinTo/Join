@@ -29,38 +29,56 @@ function setTaskFields(task) {
 }
 
 /**
- * Sets the assignee badges in the edit modal.
- * @param {Object} task - The task object.
+ * Konvertiert einen Hexadezimal-Farbwert in einen benannten Farbwert.
+ * @param {string} color - Der Farbwert (Hex oder Name).
+ * @returns {string} - Der benannte Farbwert.
+ */
+function convertColorValue(color) {
+  let c = color || "default";
+  if (c.startsWith('#')) {
+    switch (c.toUpperCase()) {
+      case '#F57C00': return 'orange';
+      case '#E74C3C': return 'red';
+      case '#5C6BC0': return 'blue';
+      case '#4CAF50': return 'green';
+      case '#8E44AD': return 'purple';
+      case '#EE00FF': return 'pink';
+      default: return 'default';
+    }
+  }
+  return c;
+}
+
+/**
+ * Erzeugt den HTML-Code für ein einzelnes Assignee-Badge.
+ * @param {Object} user - Das Benutzerobjekt.
+ * @returns {string} - Der HTML-Code für das Badge.
+ */
+function createBadgeHTML(user) {
+  const colorValue = convertColorValue(user.color);
+  const badgeClass = getBadgeClassFromAnyColor(colorValue);
+  const initials = user.initials || getInitials(user.name);
+  return `
+    <div class="assignee-badge ${badgeClass}"
+         data-contact-color="${colorValue}"
+         data-contact-name="${user.name}">
+      ${initials}
+    </div>`;
+}
+
+/**
+ * Setzt die Assignee-Badges im Edit-Modal.
+ * @param {Object} task - Das Task-Objekt.
  */
 function setAssigneeBadges(task) {
   const badges = document.getElementById('assigneeBadges');
   if (badges && task.users && task.users.length > 0) {
-    badges.innerHTML = task.users.map(user => {
-      let colorValue = user.color || "default";
-      if (colorValue.startsWith('#')) {
-        switch (colorValue.toUpperCase()) {
-          case '#F57C00': colorValue = 'orange'; break;
-          case '#E74C3C': colorValue = 'red'; break;
-          case '#5C6BC0': colorValue = 'blue'; break;
-          case '#4CAF50': colorValue = 'green'; break;
-          case '#8E44AD': colorValue = 'purple'; break;
-          case '#EE00FF': colorValue = 'pink'; break;
-          default: colorValue = "default"; break;
-        }
-      }
-      const badgeClass = getBadgeClassFromAnyColor(colorValue);
-      const initials = user.initials || getInitials(user.name);
-      return `
-        <div class="assignee-badge ${badgeClass}"
-             data-contact-color="${colorValue}"
-             data-contact-name="${user.name}">
-          ${initials}
-        </div>`;
-    }).join("");
+    badges.innerHTML = task.users.map(createBadgeHTML).join("");
   } else {
     badges.innerHTML = "";
   }
 }
+
 
 /**
  * Populates the edit subtasks list.
@@ -85,8 +103,7 @@ function setSubtasksList(task) {
 function createSubtaskItem(subtask) {
   const stDiv = document.createElement("div");
   stDiv.className = "subtask-item";
-  
-  // Checkbox for completed status
+ 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.className = "subtask-edit-checkbox";
@@ -99,7 +116,6 @@ function createSubtaskItem(subtask) {
   stDiv.appendChild(span);
   stDiv.appendChild(actionsDiv);
   
-  // Edit-Icon event to edit text
   const editIcon = actionsDiv.querySelector('.subtask-edit-edit');
   editIcon.addEventListener('click', () => {
     replaceSpanWithInput(stDiv, span, subtask.text);
@@ -304,30 +320,38 @@ function editTaskFromOverlay(event) {
   if (modal) modal.style.display = 'flex';
 }
 
-// Event listeners für das Modal und Subtasks
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('confirmEditBtn')?.addEventListener('click', saveEditedTaskToFirebase);
+/**
+ * Initialisiert den Event-Listener für das Erstellen neuer Subtasks.
+ */
+function initSubtaskCreation() {
   const subtaskInput = document.querySelector('.subtask-input');
   const subtaskCheck = document.querySelector('.subtask-edit-check');
   const subtasksList = document.getElementById('editSubtasksList');
   subtaskCheck?.addEventListener('click', () => {
     const text = subtaskInput.value.trim();
     if (text !== '') {
-      const newSubtask = document.createElement('div');
-      newSubtask.className = 'subtask-item';
-      newSubtask.innerHTML = `
-        <span>• ${text}</span>
-        <div class="subtask-actions">
-          <img src="../img/pen.png" alt="Edit" class="subtask-edit-edit">
-          <img src="../img/trash.png" alt="Delete" class="subtask-delete-edit">
-        </div>`;
+      const newSubtask = createSubtaskItem({ text: text, completed: false });
       subtasksList.appendChild(newSubtask);
       subtaskInput.value = '';
     }
   });
+}
+
+/**
+ * Initialisiert den Event-Listener für das Löschen von Subtasks.
+ */
+function initSubtaskDeletion() {
+  const subtasksList = document.getElementById('editSubtasksList');
   subtasksList?.addEventListener('click', e => {
     if (e.target?.matches('img[alt="Delete"]')) {
       e.target.closest('.subtask-item')?.remove();
     }
   });
+}
+
+// Event listeners für das Modal und Subtasks
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('confirmEditBtn')?.addEventListener('click', saveEditedTaskToFirebase);
+  initSubtaskCreation();
+  initSubtaskDeletion();
 });

@@ -98,16 +98,13 @@ function initDropdownSearch() {
 function toggleDropdown(event) {
   const dropdown = document.querySelector(".custom-dropdown");
   if (!dropdown) return;
-
   if (event?.stopPropagation) {
     event.stopPropagation();
   }
-
   if (!event || !dropdown.contains(event.target)) {
     closeDropdown();
     return;
   }
-
   dropdown.classList.contains("active") ? closeDropdown() : openDropdown();
 }
 
@@ -202,17 +199,13 @@ function toggleCheckboxState(contact, checkboxImg, itemElement) {
 function updateAssignedToProfile() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
   if (!assignedContainer) return;
-  
   assignedContainer.innerHTML = "";
-
   selectedContacts.forEach(contact => {
     const initials = getInitials(contact.name);
     const colorClass = getColorClass(contact.name, contactsArray);
-
     const profileBubble = document.createElement("div");
     profileBubble.classList.add("profile-badge", colorClass);
     profileBubble.textContent = initials;
-
     assignedContainer.appendChild(profileBubble);
   });
 }
