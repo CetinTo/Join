@@ -1213,13 +1213,8 @@ h4{
     }
 
     .edit-contact-modal{
-<<<<<<< HEAD
-        width: 300px !important;
-        height:539px !important;        
-=======
         width: 340px !important;
         height:700px !important;        
->>>>>>> 59f836d950a247b2b5cafbc505f4d3bdc6dd5d68
     }
 
     .edit-contact-modal-input-section{
@@ -1271,12 +1266,7 @@ h4{
     }
 
     .modal-left-side{
-        height: 185px;
-<<<<<<< HEAD
-        
-=======
         width:100% !important;
->>>>>>> 59f836d950a247b2b5cafbc505f4d3bdc6dd5d68
     }    
 
     .edit-modal-left-side-resp{

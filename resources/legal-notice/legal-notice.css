@@ -228,19 +228,6 @@ section {
   position: relative;
 }
 
-<<<<<<< HEAD
-main {
-  padding-bottom: 50px; /* Etwas Abstand am Ende */
-}
-
-/* Verbesserte Positionierung der Überschrift */
-.help-container {
-  padding-top: 100px; /* Mehr Platz zwischen Header und Überschrift */
-  margin-bottom: 30px;
-}
-
-=======
-
 @media (max-width:400px){
   .footer-navigation-external span{
     width:100px;
@@ -268,6 +255,4 @@ main {
   .footer-navigation{
     gap:24px;
   }
-
 }
->>>>>>> 59f836d950a247b2b5cafbc505f4d3bdc6dd5d68

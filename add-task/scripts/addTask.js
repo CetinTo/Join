@@ -1,259 +1,35 @@
 /**
- * @fileoverview Binds all relevant event listeners and initializes the form once the DOM is fully loaded.
+ * @fileoverview Haupt-Datei für die Aufgaben-Erstellung.
  */
-document.addEventListener("DOMContentLoaded", () => {
-  initCreateBtnEventListener();
-  initAddSubtaskBtnEventListener();
-  initFormInputEventListeners();
-  initAssignedContainerObserver();
-  initPriorityEventListeners();
-  initCategoryEventListeners();
-  initSubtaskDeleteEventListener();
-  validateForm();
-});
+import { initEventListeners } from './taskEvents.js';
+import { validateTaskForm } from './taskValidation.js';
+import { saveTaskToFirebase } from './taskStorage.js';
+import { clearTaskForm } from './taskUtils.js';
+
+document.addEventListener("DOMContentLoaded", initTaskPage);
 
 /**
- * @function initCreateBtnEventListener
- * @description Attaches a click event listener to the "Create" button, triggering task creation.
- * @returns {void}
+ * Initialisiert die Aufgaben-Seite mit allen nötigen Komponenten
  */
-function initCreateBtnEventListener() {
-  const createBtn = document.querySelector(".create-btn");
-  if (createBtn) {
-    createBtn.addEventListener("click", handleTaskCreation);
+function initTaskPage() {
+  try {
+    initEventListeners();
+    validateTaskForm();
+  } catch (e) {
+    console.error('Fehler bei Initialisierung:', e);
   }
 }
 
 /**
- * @function initAddSubtaskBtnEventListener
- * @description Attaches a click event listener to the "Add Subtask" button, triggering subtask addition.
- * @returns {void}
- */
-function initAddSubtaskBtnEventListener() {
-  const addSubtaskBtn = document.querySelector(".add-subtask-btn");
-  if (addSubtaskBtn) {
-    addSubtaskBtn.addEventListener("click", addSubtask);
-  }
-}
-
-/**
- * @function initFormInputEventListeners
- * @description Adds 'input' event listeners to various form fields to validate the form in real-time.
- * @returns {void}
- */
-function initFormInputEventListeners() {
-  [".input", ".description", ".date-input", ".select-task", ".subtask"]
-    .forEach(selector => {
-      const el = document.querySelector(selector);
-      if (el) el.addEventListener("input", validateForm);
-    });
-}
-
-/**
- * @function initAssignedContainerObserver
- * @description Observes the assigned-to container for changes to dynamically validate the form.
- * @returns {void}
- */
-function initAssignedContainerObserver() {
-  const assignedContainer = document.querySelector(".assigned-to-profiles-container");
-  if (assignedContainer) {
-    new MutationObserver(validateForm)
-      .observe(assignedContainer, { childList: true });
-  }
-}
-
-/**
- * @function initPriorityEventListeners
- * @description Attaches click events to priority options, allowing selection and validation updates.
- * @returns {void}
- */
-function initPriorityEventListeners() {
-  document.querySelectorAll(".priority-container div")
-    .forEach(option => {
-      option.addEventListener("click", function() {
-        document.querySelectorAll(".priority-container div")
-          .forEach(o => o.classList.remove("active"));
-        this.classList.add("active");
-        validateForm();
-      });
-    });
-}
-
-/**
- * @function initCategoryEventListeners
- * @description Attaches click events to category items to toggle selection and update validation.
- * @returns {void}
- */
-function initCategoryEventListeners() {
-  document.querySelectorAll(".category-item")
-    .forEach(item => {
-      item.addEventListener("click", function() {
-        document.querySelectorAll(".category-item")
-          .forEach(i => i.classList.remove("selected"));
-        this.classList.add("selected");
-        document.querySelector(".category-selected").textContent = this.textContent;
-        validateForm();
-      });
-    });
-}
-
-/**
- * @function initSubtaskDeleteEventListener
- * @description Attaches a click event to the subtasks container to handle subtask deletion.
- * @returns {void}
- */
-function initSubtaskDeleteEventListener() {
-  const subtasksContainer = document.querySelector(".subtasks-scroll-container");
-  if (subtasksContainer) {
-    subtasksContainer.addEventListener("click", e => {
-      if (e.target.classList.contains("delete-icon")) {
-        e.target.parentElement.remove();
-        validateForm();
-      }
-    });
-  }
-}
-
-/**
- * @function addSubtask
- * @description Creates a new element in the subtask list based on the current value of the main input.
- * @returns {void}
- */
-function addSubtask() {
-  const mainInput = document.querySelector(".input");
-  if (!mainInput) return;
-  const text = mainInput.value.trim();
-  if (!text) return;
-
-  const subtaskItem = document.createElement("div");
-  subtaskItem.classList.add("added-subtasks");
-
-  const span = document.createElement("span");
-  span.innerText = text;
-
-  const deleteIcon = document.createElement("span");
-  deleteIcon.classList.add("delete-icon");
-  deleteIcon.innerText = "✕";
-
-  subtaskItem.appendChild(span);
-  subtaskItem.appendChild(deleteIcon);
-
-  const container = document.querySelector(".subtasks-scroll-container");
-  container.appendChild(subtaskItem);
-
-  validateForm();
-}
-
-/**
- * @function handleTaskCreation
- * @description Validates the form and, if valid, initiates task creation in Firebase.
- * @returns {Promise<void>}
+ * Verarbeitet die Erstellung einer neuen Aufgabe
  */
 async function handleTaskCreation() {
-  if (!validateForm()) return;
-  const createBtn = document.querySelector(".create-btn");
-  createBtn.disabled = true;
-  try {
-    await addTaskToFirebase();
-  } finally {
-    createBtn.disabled = false;
-  }
-}
-
-/** 
- * @type {boolean} Indicates if a task creation request is currently in progress.
- */
-let isSaving = false;
-
-/**
- * @function addTaskToFirebase
- * @description Compiles form data, sends a POST request to Firebase, updates the record with its new ID, clears the form, and reloads the page.
- * @returns {Promise<void>}
- */
-async function addTaskToFirebase() {
-  if (isSaving) return;
-  isSaving = true;
-
-  const mainInputValue = document.querySelector(".input").value.trim();
-  const taskData = {
-    column: "toDoColumn",
-    description: document.querySelector(".description").value.trim() || "No description provided",
-    dueDate: document.querySelector(".date-input").value,
-    id: null,
-    priority: `../../img/priority-img/${
-      document.querySelector(".priority-container .active")?.dataset.priority || "low"
-    }.png`,
-    title: mainInputValue,
-    users: [...document.querySelectorAll(".assigned-to-profiles-container div")].map(user => ({
-      name: user.innerText.trim()
-    })),
-    subtasks: [...document.querySelectorAll(".subtasks-scroll-container .added-subtasks")].map(() => ({
-      completed: false,
-      text: mainInputValue
-    })),
-    category: document.querySelector(".category-item.selected")?.dataset.value || "Technical task"
-  };
-
-  try {
-    const response = await fetch(
-      "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(taskData)
-      }
-    );
-    const firebaseId = (await response.json()).name;
-    await fetch(
-      `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData/${firebaseId}/id.json`,
-      {
-        method: "PUT",
-        body: JSON.stringify(firebaseId)
-      }
-    );
-    clearForm();
-    // Weiterleitung nach erfolgreichem Erstellen:
+  if (validateTaskForm()) {
+    await saveTaskToFirebase();
+    clearTaskForm();
     window.location.href = "../board/board.html";
-  } finally {
-    isSaving = false;
   }
 }
 
-
-/**
- * @function validateForm
- * @description Checks if all required fields are filled and toggles the "Create" button accordingly.
- * @returns {boolean} True if the form is valid, otherwise false.
- */
-function validateForm() {
-  const isValid = [
-    !!document.querySelector(".input").value.trim(),
-    !!document.querySelector(".date-input").value,
-    document.querySelectorAll(".assigned-to-profiles-container div").length > 0,
-    document.querySelector(".priority-container .active"),
-    document.querySelector(".category-item.selected"),
-    // document.querySelectorAll(".subtasks-scroll-container .added-subtasks").length > 0
-  ].every(Boolean);
-
-  const createBtn = document.querySelector(".create-btn");
-  if (createBtn) {
-    createBtn.classList.toggle("disabled", !isValid);
-    createBtn.style.pointerEvents = isValid ? "auto" : "none";
-    createBtn.style.opacity = isValid ? "1" : "0.5";
-  }
-  return isValid;
-}
-
-/**
- * @function clearForm
- * @description Resets all form fields and removes dynamically added subtasks and assigned user elements.
- * @returns {void}
- */
-function clearForm() {
-  document.querySelector(".input").value = "";
-  document.querySelector(".description").value = "";
-  document.querySelector(".date-input").value = "";
-  document.querySelector(".subtask").value = "";
-  document.querySelectorAll(".assigned-to-profiles-container div").forEach(div => div.remove());
-  document.querySelectorAll(".added-subtasks").forEach(item => item.remove());
-}
+// Exportiere Funktionen für andere Module
+export { handleTaskCreation };
