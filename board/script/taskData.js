@@ -1,7 +1,4 @@
-import { 
-  generateTasks,
-  checkColumns
-} from './taskDataTemplate.js';
+
 
 window.closeModalAndReload = closeModalAndReload;
 

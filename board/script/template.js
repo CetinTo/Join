@@ -1,42 +1,62 @@
-// template.js
+/**
+ * Erstellt den HTML-Inhalt für die Kontaktinformationen.
+ * @param {string} name - Der Name des Kontakts.
+ * @param {Function} getInitials - Funktion zur Ermittlung der Initialen.
+ * @param {Function} getColorClass - Funktion zur Bestimmung der Farbklasse.
+ * @returns {string} HTML-String der Kontaktinformationen.
+ */
+function getContactInfoHTML(name, getInitials, getColorClass) {
+  const initials = getInitials(name);
+  const colorClass = getColorClass(name);
+  return `
+    <div class="contact-info">
+      <span class="contact-initials profile-badge ${colorClass}">${initials}</span>
+      <span class="contact-name">${name}</span>
+    </div>
+  `;
+}
 
 /**
- * Creates a dropdown item for a contact.
- * @param {Object} contact - Contact object with properties at least `name` and optionally `color`.
- * @param {Function} getInitials - Function to get the initials from a full name.
- * @param {Function} getColorClass - Function to determine the CSS class for the profile color.
- * @param {Function} toggleCheckboxState - Function to toggle the checkbox state.
- * @returns {HTMLElement} The created dropdown item.
+ * Erstellt den HTML-Inhalt für das Checkbox-Element.
+ * @param {string} name - Der Name des Kontakts.
+ * @returns {string} HTML-String des Checkbox-Elements.
+ */
+function getCheckboxHTML(name) {
+  return `
+    <input type="checkbox" class="contact-checkbox" data-name="${name}" hidden>
+    <img src="../img/chekbox.png" alt="checkbox" class="custom-checkbox">
+  `;
+}
+
+/**
+ * Fügt dem Element die Toggle-Event-Listener hinzu.
+ * @param {HTMLElement} element - Das Dropdown-Item.
+ * @param {Object} contact - Das Kontaktobjekt.
+ * @param {Function} toggleCheckboxState - Funktion zum Umschalten des Checkbox-Zustands.
+ */
+function attachToggleEvents(element, contact, toggleCheckboxState) {
+  const checkboxImg = element.querySelector(".custom-checkbox");
+  const toggle = event => {
+    event.stopPropagation();
+    toggleCheckboxState(contact, checkboxImg, element);
+  };
+  element.addEventListener("click", toggle);
+  checkboxImg.addEventListener("click", toggle);
+}
+
+/**
+ * Erstellt ein Dropdown-Item für einen Kontakt.
+ * @param {Object} contact - Kontaktobjekt mit mindestens der Eigenschaft `name`.
+ * @param {Function} getInitials - Funktion, die die Initialen aus einem Namen holt.
+ * @param {Function} getColorClass - Funktion, die die CSS-Klasse für die Profilfarbe bestimmt.
+ * @param {Function} toggleCheckboxState - Funktion, die den Checkbox-Zustand umschaltet.
+ * @returns {HTMLElement} Das erstellte Dropdown-Item.
  */
 export function createDropdownItem(contact, getInitials, getColorClass, toggleCheckboxState) {
-    const initials = getInitials(contact.name);
-    const colorClass = getColorClass(contact.name);
-    
-    const itemElement = document.createElement("div");
-    itemElement.classList.add("dropdown-item");
-  
-    itemElement.innerHTML = `
-      <div class="contact-info">
-        <span class="contact-initials profile-badge ${colorClass}">${initials}</span>
-        <span class="contact-name">${contact.name}</span>
-      </div>
-      <input type="checkbox" class="contact-checkbox" data-name="${contact.name}" hidden>
-      <img src="../img/chekbox.png" alt="checkbox" class="custom-checkbox">
-    `;
-  
-    const checkboxImg = itemElement.querySelector(".custom-checkbox");
-  
-    // Toggle logic when clicking on the dropdown item or the checkbox image.
-    itemElement.addEventListener("click", event => {
-      event.stopPropagation();
-      toggleCheckboxState(contact, checkboxImg, itemElement);
-    });
-  
-    checkboxImg.addEventListener("click", event => {
-      event.stopPropagation();
-      toggleCheckboxState(contact, checkboxImg, itemElement);
-    });
-  
-    return itemElement;
-  }
-  
+  const itemElement = document.createElement("div");
+  itemElement.classList.add("dropdown-item");
+  itemElement.innerHTML = getContactInfoHTML(contact.name, getInitials, getColorClass) +
+                          getCheckboxHTML(contact.name);
+  attachToggleEvents(itemElement, contact, toggleCheckboxState);
+  return itemElement;
+}
