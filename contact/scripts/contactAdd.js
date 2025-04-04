@@ -136,20 +136,16 @@ function getContactFormValues() {
  */
 function validateContactInputs(name, email, phone) {
   if (!name || !email || !phone) {
-    console.log("Fehler: Alle Felder müssen ausgefüllt sein.");
     return false;
   }
   
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    console.log("Fehler: Bitte eine gültige E-Mail-Adresse eingeben.");
     return false;
   }
   
-  // Telefon: Nur Ziffern, mind. 6 Zeichen
   const phoneRegex = /^[0-9]{6,}$/;
   if (!phoneRegex.test(phone)) {
-    console.log("Fehler: Bitte nur gültige Telefonnummern eingeben (mind. 6 Ziffern).");
     return false;
   }
   

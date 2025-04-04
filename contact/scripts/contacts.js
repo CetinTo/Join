@@ -50,7 +50,6 @@ async function loadContactsFromFirebase() {
     }
     const contacts = await response.json();
     if (!contacts) return;
-
     const contactsArray = Object.entries(contacts).sort((a, b) =>
       a[1].name.localeCompare(b[1].name)
     );
@@ -69,7 +68,6 @@ function renderContacts(contactsArray, contacts) {
   const section = document.querySelector(".ContactsSection");
   section.innerHTML = "";
   let currentLetter = "";
-
   contactsArray.forEach(([contactId, contact]) => {
     const firstLetter = contact.name.charAt(0).toUpperCase();
     if (firstLetter !== currentLetter) {
@@ -125,13 +123,11 @@ function createContactElement(contact, contactId, contacts) {
 function displayContactDetails(contact, contactId, selectedElement) {
   const detailsSection = document.querySelector(".contact-details");
   if (!detailsSection) return;
-
   cleanupMenus();
   setContactsBodyDisplay();
   updateActiveContact(selectedElement);
   detailsSection.innerHTML = buildContactDetailsHTML(contact, contactId);
   setupPopupActions(detailsSection);
-
   const backBtn = document.querySelector('.back-button');
   if (backBtn) {
     backBtn.addEventListener('click', cleanupMenus);
@@ -169,12 +165,12 @@ function updateActiveContact(selectedElement) {
 }
 
 /**
- * Builds the HTML for the contact details section.
+ * Builds the HTML for the profile section.
  * @param {Object} contact - The contact object.
  * @param {string} contactId - The unique contact ID.
- * @returns {string} The HTML string.
+ * @returns {string} The HTML string for the profile section.
  */
-function buildContactDetailsHTML(contact, contactId) {
+function buildProfileSectionHTML(contact, contactId) {
   return `
     <div class="selected-profile-main">
       <div class="profile-badge-big ${getColorClass(contact.name)}">
@@ -188,6 +184,16 @@ function buildContactDetailsHTML(contact, contactId) {
         </div>
       </div>
     </div>
+  `;
+}
+
+/**
+ * Builds the HTML for the contact information container.
+ * @param {Object} contact - The contact object.
+ * @returns {string} The HTML string for the contact information.
+ */
+function buildContactInfoHTML(contact) {
+  return `
     <div class="contact-information-text">Contact Information</div>
     <div class="contact-info-container">
       <div><h4>Email</h4></div>
@@ -195,6 +201,16 @@ function buildContactDetailsHTML(contact, contactId) {
       <div><h4>Phone</h4></div>
       <div class="contact-list-phone">${contact.phone || "Not available"}</div>
     </div>
+  `;
+}
+
+/**
+ * Builds the HTML for the action popup.
+ * @param {string} contactId - The unique contact ID.
+ * @returns {string} The HTML string for the action popup.
+ */
+function buildActionPopupHTML(contactId) {
+  return `
     <div class="contact-action-button"><span>⋮</span></div>
     <div class="contact-action-popup">
       <div class="contact-action-option edit-action" data-contact-id="${contactId}">
@@ -208,13 +224,26 @@ function buildContactDetailsHTML(contact, contactId) {
 }
 
 /**
+ * Builds the complete HTML for the contact details section.
+ * @param {Object} contact - The contact object.
+ * @param {string} contactId - The unique contact ID.
+ * @returns {string} The complete HTML string.
+ */
+function buildContactDetailsHTML(contact, contactId) {
+  return `
+    ${buildProfileSectionHTML(contact, contactId)}
+    ${buildContactInfoHTML(contact)}
+    ${buildActionPopupHTML(contactId)}
+  `;
+}
+
+/**
  * Sets up the event listeners for the action popup.
  * @param {HTMLElement} detailsSection - The contact details container.
  */
 function setupPopupActions(detailsSection) {
   const actionButton = detailsSection.querySelector('.contact-action-button');
   const actionPopup = detailsSection.querySelector('.contact-action-popup');
-
   actionButton.addEventListener('click', e => {
     e.stopPropagation();
     actionPopup.classList.toggle('show');
@@ -230,7 +259,6 @@ function setupPopupActions(detailsSection) {
 function setupEditDeleteListeners(actionPopup) {
   const editBtn = actionPopup.querySelector('.edit-action');
   const deleteBtn = actionPopup.querySelector('.delete-action');
-
   editBtn.addEventListener('click', async function(e) {
     e.stopPropagation();
     const contactId = this.dataset.contactId;
@@ -238,7 +266,6 @@ function setupEditDeleteListeners(actionPopup) {
     if (contactData) openEditModal(contactData, contactId);
     actionPopup.classList.remove('show');
   });
-
   deleteBtn.addEventListener('click', async function(e) {
     e.stopPropagation();
     await deleteContactFromFirebase(this.dataset.contactId);
@@ -258,7 +285,6 @@ function setupDocumentClickListener(actionButton, actionPopup) {
     }
   });
 }
-
 
 /**
  * Fetches a single contact from Firebase.
@@ -288,10 +314,8 @@ function updateEditModalBadge(contact) {
   const modal = document.querySelector(".modal-overlay-edit");
   const badgeContainer = modal.querySelector(".profile-img-circle");
   if (!badgeContainer) return;
-
   const existing = modal.querySelector("#edit-contact-badge");
   if (existing) existing.remove();
-
   const badge = document.createElement("div");
   badge.id = "edit-contact-badge";
   badge.className = `profile-badge-big-edit ${getColorClass(contact.name)}`;
@@ -308,12 +332,10 @@ function openEditModal(contact, contactId) {
   const modal = document.querySelector(".modal-overlay-edit");
   modal.style.display = "flex";
   modal.classList.add("show-modal");
-
   modal.querySelector("input[placeholder='Name']").value = contact.name || "";
   modal.querySelector("input[placeholder='Email']").value = contact.email || "";
   modal.querySelector("input[placeholder='Telefonnummer']").value = contact.phone || "";
   updateEditModalBadge(contact);
-
   const saveBtn = document.querySelector(".save-btn");
   saveBtn.dataset.contactId = contactId;
   saveBtn.removeEventListener("click", saveEditedContact);
@@ -328,14 +350,12 @@ function openEditModal(contact, contactId) {
 async function saveEditedContact(event) {
   const id = event.target.dataset.contactId;
   if (!id) return;
-
   const modal = document.querySelector(".modal-overlay-edit");
   const updated = {
     name: modal.querySelector("input[placeholder='Name']").value.trim(),
     email: modal.querySelector("input[placeholder='Email']").value.trim(),
     phone: modal.querySelector("input[placeholder='Telefonnummer']").value.trim()
   };
-
   try {
     const response = await fetch(
       `https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts/${id}.json`,
@@ -407,69 +427,3 @@ function reloadPage() {
   location.reload();
 }
 
-/* --------------------- EVENT LISTENERS --------------------- */
-
-/**
- * Handles edit button clicks and opens edit modal.
- */
-document.addEventListener("click", async (event) => {
-  if (event.target.matches(".edit-contact-btn")) {
-    const id = event.target.dataset.contactId;
-    const contact = await fetchContact(id);
-    if (contact) openEditModal(contact, id);
-  }
-});
-
-/**
- * Handles delete button clicks and deletes the contact.
- */
-document.addEventListener("click", async (event) => {
-  if (event.target.matches(".delete-btn")) {
-    const id = event.target.dataset.contactId ||
-      event.target.closest(".delete-btn").dataset.contactId;
-    if (id) await deleteContactFromFirebase(id);
-  }
-});
-
-/**
- * Handles delete inside modal popup.
- */
-document.addEventListener("click", function(event) {
-  if (
-    event.target.matches('.edit-delete-btn-modal') ||
-    event.target.closest('.edit-delete-btn-modal')
-  ) {
-    const saveBtn = document.querySelector(".save-btn");
-    const id = saveBtn.dataset.contactId;
-    if (id) {
-      deleteContactFromFirebase(id);
-      closeModal(".modal-overlay-edit");
-    }
-  }
-});
-
-/**
- * Initializes contact list on DOM load.
- */
-document.addEventListener("DOMContentLoaded", loadContactsFromFirebase);
-
-/**
- * Handles back button click on small screens.
- */
-document.addEventListener('DOMContentLoaded', function() {
-  const backImg = document.querySelector('.contacts_headline-resp img[alt="return button"]');
-  if (backImg) {
-    backImg.addEventListener('click', backToContactList);
-  }
-});
-
-/**
- * Adjusts layout on window resize.
- */
-window.addEventListener('resize', function() {
-  if (window.innerWidth >= 925) {
-    const body = document.querySelector('.Contacts-body');
-    if (body) body.style.display = 'block';
-    document.querySelector('.contacts-main-section').classList.remove('contact-selected');
-  }
-});
