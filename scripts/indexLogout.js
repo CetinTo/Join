@@ -97,7 +97,7 @@ function logout() {
   localStorage.removeItem('currentUser');
   localStorage.removeItem('userEmail');
   localStorage.removeItem('userName');
-  window.location.href = 'https://join-419.developerakademie.net/join/login-signup/login.html';
+  window.location.href = 'https://join-419.developerakademie.net/join/html/login.html';
 }
 
 /**

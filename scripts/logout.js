@@ -4,13 +4,13 @@
  */
 function logout() {
   localStorage.removeItem('currentUser'); 
-  window.location.href = 'http://join-419.developerakademie.net/join/login-signup/login.html';
+  window.location.href = 'http://join-419.developerakademie.net/join/html/login.html';
 
 }
 
 
 function logoutToLogin() {
   localStorage.removeItem('currentUser'); 
-  window.location.href = 'http://join-419.developerakademie.net/join/login-signup/login.html';
+  window.location.href = 'http://join-419.developerakademie.net/join/html/login.html';
 
 }
