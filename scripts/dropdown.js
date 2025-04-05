@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('Dropdown script loaded.');
   const accountButton = document.querySelector('.account');
   const dropdownMenu = document.querySelector('.dropdown-menu');
-  const logoutLink = dropdownMenu?.querySelector('a[href*="../login-signup/login.html"]');
+  const logoutLink = dropdownMenu?.querySelector('a[href*="https://join-419.developerakademie.net/join/html/login.html"]');
   if (!accountButton || !dropdownMenu) {
     console.error('Account-Button oder Dropdown-Menü nicht gefunden!');
     return;
@@ -49,7 +49,7 @@ if (logoutLink) {
       localStorage.removeItem('currentUser');
       localStorage.removeItem('userEmail');
       localStorage.removeItem('userName');
-      window.location.href = '../login-signup/login.html';
+      window.location.href = 'https://join-419.developerakademie.net/join/html/login.html';
     });
   }
 });

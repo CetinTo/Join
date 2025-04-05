@@ -52,7 +52,7 @@ function setupDropdownLinks(menu) {
     const newLink = replaceElementWithClone(link);
     newLink.addEventListener('click', function(event) {
       event.stopPropagation();
-      if (newLink.href.includes('http://join-419.developerakademie.net/join/login-signup/login.html')) {
+      if (newLink.href.includes('http://join-419.developerakademie.net/join/html/login.html')) {
         handleLogout(event, newLink.href);
       }
     });
@@ -71,7 +71,7 @@ function handleLogout(event, redirectUrl) {
   localStorage.removeItem('userEmail');
   localStorage.removeItem('userName');
   localStorage.removeItem('currentUser');
-  window.location.href = '/join/login-signup/login.html';
+  window.location.href = '/join/html/login.html';
 }
 
 /**
