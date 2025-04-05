@@ -226,7 +226,7 @@ async function addTaskToFirebase() {
     const firebaseId = await postTaskData(taskData);
     await updateTaskId(firebaseId);
     clearForm();
-    window.location.href = "../board/board.html";
+    window.location.href = "./board.html";
   } finally {
     isSaving = false;
   }
