@@ -145,7 +145,6 @@ function getInitials(fullName) {
  */
 function toggleCheckboxState(contact, checkboxImg, div) {
   const isSelected = selectedContacts.some(c => c.name === contact.name);
-
   if (!isSelected) {
     selectedContacts.push(contact);
     checkboxImg.src = "../img/checkboxchecked.png";
@@ -155,7 +154,6 @@ function toggleCheckboxState(contact, checkboxImg, div) {
     checkboxImg.src = "../img/chekbox.png";
     div.classList.remove("selected");
   }
-
   updateAssignedToProfile();
 }
 
@@ -192,7 +190,6 @@ function updateAssignedToProfile() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
   assignedContainer.innerHTML = "";
   const maxVisible = 3;
-  
   if (selectedContacts.length <= maxVisible) {
     selectedContacts.forEach(contact => {
       assignedContainer.appendChild(createProfileBubble(contact));
@@ -234,12 +231,10 @@ function isInsideDropdown(event, dropdown) {
 function toggleDropdown(event) {
   const dropdown = document.querySelector(".custom-dropdown");
   stopEventPropagation(event);
-  
   if (!isInsideDropdown(event, dropdown)) {
     closeDropdown();
     return;
   }
-  
   dropdown.classList.contains("active") ? closeDropdown() : openDropdown();
 }
 
@@ -280,7 +275,6 @@ function closeDropdown() {
   const dropdownList = document.querySelector(".dropdown-list");
   const arrowClosed = document.querySelector(".search-icon");
   const arrowOpen = document.querySelector(".search-icon-active");
-
   dropdown.classList.remove("active");
   dropdownList.style.display = "none";
   arrowClosed.style.display = "block";
@@ -343,11 +337,9 @@ document.addEventListener("click", function (event) {
 /** Initializes dropdown and event listeners on DOM ready */
 document.addEventListener("DOMContentLoaded", function () {
   loadContactsFromFirebase();
-
   const dropdownSearch = document.querySelector(".dropdown-search");
   const arrowClosed = document.querySelector(".search-icon");
   const arrowOpen = document.querySelector(".search-icon-active");
-
   dropdownSearch.addEventListener("click", toggleDropdown);
   arrowClosed.addEventListener("click", toggleDropdown);
   arrowOpen.addEventListener("click", toggleDropdown);

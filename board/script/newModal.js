@@ -103,24 +103,19 @@ function setSubtasksList(task) {
 function createSubtaskItem(subtask) {
   const stDiv = document.createElement("div");
   stDiv.className = "subtask-item";
- 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.className = "subtask-edit-checkbox";
   checkbox.checked = subtask.completed;
-  
   const span = createSubtaskTextSpan(subtask.text);
   const actionsDiv = createSubtaskActions();
-  
   stDiv.appendChild(checkbox);
   stDiv.appendChild(span);
   stDiv.appendChild(actionsDiv);
-  
   const editIcon = actionsDiv.querySelector('.subtask-edit-edit');
   editIcon.addEventListener('click', () => {
     replaceSpanWithInput(stDiv, span, subtask.text);
   });
-  
   return stDiv;
 }
 

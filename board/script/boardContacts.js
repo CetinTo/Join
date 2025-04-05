@@ -31,16 +31,13 @@ let contactsArray = [];
  */
 async function loadContactsFromFirebase() {
   const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json";
-
   try {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Error loading: ${response.status} ${response.statusText}`);
     }
-
     const contacts = await response.json();
     if (!contacts) return;
-
     contactsArray = Object.values(contacts);
     initDropdownList();
     initDropdownSearch();
@@ -60,10 +57,8 @@ function initDropdownList() {
   const dropdownList = document.querySelector(".dropdown-list");
   const searchInput = document.querySelector(".dropdown-search");
   if (!dropdownList || !searchInput) return;
-
   dropdownList.innerHTML = "";
   searchInput.value = "";
-
   contactsArray.forEach(contact => {
     const item = createDropdownItem(
       contact,
@@ -81,7 +76,6 @@ function initDropdownList() {
 function initDropdownSearch() {
   const searchInput = document.querySelector(".dropdown-search");
   if (!searchInput) return;
-
   searchInput.addEventListener("input", () => {
     const searchTerm = searchInput.value.toLowerCase();
     document.querySelectorAll(".dropdown-item").forEach(item => {
@@ -116,9 +110,7 @@ function openDropdown() {
   const dropdownList = document.querySelector(".dropdown-list");
   const arrowClosed = document.querySelector(".search-icon");
   const arrowOpen = document.querySelector(".search-icon-active");
-
   if (!dropdown || !dropdownList || !arrowClosed || !arrowOpen) return;
-
   dropdown.classList.add("active");
   dropdownList.style.display = "block";
   arrowClosed.style.display = "none";
@@ -133,9 +125,7 @@ function closeDropdown() {
   const dropdownList = document.querySelector(".dropdown-list");
   const arrowClosed = document.querySelector(".search-icon");
   const arrowOpen = document.querySelector(".search-icon-active");
-
   if (!dropdown || !dropdownList || !arrowClosed || !arrowOpen) return;
-
   dropdown.classList.remove("active");
   dropdownList.style.display = "none";
   arrowClosed.style.display = "block";
@@ -180,7 +170,6 @@ function getColorClass(name, contacts) {
  */
 function toggleCheckboxState(contact, checkboxImg, itemElement) {
   const isSelected = selectedContacts.some(c => c.name === contact.name);
-
   if (!isSelected) {
     selectedContacts.push(contact);
     checkboxImg.src = "../img/checkboxchecked.png";
@@ -224,7 +213,6 @@ function validateForm() {
   const category = document.querySelector(".select-task")?.value;
   const assignedUsers = selectedContacts.length > 0;
   const prioritySelected = document.querySelector(".priority-container .active") !== null;
-
   return title && dueDate && category && assignedUsers && prioritySelected;
 }
 
@@ -232,7 +220,6 @@ function validateForm() {
  * Placeholder function to handle saving tasks.
  */
 function addTaskToFirebase() {
-  // TODO: Implement this function.
 }
 
 /* =============================== */
@@ -258,7 +245,6 @@ function setupDropdownListeners() {
   const dropdownSearch = document.querySelector(".dropdown-search");
   const arrowClosed = document.querySelector(".search-icon");
   const arrowOpen = document.querySelector(".search-icon-active");
-
   dropdownSearch?.addEventListener("click", toggleDropdown);
   arrowClosed?.addEventListener("click", toggleDropdown);
   arrowOpen?.addEventListener("click", toggleDropdown);
@@ -268,7 +254,6 @@ function setupDropdownListeners() {
  * Sets up event listeners for Form-Validierung und Task-Erstellung.
  */
 function setupFormListeners() {
-  // Task erstellen
   const createBtn = document.querySelector(".create-btn");
   createBtn?.addEventListener("click", () => {
     if (validateForm()) {
@@ -276,17 +261,14 @@ function setupFormListeners() {
     }
   });
 
-  // Eingabefelder
   const inputSelectors = [".input", ".date-input", ".select-task"];
   inputSelectors.forEach(selector => {
     document.querySelector(selector)?.addEventListener("input", validateForm);
   });
 
-  // Priority Container
   const priorityContainer = document.querySelector(".priority-container");
   priorityContainer?.addEventListener("click", validateForm);
 
-  // Beobachten des assigned profiles Containers
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
   if (assignedContainer) {
     const observer = new MutationObserver(validateForm);

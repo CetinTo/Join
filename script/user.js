@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (guestBtn) {
     guestBtn.addEventListener('click', (event) => {
       event.preventDefault();
-
       localStorage.setItem('currentUser', JSON.stringify({
         name: 'Guest',
         isGuest: true
@@ -15,20 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       window.location.href = '../index.html';
     });
-  }
+}
 
-  /**
-   * Loads current user from localStorage and updates UI accordingly.
-   */
-  const currentUserData = localStorage.getItem('currentUser');
+/**
+ * Loads current user from localStorage and updates UI accordingly.
+ */
+const currentUserData = localStorage.getItem('currentUser');
   if (currentUserData) {
     const currentUser = JSON.parse(currentUserData);
-
     const nameSpan = document.querySelector('.username-span');
     if (nameSpan) {
       nameSpan.textContent = currentUser.name;
     }
-
     if (currentUser.name) {
       const initials = getInitials(currentUser.name);
       const accountDiv = document.querySelector('.account > div');
@@ -36,11 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         accountDiv.textContent = initials;
       }
     }
-
-    // Guest restrictions (currently not applied)
-    // if (currentUser.isGuest) {
-    //   disableRestrictedLinks();
-    // }
   }
 });
 
@@ -64,9 +56,9 @@ function disableRestrictedLinks() {
       link.style.cursor = 'not-allowed';
       link.addEventListener('click', (e) => e.preventDefault());
     });
-  });
+});
 
-  const boardDivs = document.querySelectorAll('[onclick="goToBoard()"]');
+const boardDivs = document.querySelectorAll('[onclick="goToBoard()"]');
   boardDivs.forEach((div) => {
     div.removeAttribute('onclick');
     div.style.opacity = '0.7';

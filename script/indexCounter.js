@@ -140,8 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener('DOMContentLoaded', () => {
   const greetingText = document.querySelector('.greeting-section');
   const greetingContainer = document.querySelector('.greeting-section-container');
-  
-  if (greetingText && greetingContainer) {
+    if (greetingText && greetingContainer) {
     greetingText.addEventListener('animationend', (e) => {
       if (e.animationName === 'slideText') {
         greetingContainer.style.display = 'none';

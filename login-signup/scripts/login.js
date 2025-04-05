@@ -2,9 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
-
   loginForm.noValidate = true;
-
   emailInput.addEventListener('blur', () => handleEmailValidation(emailInput));
   passwordInput.addEventListener('blur', () => handlePasswordValidation(passwordInput));
   loginForm.addEventListener('submit', (event) => handleLogin(event, emailInput, passwordInput));
@@ -44,11 +42,9 @@ function handleLogin(event, emailInput, passwordInput) {
   event.preventDefault();
   removeError(emailInput);
   removeError(passwordInput);
-
   const emailValue = emailInput.value.trim();
   const passwordValue = passwordInput.value.trim();
   let hasError = false;
-
   if (!validateEmail(emailValue)) {
     showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
     hasError = true;
@@ -58,7 +54,6 @@ function handleLogin(event, emailInput, passwordInput) {
     hasError = true;
   }
   if (hasError) return;
-
   authenticateUser(emailValue, passwordValue, emailInput, passwordInput);
 }
 
@@ -71,7 +66,6 @@ function handleLogin(event, emailInput, passwordInput) {
  */
 function authenticateUser(email, password, emailInput, passwordInput) {
   const dbUrl = 'https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json';
-
   fetch(dbUrl)
     .then(response => response.json())
     .then(data => {

@@ -5,12 +5,10 @@
 function initializeLogout() {
   const accountBtn = document.querySelector('.account');
   const dropdownMenu = document.querySelector('.dropdown-menu');
-
   if (!accountBtn || !dropdownMenu) {
     console.error('Account button or dropdown menu not found');
     return;
   }
-
   const newAccountBtn = replaceElementWithClone(accountBtn);
   setupDropdownToggle(newAccountBtn, dropdownMenu);
   setupDropdownLinks(dropdownMenu);
@@ -99,8 +97,6 @@ function logout() {
   localStorage.removeItem('currentUser');
   localStorage.removeItem('userEmail');
   localStorage.removeItem('userName');
-  
-  // Zu einem absoluten Pfad umleiten (statt eines relativen Pfads)
   window.location.href = 'https://join-419.developerakademie.net/join/login-signup/login.html';
 }
 
@@ -108,10 +104,9 @@ function logout() {
  * Alternative Logout-Funktion für die onclick-Ereignisse
  */
 function logoutToLogin() {
-  logout(); // Verwende die Hauptfunktion
+  logout(); 
 }
 
-// Run initializer after DOM is fully loaded
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initializeLogout);
 } else {

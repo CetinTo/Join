@@ -2,10 +2,8 @@ function openDatePicker(inputId) {
     const dateInput = document.getElementById(inputId);
     if (!dateInput) return;
     
-    // Prevent manual input
     dateInput.setAttribute("readonly", "readonly");
     
-    // Wenn bereits eine Flatpickr-Instanz existiert, toggeln:
     if (dateInput._flatpickr) {
       dateInput._flatpickr.isOpen ? dateInput._flatpickr.close() : dateInput._flatpickr.open();
     } else {
@@ -25,7 +23,6 @@ function openDatePicker(inputId) {
           }
         }
       });
-      // Nach der Initialisierung die Instanz direkt öffnen
       dateInput._flatpickr.open();
     }
   }

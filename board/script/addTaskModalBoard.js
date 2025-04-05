@@ -159,9 +159,7 @@ function bindSubtaskManagement() {
   const subtaskInput = document.querySelector(".subtask");
   const addSubtaskBtn = document.getElementById("addSubtask");
   const subtasksContainer = document.querySelector(".subtasks-scroll-container");
-
   if (!addSubtaskBtn || !subtaskInput || !subtasksContainer) return;
-
   addSubtaskBtn.addEventListener("click", () => handleAddSubtask(subtaskInput, subtasksContainer));
   subtasksContainer.addEventListener("click", handleSubtaskDeletion);
 }
@@ -213,7 +211,6 @@ function handleSubtaskDeletion(e) {
 async function addTaskToFirebase() {
   const firebaseURL = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
   const taskData = getTaskData();
-
   try {
     const response = await fetch(firebaseURL, {
       method: "POST",
@@ -223,7 +220,6 @@ async function addTaskToFirebase() {
     const resData = await response.json();
     const firebaseId = resData.name;
     if (!firebaseId) return;
-
     await updateFirebaseTaskId(firebaseURL, firebaseId);
     clearForm();
     closeModal();

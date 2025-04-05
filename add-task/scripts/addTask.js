@@ -124,23 +124,17 @@ function addSubtask() {
   if (!mainInput) return;
   const text = mainInput.value.trim();
   if (!text) return;
-
   const subtaskItem = document.createElement("div");
   subtaskItem.classList.add("added-subtasks");
-
   const span = document.createElement("span");
   span.innerText = text;
-
   const deleteIcon = document.createElement("span");
   deleteIcon.classList.add("delete-icon");
   deleteIcon.innerText = "✕";
-
   subtaskItem.appendChild(span);
   subtaskItem.appendChild(deleteIcon);
-
   const container = document.querySelector(".subtasks-scroll-container");
   container.appendChild(subtaskItem);
-
   validateForm();
 }
 
@@ -253,7 +247,6 @@ function validateForm() {
     document.querySelector(".priority-container .active"),
     document.querySelector(".category-item.selected"),
   ].every(Boolean);
-
   const createBtn = document.querySelector(".create-btn");
   if (createBtn) {
     createBtn.classList.toggle("disabled", !isValid);

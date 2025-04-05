@@ -9,14 +9,14 @@ function attachDropdownListener(taskEl) {
       e.stopPropagation();
       toggleDropdown(taskEl, ddIcon);
     });
-  }
+}
   
-  /**
-   * Toggles the dropdown menu or creates it if it does not exist.
-   * @param {HTMLElement} taskEl - The task element.
-   * @param {HTMLElement} ddIcon - The dropdown icon element.
-   */
-  function toggleDropdown(taskEl, ddIcon) {
+/**
+ * Toggles the dropdown menu or creates it if it does not exist.
+ * @param {HTMLElement} taskEl - The task element.
+ * @param {HTMLElement} ddIcon - The dropdown icon element.
+ */
+function toggleDropdown(taskEl, ddIcon) {
     let dd = taskEl.querySelector(".move-to-dropdown");
     if (dd) {
       dd.classList.toggle("visible");
@@ -26,14 +26,14 @@ function attachDropdownListener(taskEl) {
     taskEl.appendChild(dd);
     dd.classList.add("visible");
     attachDropdownOptions(taskEl, dd);
-  }
+}
   
-  /**
-   * Creates the dropdown menu with move-to options.
-   * @param {HTMLElement} ddIcon - The dropdown icon element.
-   * @returns {HTMLElement} The dropdown menu element.
-   */
-  function createDropdownMenu(ddIcon) {
+/**
+ * Creates the dropdown menu with move-to options.
+ * @param {HTMLElement} ddIcon - The dropdown icon element.
+ * @returns {HTMLElement} The dropdown menu element.
+ */
+function createDropdownMenu(ddIcon) {
     const dd = document.createElement("div");
     dd.classList.add("move-to-dropdown");
     dd.innerHTML = `
@@ -50,14 +50,14 @@ function attachDropdownListener(taskEl) {
     dd.style.left = `${offsetLeft}px`;
     dd.style.zIndex = 10;
     return dd;
-  }
+}
   
-  /**
-   * Attaches click listeners to the dropdown options.
-   * @param {HTMLElement} taskEl - The task element.
-   * @param {HTMLElement} dd - The dropdown menu element.
-   */
-  function attachDropdownOptions(taskEl, dd) {
+/**
+ * Attaches click listeners to the dropdown options.
+ * @param {HTMLElement} taskEl - The task element.
+ * @param {HTMLElement} dd - The dropdown menu element.
+ */
+function attachDropdownOptions(taskEl, dd) {
     dd.querySelectorAll(".dropdown-option").forEach(option => {
       option.addEventListener("click", async function (ev) {
         ev.stopPropagation();
@@ -69,13 +69,13 @@ function attachDropdownListener(taskEl) {
         checkColumns();
       });
     });
-  }
+}
   
-  /**
-   * Generates all task elements and inserts them into their respective columns.
-   * @param {Array<Object>} tasksData - Array of task data.
-   */
-  function generateTasks(tasksData) {
+/**
+ * Generates all task elements and inserts them into their respective columns.
+ * @param {Array<Object>} tasksData - Array of task data.
+ */
+function generateTasks(tasksData) {
     tasksData.forEach(task => {
       if (!task || !task.title || !task.column) return;
       const taskEl = createTaskElement(task);
@@ -85,13 +85,13 @@ function attachDropdownListener(taskEl) {
       attachDropdownListener(taskEl);
     });
     checkColumns();
-  }
+}
   
-  /**
-   * Reads subtasks from the edit modal while preserving their current completed state.
-   * @returns {Array<Object>} Array of subtasks.
-   */
-  function readSubtasksFromEditModal() {
+/**
+ * Reads subtasks from the edit modal while preserving their current completed state.
+ * @returns {Array<Object>} Array of subtasks.
+ */
+function readSubtasksFromEditModal() {
     const subtaskItems = document.querySelectorAll('#editSubtasksList .subtask-item');
     const subtasks = [];
     subtaskItems.forEach((item, index) => {
@@ -105,28 +105,28 @@ function attachDropdownListener(taskEl) {
       }
     });
     return subtasks;
-  }
+}
   
-  /**
-   * Opens the edit modal from an overlay.
-   * @param {Event} event - The event object.
-   */
-  function editTaskFromOverlay(event) {
+/**
+ * Opens the edit modal from an overlay.
+ * @param {Event} event - The event object.
+ */
+function editTaskFromOverlay(event) {
     event.stopPropagation();
     if (!currentTask) return;
     fillEditModal(currentTask);
     document.getElementById('toggleModalFloating').style.display = 'none';
     const modal = document.getElementById('editTaskModal');
     if (modal) modal.style.display = 'flex';
-  }
+}
   
   
-  /**
-   * Creates a new subtask element based on the entered text.
-   * @param {string} text - The text of the new subtask.
-   * @returns {HTMLElement} The new subtask element.
-   */
-  function createNewSubtask(text) {
+/**
+ * Creates a new subtask element based on the entered text.
+ * @param {string} text - The text of the new subtask.
+ * @returns {HTMLElement} The new subtask element.
+ */
+function createNewSubtask(text) {
     const newSubtask = document.createElement('div');
     newSubtask.className = 'subtask-item';
     newSubtask.innerHTML = `
@@ -137,24 +137,24 @@ function attachDropdownListener(taskEl) {
       </div>`;
     newSubtask.dataset.index = window.currentTask.subtasks ? window.currentTask.subtasks.length : 0;
     return newSubtask;
-  }
+}
   
-  /**
-   * Fills the edit modal with task details.
-   * @param {Object} task - The task object.
-   */
-  function fillEditModal(task) {
+/**
+ * Fills the edit modal with task details.
+ * @param {Object} task - The task object.
+ */
+function fillEditModal(task) {
     setTaskFields(task);
     setAssigneeBadges(task);
     setSubtasksList(task);
     loadContacts(task.users || []);
-  }
+}
   
-  /**
-   * Sets the task fields in the edit modal.
-   * @param {Object} task - The task object.
-   */
-  function setTaskFields(task) {
+/**
+ * Sets the task fields in the edit modal.
+ * @param {Object} task - The task object.
+ */
+function setTaskFields(task) {
     document.getElementById('editTaskTitle').value = task.title || "";
     document.getElementById('editTaskDescription').value = task.description || "";
     document.getElementById('editDueDate').value = task.dueDate || "";
@@ -167,13 +167,13 @@ function attachDropdownListener(taskEl) {
     } else {
       document.getElementById('editTaskCategory').value = '';
     }
-  }
+}
   
-  /**
-   * Sets the assignee badges in the edit modal.
-   * @param {Object} task - The task object.
-   */
-  function setAssigneeBadges(task) {
+/**
+ * Sets the assignee badges in the edit modal.
+ * @param {Object} task - The task object.
+ */
+function setAssigneeBadges(task) {
     const badges = document.getElementById('assigneeBadges');
     if (badges && task.users && task.users.length > 0) {
       badges.innerHTML = task.users.map(user => {
@@ -201,13 +201,13 @@ function attachDropdownListener(taskEl) {
     } else {
       badges.innerHTML = "";
     }
-  }
+}
   
-  /**
-   * Populates the edit subtasks list.
-   * @param {Object} task - The task object containing subtasks.
-   */
-  function setSubtasksList(task) {
+/**
+ * Populates the edit subtasks list.
+ * @param {Object} task - The task object containing subtasks.
+ */
+function setSubtasksList(task) {
     const list = document.getElementById('editSubtasksList');
     list.innerHTML = "";
     if (task.subtasks && Array.isArray(task.subtasks) && task.subtasks.length) {
@@ -217,51 +217,51 @@ function attachDropdownListener(taskEl) {
         list.appendChild(subtaskItem);
       });
     }
-  }
+}
   
-  /**
-   * Creates the container element for a subtask.
-   * @returns {HTMLElement} The subtask container element.
-   */
-  function createSubtaskContainer() {
+/**
+ * Creates the container element for a subtask.
+ * @returns {HTMLElement} The subtask container element.
+ */
+function createSubtaskContainer() {
     const container = document.createElement("div");
     container.className = "subtask-item";
     return container;
-  }
+}
   
-  /**
-   * Creates the checkbox for a subtask.
-   * @param {Object} subtask - Subtask data.
-   * @returns {HTMLElement} The checkbox element.
-   */
-  function createSubtaskCheckbox(subtask) {
+/**
+ * Creates the checkbox for a subtask.
+ * @param {Object} subtask - Subtask data.
+ * @returns {HTMLElement} The checkbox element.
+ */
+function createSubtaskCheckbox(subtask) {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.className = "subtask-edit-checkbox";
     checkbox.checked = subtask.completed;
     return checkbox;
-  }
+}
   
-  /**
-   * Attaches the edit listener to the edit icon in the actions container.
-   * @param {HTMLElement} container - The subtask container element.
-   * @param {HTMLElement} span - The span element containing the text.
-   * @param {string} originalText - The original text.
-   * @param {HTMLElement} actionsDiv - The actions container element.
-   */
-  function attachSubtaskEditListener(container, span, originalText, actionsDiv) {
+/**
+ * Attaches the edit listener to the edit icon in the actions container.
+ * @param {HTMLElement} container - The subtask container element.
+ * @param {HTMLElement} span - The span element containing the text.
+ * @param {string} originalText - The original text.
+ * @param {HTMLElement} actionsDiv - The actions container element.
+ */
+function attachSubtaskEditListener(container, span, originalText, actionsDiv) {
     const editIcon = actionsDiv.querySelector('.subtask-edit-edit');
     editIcon.addEventListener('click', () => {
       replaceSpanWithInput(container, span, originalText);
     });
-  }
+}
   
-  /**
-   * Combines all parts and creates the complete subtask element.
-   * @param {Object} subtask - Subtask data.
-   * @returns {HTMLElement} The subtask element.
-   */
-  function createSubtaskItem(subtask) {
+/**
+ * Combines all parts and creates the complete subtask element.
+ * @param {Object} subtask - Subtask data.
+ * @returns {HTMLElement} The subtask element.
+ */
+function createSubtaskItem(subtask) {
     const container = createSubtaskContainer();
     const checkbox = createSubtaskCheckbox(subtask);
     const span = createSubtaskTextSpan(subtask.text);
@@ -274,4 +274,4 @@ function attachDropdownListener(taskEl) {
     attachSubtaskEditListener(container, span, subtask.text, actionsDiv);
     
     return container;
-  }
+}

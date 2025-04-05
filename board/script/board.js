@@ -7,7 +7,6 @@ function setupModalButton(addButtonId, modalId) {
   const addButton = document.getElementById(addButtonId);
   const modal = document.getElementById(modalId);
   if (!addButton || !modal) return;
-
   addButton.addEventListener('click', () => {
     modal.style.display = 'block';
   });
@@ -21,7 +20,6 @@ function setupModalButton(addButtonId, modalId) {
 function setupModalClose(modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
-
   window.addEventListener('click', (event) => {
     if (event.target === modal) {
       modal.style.display = 'none';
@@ -48,7 +46,6 @@ function setupAccountDropdown() {
   const accountButton = document.querySelector('.account');
   const dropdownMenu = document.querySelector('.dropdown-menu');
   if (!accountButton || !dropdownMenu) return;
-
   accountButton.addEventListener('click', (event) => {
     event.stopPropagation();
     dropdownMenu.classList.toggle('show');
@@ -70,9 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupModalButton('addTaskButtonInProgress', 'taskModal');
   setupModalButton('addTaskButtonAwaitFeedback', 'taskModal');
   setupModalButton('addTaskButton', 'taskModal');
-
   setupModalClose('taskModal');
   setupAccountDropdown();
-
   window.toggleModal = toggleModal;
 });
