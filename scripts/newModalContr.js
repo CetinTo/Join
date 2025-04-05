@@ -94,19 +94,38 @@ function getSimpleColor(colorValue) {
 
 /**
  * Creates a dropdown item for a contact.
- * @param {string} id - Die Kontakt-ID.
- * @param {Object} contact - Das Kontakt-Objekt.
- * @param {Set} selectedContacts - Set der ausgewählten Kontakt-IDs.
- * @param {HTMLElement} badgesContainer - Container für die Badges.
- * @returns {HTMLElement} - Das Dropdown-Item.
+ * @param {string} id - The contact ID.
+ * @param {Object} contact - The contact object.
+ * @param {Set} selectedContacts - Set of selected contact IDs.
+ * @param {HTMLElement} badgesContainer - Container for the badges.
+ * @returns {HTMLElement} - The dropdown item element.
  */
 function createDropdownItem(id, contact, selectedContacts, badgesContainer) {
+  const item = createDropdownItemContainer();
+  item.innerHTML = generateDropdownItemHTML(contact);
+  attachDropdownClickEvent(item, id, contact, selectedContacts, badgesContainer);
+  return item;
+}
+
+/**
+ * Creates the container element for the dropdown item.
+ * @returns {HTMLElement} - The dropdown item container.
+ */
+function createDropdownItemContainer() {
+  const item = document.createElement("div");
+  item.classList.add("dropdown-item");
+  return item;
+}
+
+/**
+ * Generates the inner HTML for the dropdown item.
+ * @param {Object} contact - The contact object.
+ * @returns {string} - The HTML string for the dropdown item.
+ */
+function generateDropdownItemHTML(contact) {
   const initials = getInitials(contact.name);
   const colorValue = contact.color || "default";
-  const simpleColor = getSimpleColor(colorValue);
-  const item = document.createElement('div');
-  item.classList.add('dropdown-item');
-  item.innerHTML = `
+  return `
     <div class="contact-info">
       <span class="initials-circle" style="background-color: ${colorValue};">
         ${initials}
@@ -114,38 +133,77 @@ function createDropdownItem(id, contact, selectedContacts, badgesContainer) {
       <span class="contact-name">${contact.name}</span>
     </div>
     <img src="../img/chekbox.png" alt="checkbox" class="custom-checkbox">`;
-  item.addEventListener('click', event => {
-    event.stopPropagation();
-    handleDropdownSelection(item, id, contact, selectedContacts, badgesContainer);
-  });
-  return item;
 }
 
 /**
+ * Attaches a click event to the dropdown item that handles selection.
+ * @param {HTMLElement} item - The dropdown item element.
+ * @param {string} id - The contact ID.
+ * @param {Object} contact - The contact object.
+ * @param {Set} selectedContacts - Set of selected contact IDs.
+ * @param {HTMLElement} badgesContainer - Container for the badges.
+ */
+function attachDropdownClickEvent(item, id, contact, selectedContacts, badgesContainer) {
+  item.addEventListener("click", event => {
+    event.stopPropagation();
+    handleDropdownSelection(item, id, contact, selectedContacts, badgesContainer);
+  });
+}
+
+
+/**
  * Handles the selection of a dropdown item.
- * @param {HTMLElement} item - Das Dropdown-Item.
- * @param {string} id - Die Kontakt-ID.
- * @param {Object} contact - Das Kontakt-Objekt.
- * @param {Set} selectedContacts - Set der ausgewählten Kontakt-IDs.
- * @param {HTMLElement} badgesContainer - Container für die Badges.
+ * @param {HTMLElement} item - The dropdown item element.
+ * @param {string} id - The contact ID.
+ * @param {Object} contact - The contact object.
+ * @param {Set} selectedContacts - Set of selected contact IDs.
+ * @param {HTMLElement} badgesContainer - Container for the badges.
  */
 function handleDropdownSelection(item, id, contact, selectedContacts, badgesContainer) {
   const checkbox = item.querySelector('.custom-checkbox');
   if (!selectedContacts.has(id)) {
-    selectedContacts.add(id);
-    item.classList.add('selected');
-    checkbox.src = "../img/checkboxchecked.png";
-    checkbox.style.filter = "brightness(0) invert(1)";
-    createContactBadge(contact, id, badgesContainer, selectedContacts);
+    addDropdownSelection(item, id, contact, selectedContacts, badgesContainer, checkbox);
   } else {
-    selectedContacts.delete(id);
-    item.classList.remove('selected');
-    checkbox.src = "../img/chekbox.png";
-    checkbox.style.filter = "";
-    const badge = badgesContainer.querySelector(`[data-contact-id="${id}"]`);
-    if (badge) badge.remove();
+    removeDropdownSelection(item, id, selectedContacts, badgesContainer, checkbox);
   }
 }
+
+/**
+ * Adds a dropdown item selection.
+ * @param {HTMLElement} item - The dropdown item element.
+ * @param {string} id - The contact ID.
+ * @param {Object} contact - The contact object.
+ * @param {Set} selectedContacts - Set of selected contact IDs.
+ * @param {HTMLElement} badgesContainer - Container for the badges.
+ * @param {HTMLElement} checkbox - The checkbox element within the item.
+ */
+function addDropdownSelection(item, id, contact, selectedContacts, badgesContainer, checkbox) {
+  selectedContacts.add(id);
+  item.classList.add('selected');
+  checkbox.src = "../img/checkboxchecked.png";
+  checkbox.style.filter = "brightness(0) invert(1)";
+  createContactBadge(contact, id, badgesContainer, selectedContacts);
+}
+
+/**
+ * Removes a dropdown item selection.
+ * @param {HTMLElement} item - The dropdown item element.
+ * @param {string} id - The contact ID.
+ * @param {Set} selectedContacts - Set of selected contact IDs.
+ * @param {HTMLElement} badgesContainer - Container for the badges.
+ * @param {HTMLElement} checkbox - The checkbox element within the item.
+ */
+function removeDropdownSelection(item, id, selectedContacts, badgesContainer, checkbox) {
+  selectedContacts.delete(id);
+  item.classList.remove('selected');
+  checkbox.src = "../img/chekbox.png";
+  checkbox.style.filter = "";
+  const badge = badgesContainer.querySelector(`[data-contact-id="${id}"]`);
+  if (badge) {
+    badge.remove();
+  }
+}
+
 
 /**
  * Erstellt ein Badge-Element mit der entsprechenden Klasse.

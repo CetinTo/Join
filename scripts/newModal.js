@@ -264,7 +264,6 @@ async function updateTaskInFirebase(task) {
     });
     if (!response.ok) throw new Error(`Update failed: ${response.statusText}`);
   } catch (error) {
-    // Fehlerbehandlung
   }
 }
 

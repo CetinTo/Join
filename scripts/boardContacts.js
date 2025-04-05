@@ -251,30 +251,56 @@ function setupDropdownListeners() {
 }
 
 /**
- * Sets up event listeners for Form-Validierung und Task-Erstellung.
+ * Sets up event listeners for form validation and task creation.
  */
 function setupFormListeners() {
+  setupCreateButtonListener();
+  setupInputListeners();
+  setupPriorityContainerListener();
+  setupAssignedContainerObserver();
+}
+
+/**
+ * Sets up the event listener on the create button.
+ */
+function setupCreateButtonListener() {
   const createBtn = document.querySelector(".create-btn");
   createBtn?.addEventListener("click", () => {
     if (validateForm()) {
       addTaskToFirebase();
     }
   });
+}
 
+/**
+ * Sets up input event listeners on specified input elements.
+ */
+function setupInputListeners() {
   const inputSelectors = [".input", ".date-input", ".select-task"];
   inputSelectors.forEach(selector => {
     document.querySelector(selector)?.addEventListener("input", validateForm);
   });
+}
 
+/**
+ * Sets up the click event listener on the priority container.
+ */
+function setupPriorityContainerListener() {
   const priorityContainer = document.querySelector(".priority-container");
   priorityContainer?.addEventListener("click", validateForm);
+}
 
+/**
+ * Sets up a MutationObserver on the assigned container to validate the form on changes.
+ */
+function setupAssignedContainerObserver() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
   if (assignedContainer) {
     const observer = new MutationObserver(validateForm);
     observer.observe(assignedContainer, { childList: true });
   }
 }
+
 
 /**
  * Initialisiert alle Event Listener, wenn das DOM vollständig geladen ist.

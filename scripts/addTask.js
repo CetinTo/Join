@@ -115,15 +115,32 @@ function initSubtaskDeleteEventListener() {
 }
 
 /**
- * @function addSubtask
- * @description Creates a new element in the subtask list based on the current value of the main input.
+ * Creates a new subtask and appends it to the subtask container.
  * @returns {void}
  */
 function addSubtask() {
-  const mainInput = document.querySelector(".input");
-  if (!mainInput) return;
-  const text = mainInput.value.trim();
+  const text = getMainInputText();
   if (!text) return;
+  const subtaskItem = createSubtaskElement(text);
+  appendSubtask(subtaskItem);
+  validateForm();
+}
+
+/**
+ * Retrieves the trimmed text from the main input field.
+ * @returns {string|null} The trimmed text, or null if the input is not found.
+ */
+function getMainInputText() {
+  const mainInput = document.querySelector(".input");
+  return mainInput ? mainInput.value.trim() : null;
+}
+
+/**
+ * Creates a subtask element with the given text.
+ * @param {string} text - The subtask text.
+ * @returns {HTMLElement} The created subtask element.
+ */
+function createSubtaskElement(text) {
   const subtaskItem = document.createElement("div");
   subtaskItem.classList.add("added-subtasks");
   const span = document.createElement("span");
@@ -133,10 +150,20 @@ function addSubtask() {
   deleteIcon.innerText = "✕";
   subtaskItem.appendChild(span);
   subtaskItem.appendChild(deleteIcon);
-  const container = document.querySelector(".subtasks-scroll-container");
-  container.appendChild(subtaskItem);
-  validateForm();
+  return subtaskItem;
 }
+
+/**
+ * Appends the subtask element to the subtask container.
+ * @param {HTMLElement} subtaskItem - The subtask element to append.
+ */
+function appendSubtask(subtaskItem) {
+  const container = document.querySelector(".subtasks-scroll-container");
+  if (container) {
+    container.appendChild(subtaskItem);
+  }
+}
+
 
 /**
  * @function handleTaskCreation
@@ -235,26 +262,42 @@ async function addTaskToFirebase() {
 
 
 /**
- * @function validateForm
- * @description Checks if all required fields are filled and toggles the "Create" button accordingly.
+ * Validates the form by checking all required fields and updating the "Create" button state.
  * @returns {boolean} True if the form is valid, otherwise false.
  */
 function validateForm() {
-  const isValid = [
+  const isValid = checkRequiredFields();
+  updateCreateButtonState(isValid);
+  return isValid;
+}
+
+/**
+ * Checks if all required fields are filled.
+ * @returns {boolean} True if all required fields are valid, otherwise false.
+ */
+function checkRequiredFields() {
+  return [
     !!document.querySelector(".input").value.trim(),
     !!document.querySelector(".date-input").value,
     document.querySelectorAll(".assigned-to-profiles-container div").length > 0,
-    document.querySelector(".priority-container .active"),
-    document.querySelector(".category-item.selected"),
+    Boolean(document.querySelector(".priority-container .active")),
+    Boolean(document.querySelector(".category-item.selected")),
   ].every(Boolean);
+}
+
+/**
+ * Updates the "Create" button's appearance and interactivity based on form validity.
+ * @param {boolean} isValid - True if the form is valid.
+ */
+function updateCreateButtonState(isValid) {
   const createBtn = document.querySelector(".create-btn");
   if (createBtn) {
     createBtn.classList.toggle("disabled", !isValid);
     createBtn.style.pointerEvents = isValid ? "auto" : "none";
     createBtn.style.opacity = isValid ? "1" : "0.5";
   }
-  return isValid;
 }
+
 
 /**
  * @function clearForm

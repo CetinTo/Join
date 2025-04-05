@@ -102,18 +102,32 @@ function filterTasks(searchTerm) {
  * Sets up drag & drop by attaching event listeners to cards and columns.
  */
 function enableDragAndDrop() {
+  attachDragListenersToCards();
+  attachDragOverListenersToColumns();
+}
+
+/**
+ * Attaches 'dragstart' and 'dragend' event listeners to all draggable cards.
+ */
+function attachDragListenersToCards() {
   const cards = document.querySelectorAll('.draggable-cards');
   cards.forEach(card => {
-    card.addEventListener('dragstart', function () {
+    card.addEventListener('dragstart', () => {
       card.classList.add('dragging');
     });
-    card.addEventListener('dragend', function () {
+    card.addEventListener('dragend', () => {
       card.classList.remove('dragging');
     });
   });
+}
+
+/**
+ * Attaches 'dragover' event listeners to all columns to allow dropping of cards.
+ */
+function attachDragOverListenersToColumns() {
   const columns = document.querySelectorAll('.task-board-container');
   columns.forEach(column => {
-    column.addEventListener('dragover', function (e) {
+    column.addEventListener('dragover', (e) => {
       e.preventDefault();
       const draggingCard = document.querySelector('.dragging');
       if (draggingCard) {
@@ -122,6 +136,7 @@ function enableDragAndDrop() {
     });
   });
 }
+
 
 /**
  * Loads tasks, generates task elements, activates drag & drop,

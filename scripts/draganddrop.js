@@ -85,28 +85,54 @@ function attachDesktopDragEvents(task) {
 }
 
 /**
- * Aktualisiert die Position des Drag-Platzhalters anhand der Touch-Koordinaten.
- * @param {Touch} touch
- * @param {HTMLElement[]} columns
+ * Updates the position of the drag placeholder for each column based on touch coordinates.
+ * @param {Touch} touch - The touch event.
+ * @param {HTMLElement[]} columns - An array of column elements.
  */
 function updateDragPlaceholderForColumns(touch, columns) {
   columns.forEach(column => {
-    const rect = column.getBoundingClientRect();
-    if (
-      touch.clientX >= rect.left && touch.clientX <= rect.right &&
-      touch.clientY >= rect.top && touch.clientY <= rect.bottom
-    ) {
+    if (isTouchInsideElement(touch, column)) {
       const afterEl = getDragAfterElement(column, touch.clientY);
-      if (!afterEl) {
-        if (!column.contains(dragPlaceholder)) column.appendChild(dragPlaceholder);
-      } else {
-        afterEl.parentElement === column
-          ? column.insertBefore(dragPlaceholder, afterEl)
-          : column.appendChild(dragPlaceholder);
-      }
+      updateColumnWithPlaceholder(column, afterEl);
     }
   });
 }
+
+/**
+ * Checks if the touch coordinates are within the element's bounding rectangle.
+ * @param {Touch} touch - The touch event.
+ * @param {HTMLElement} element - The element to check.
+ * @returns {boolean} True if the touch is inside the element, otherwise false.
+ */
+function isTouchInsideElement(touch, element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    touch.clientX >= rect.left &&
+    touch.clientX <= rect.right &&
+    touch.clientY >= rect.top &&
+    touch.clientY <= rect.bottom
+  );
+}
+
+/**
+ * Updates the specified column with the drag placeholder based on the reference element.
+ * @param {HTMLElement} column - The column element.
+ * @param {HTMLElement|null} afterEl - The element after which the placeholder should be inserted.
+ */
+function updateColumnWithPlaceholder(column, afterEl) {
+  if (!afterEl) {
+    if (!column.contains(dragPlaceholder)) {
+      column.appendChild(dragPlaceholder);
+    }
+  } else {
+    if (afterEl.parentElement === column) {
+      column.insertBefore(dragPlaceholder, afterEl);
+    } else {
+      column.appendChild(dragPlaceholder);
+    }
+  }
+}
+
 
 /**
  * Startet den Touch-Drag-Vorgang.

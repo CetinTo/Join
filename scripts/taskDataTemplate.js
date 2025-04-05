@@ -17,23 +17,50 @@ window.currentTaskId = null;
  * @returns {{realUsers: Array<Object>, totalCount: number}} Object with the real users array and total count.
  */
 function getRealUserArrayAndCount(users) {
-  if (!users || !Array.isArray(users)) {
+  if (!isValidUserArray(users)) {
     return { realUsers: [], totalCount: 0 };
   }
-  let placeholderCount = 0;
-  const last = users[users.length - 1];
-  if (last && typeof last.name === 'string' && last.name.trim().startsWith('+')) {
-    const parsed = parseInt(last.name.trim().replace('+', ''));
-    if (!isNaN(parsed)) {
-      placeholderCount = parsed;
-      users = users.slice(0, users.length - 1);
-    }
-  }
+  
+  const { updatedUsers, placeholderCount } = extractPlaceholder(users);
+  
   return {
-    realUsers: users,
-    totalCount: users.length + placeholderCount
+    realUsers: updatedUsers,
+    totalCount: updatedUsers.length + placeholderCount
   };
 }
+
+/**
+ * Checks if the provided value is a valid array of users.
+ * @param {any} users - The value to check.
+ * @returns {boolean} True if valid, false otherwise.
+ */
+function isValidUserArray(users) {
+  return Array.isArray(users);
+}
+
+/**
+ * Extracts a placeholder count from the last user if it starts with '+' 
+ * and returns the updated users array along with the placeholder count.
+ * @param {Array<Object>} users - Array of user objects.
+ * @returns {{ updatedUsers: Array<Object>, placeholderCount: number }} 
+ *          Object with updated users array and the extracted placeholder count.
+ */
+function extractPlaceholder(users) {
+  let placeholderCount = 0;
+  let updatedUsers = users;
+  const lastUser = users[users.length - 1];
+  
+  if (lastUser && typeof lastUser.name === 'string' && lastUser.name.trim().startsWith('+')) {
+    const parsedCount = parseInt(lastUser.name.trim().replace('+', ''));
+    if (!isNaN(parsedCount)) {
+      placeholderCount = parsedCount;
+      updatedUsers = users.slice(0, users.length - 1);
+    }
+  }
+  
+  return { updatedUsers, placeholderCount };
+}
+
 
 /**
  * Renders the user badges for a task.

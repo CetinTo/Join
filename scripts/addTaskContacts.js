@@ -188,19 +188,43 @@ function createExtraBubble(extraCount) {
  */
 function updateAssignedToProfile() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
-  assignedContainer.innerHTML = "";
+  clearContainer(assignedContainer);
   const maxVisible = 3;
   if (selectedContacts.length <= maxVisible) {
-    selectedContacts.forEach(contact => {
-      assignedContainer.appendChild(createProfileBubble(contact));
-    });
+    renderProfileBubbles(assignedContainer, selectedContacts);
   } else {
-    selectedContacts.slice(0, maxVisible).forEach(contact => {
-      assignedContainer.appendChild(createProfileBubble(contact));
-    });
+    renderProfileBubbles(assignedContainer, selectedContacts.slice(0, maxVisible));
     const extraCount = selectedContacts.length - maxVisible;
-    assignedContainer.appendChild(createExtraBubble(extraCount));
+    renderExtraBubble(assignedContainer, extraCount);
   }
+}
+
+/**
+ * Clears the inner HTML of the specified container.
+ * @param {HTMLElement} container - The container to clear.
+ */
+function clearContainer(container) {
+  container.innerHTML = "";
+}
+
+/**
+ * Renders profile bubbles for the provided contacts into the container.
+ * @param {HTMLElement} container - The container where profile bubbles are appended.
+ * @param {Array<Object>} contacts - The array of contact objects.
+ */
+function renderProfileBubbles(container, contacts) {
+  contacts.forEach(contact => {
+    container.appendChild(createProfileBubble(contact));
+  });
+}
+
+/**
+ * Renders an extra bubble showing the number of additional contacts.
+ * @param {HTMLElement} container - The container where the extra bubble is appended.
+ * @param {number} extraCount - The number of additional contacts.
+ */
+function renderExtraBubble(container, extraCount) {
+  container.appendChild(createExtraBubble(extraCount));
 }
 
 
@@ -260,7 +284,6 @@ function openDropdown() {
   const dropdownList = document.querySelector(".dropdown-list");
   const arrowClosed = document.querySelector(".search-icon");
   const arrowOpen = document.querySelector(".search-icon-active");
-
   dropdown.classList.add("active");
   dropdownList.style.display = "block";
   arrowClosed.style.display = "none";

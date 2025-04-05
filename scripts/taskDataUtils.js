@@ -174,34 +174,60 @@ function setTaskFields(task) {
  * @param {Object} task - The task object.
  */
 function setAssigneeBadges(task) {
-    const badges = document.getElementById('assigneeBadges');
-    if (badges && task.users && task.users.length > 0) {
-      badges.innerHTML = task.users.map(user => {
-        let colorValue = user.color || "default";
-        if (colorValue.startsWith('#')) {
-          switch (colorValue.toUpperCase()) {
-            case '#F57C00': colorValue = 'orange'; break;
-            case '#E74C3C': colorValue = 'red'; break;
-            case '#5C6BC0': colorValue = 'blue'; break;
-            case '#4CAF50': colorValue = 'green'; break;
-            case '#8E44AD': colorValue = 'purple'; break;
-            case '#EE00FF': colorValue = 'pink'; break;
-            default: colorValue = "default"; break;
-          }
-        }
-        const badgeClass = getBadgeClassFromAnyColor(colorValue);
-        const initials = user.initials || getInitials(user.name);
-        return `
-          <div class="assignee-badge ${badgeClass}"
-               data-contact-color="${colorValue}"
-               data-contact-name="${user.name}">
-            ${initials}
-          </div>`;
-      }).join("");
-    } else {
-      badges.innerHTML = "";
-    }
+  const badges = document.getElementById('assigneeBadges');
+  if (badges && task.users && task.users.length > 0) {
+    badges.innerHTML = generateAssigneeBadges(task.users);
+  } else if (badges) {
+    badges.innerHTML = "";
+  }
 }
+
+/**
+ * Generates the HTML string for all assignee badges.
+ * @param {Array} users - An array of user objects.
+ * @returns {string} The HTML string for the badges.
+ */
+function generateAssigneeBadges(users) {
+  return users.map(user => createBadgeHTML(user)).join("");
+}
+
+/**
+ * Creates the HTML for a single assignee badge.
+ * @param {Object} user - The user object.
+ * @returns {string} The HTML string for the badge.
+ */
+function createBadgeHTML(user) {
+  let colorValue = user.color || "default";
+  if (colorValue.startsWith('#')) {
+    colorValue = mapHexToColorName(colorValue);
+  }
+  const badgeClass = getBadgeClassFromAnyColor(colorValue);
+  const initials = user.initials || getInitials(user.name);
+  return `
+    <div class="assignee-badge ${badgeClass}"
+         data-contact-color="${colorValue}"
+         data-contact-name="${user.name}">
+      ${initials}
+    </div>`;
+}
+
+/**
+ * Maps a hexadecimal color to a predefined color name.
+ * @param {string} hexColor - The hexadecimal color value.
+ * @returns {string} The corresponding color name.
+ */
+function mapHexToColorName(hexColor) {
+  switch (hexColor.toUpperCase()) {
+    case '#F57C00': return 'orange';
+    case '#E74C3C': return 'red';
+    case '#5C6BC0': return 'blue';
+    case '#4CAF50': return 'green';
+    case '#8E44AD': return 'purple';
+    case '#EE00FF': return 'pink';
+    default: return "default";
+  }
+}
+
   
 /**
  * Populates the edit subtasks list.

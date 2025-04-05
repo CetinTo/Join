@@ -25,7 +25,6 @@ function openLegalNotice() {
   }
 }
 
-// Closes all modal dialogs
 function closeModals() {
   const privacyModal = document.getElementById('privacyPolicyModal');
   const legalModal = document.getElementById('legalNoticeModal');
@@ -34,41 +33,99 @@ function closeModals() {
   document.body.style.overflow = 'auto';
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  const privacyLinks = Array.from(document.querySelectorAll('a')).filter(link => 
-    link.textContent.toLowerCase().includes('privacy') || 
-    link.textContent.toLowerCase().includes('privat'));
-  
-  const legalLinks = Array.from(document.querySelectorAll('a')).filter(link => 
-    link.textContent.toLowerCase().includes('legal') || 
-    link.textContent.toLowerCase().includes('notice') ||
-    link.textContent.toLowerCase().includes('imprint'));
-  
+document.addEventListener("DOMContentLoaded", onDomContentLoaded);
+
+/**
+ * Called when the DOM content is loaded.
+ */
+function onDomContentLoaded() {
+  setupPrivacyLinks();
+  setupLegalLinks();
+  setupModalCloseHandler();
+}
+
+/**
+ * Sets up event listeners for privacy-related links.
+ */
+function setupPrivacyLinks() {
+  const privacyLinks = getPrivacyLinks();
   privacyLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      openPrivacyPolicy();
-    });
-});
-  
-  legalLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      openLegalNotice();
-    });
-});
-  
-window.addEventListener('click', function(e) {
-    const privacyModal = document.getElementById('privacyPolicyModal');
-    const legalModal = document.getElementById('legalNoticeModal');
-    
-    if (e.target === privacyModal) {
-      privacyModal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
-    if (e.target === legalModal) {
-      legalModal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
+    link.addEventListener("click", onPrivacyLinkClick);
   });
-}); 
+}
+
+/**
+ * Handles the click event for a privacy link.
+ * @param {Event} event - The click event.
+ */
+function onPrivacyLinkClick(event) {
+  event.preventDefault();
+  openPrivacyPolicy();
+}
+
+/**
+ * Sets up event listeners for legal-related links.
+ */
+function setupLegalLinks() {
+  const legalLinks = getLegalLinks();
+  legalLinks.forEach(link => {
+    link.addEventListener("click", onLegalLinkClick);
+  });
+}
+
+/**
+ * Handles the click event for a legal link.
+ * @param {Event} event - The click event.
+ */
+function onLegalLinkClick(event) {
+  event.preventDefault();
+  openLegalNotice();
+}
+
+/**
+ * Sets up the modal close event listener on the window.
+ */
+function setupModalCloseHandler() {
+  window.addEventListener("click", handleModalClose);
+}
+
+
+/**
+ * Returns an array of links related to privacy.
+ * @returns {HTMLElement[]} An array of privacy-related link elements.
+ */
+function getPrivacyLinks() {
+  return Array.from(document.querySelectorAll("a")).filter(link =>
+    link.textContent.toLowerCase().includes("privacy") ||
+    link.textContent.toLowerCase().includes("privat")
+  );
+}
+
+/**
+ * Returns an array of links related to legal notices.
+ * @returns {HTMLElement[]} An array of legal-related link elements.
+ */
+function getLegalLinks() {
+  return Array.from(document.querySelectorAll("a")).filter(link =>
+    link.textContent.toLowerCase().includes("legal") ||
+    link.textContent.toLowerCase().includes("notice") ||
+    link.textContent.toLowerCase().includes("imprint")
+  );
+}
+
+/**
+ * Handles closing of modals if the click event target is one of the modals.
+ * @param {MouseEvent} event - The click event.
+ */
+function handleModalClose(event) {
+  const privacyModal = document.getElementById("privacyPolicyModal");
+  const legalModal = document.getElementById("legalNoticeModal");
+  if (event.target === privacyModal) {
+    privacyModal.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+  if (event.target === legalModal) {
+    legalModal.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+}

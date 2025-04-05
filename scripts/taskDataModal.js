@@ -14,20 +14,39 @@ function createSubtaskTextSpan(text) {
  * @returns {HTMLElement} The actions container element.
  */
 function createSubtaskActions() {
-    const actionsDiv = document.createElement('div');
-    actionsDiv.className = "subtask-actions";
-    const editIcon = document.createElement('img');
-    editIcon.src = "../img/pen.png";
-    editIcon.alt = "Edit";
-    editIcon.className = "subtask-edit-edit";
-    const deleteIcon = document.createElement('img');
-    deleteIcon.src = "../img/trash.png";
-    deleteIcon.alt = "Delete";
-    deleteIcon.className = "subtask-delete-edit";
-    actionsDiv.appendChild(editIcon);
-    actionsDiv.appendChild(deleteIcon);
-    return actionsDiv;
+  const actionsDiv = createActionsContainer();
+  const editIcon = createActionIcon("../img/pen.png", "Edit", "subtask-edit-edit");
+  const deleteIcon = createActionIcon("../img/trash.png", "Delete", "subtask-delete-edit");
+  actionsDiv.appendChild(editIcon);
+  actionsDiv.appendChild(deleteIcon);
+  return actionsDiv;
 }
+
+/**
+ * Creates the container element for the action icons.
+ * @returns {HTMLElement} The container element.
+ */
+function createActionsContainer() {
+  const div = document.createElement('div');
+  div.className = "subtask-actions";
+  return div;
+}
+
+/**
+ * Creates an action icon element.
+ * @param {string} src - The source URL for the icon image.
+ * @param {string} alt - The alternate text for the icon.
+ * @param {string} className - The class name(s) for styling the icon.
+ * @returns {HTMLElement} The created image element.
+ */
+function createActionIcon(src, alt, className) {
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = alt;
+  img.className = className;
+  return img;
+}
+
 
 /**
  * Removes the leading "• " from the text.

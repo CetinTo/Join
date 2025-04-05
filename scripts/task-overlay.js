@@ -9,24 +9,22 @@
  * @listens DOMContentLoaded
  */
 document.addEventListener("DOMContentLoaded", () => {
-    /**
-     * The overlay element that serves as the modal background.
-     * @type {HTMLElement|null}
-     */
-    const modalBackground = document.querySelector(".modal-background-task-overlay");
+  const modalBackground = document.querySelector(".modal-background-task-overlay");
+  if (!modalBackground) return;
   
-    if (!modalBackground) return;
-  
-    
-    /**
-     * Hides the modal background if the user clicks directly on it (outside the modal).
-     *
-     * @param {MouseEvent} event - The click event on the modal background.
-     */
-    modalBackground.addEventListener("click", (event) => {
-      if (event.target === modalBackground) {
-        modalBackground.style.display = "none";
-      }
-    });
+  attachModalBackgroundClick(modalBackground);
+});
+
+/**
+ * Attaches a click event listener to the modal background which hides the modal if clicked outside.
+ * @param {HTMLElement} modalBackground - The modal background element.
+ */
+function attachModalBackgroundClick(modalBackground) {
+  modalBackground.addEventListener("click", (event) => {
+    if (event.target === modalBackground) {
+      modalBackground.style.display = "none";
+    }
   });
+}
+
   

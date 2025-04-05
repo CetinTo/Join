@@ -1,115 +1,59 @@
 /**
- * Fetches tasks from Firebase and updates the to-do task counter.
+ * Fetches tasks from Firebase.
+ * @returns {Promise<Array<Object>>} A promise that resolves to an array of task objects (excluding null or undefined).
  */
-async function loadTaskCounterFromFirebase() {
+async function fetchTasks() {
   const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Load error: ${response.status} ${response.statusText}`);
-    let tasks = await response.json();
-    if (!tasks) {
-      updateCounter(0, ".counter");
-      return;
-    }
-    let tasksArray = Array.isArray(tasks) ? tasks : Object.values(tasks);
-    let toDoCount = tasksArray.filter(task => task.column === "toDoColumn").length;
-    updateCounter(toDoCount, ".counter");
-  } catch (error) {}
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Load error: ${response.status} ${response.statusText}`);
+  }
+  const tasks = await response.json();
+  const tasksArray = tasks
+    ? (Array.isArray(tasks) ? tasks : Object.values(tasks))
+    : [];
+  const validTasks = tasksArray.filter(
+    (item) => item && typeof item === "object"
+  );
+  return validTasks;
 }
 
 /**
- * Fetches tasks from Firebase and updates the done task counter.
+ * A safe filter that ensures we only pass items that have the specified key.
+ * @param {Array<Object>} tasksArray - The array of tasks to filter.
+ * @param {function(Object): boolean} filterFn - The filter condition.
+ * @param {string[]} requiredProps - Keys that each task must have.
+ * @returns {number} The count of tasks matching the filter.
  */
-async function loadDoneTaskCounterFromFirebase() {
-  const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Load error: ${response.status} ${response.statusText}`);
-    let tasks = await response.json();
-    if (!tasks) {
-      updateCounter(0, ".counter-done");
-      return;
+function countWithSafeFilter(tasksArray, filterFn, requiredProps = []) {
+  return tasksArray.reduce((count, task) => {
+    for (const prop of requiredProps) {
+      if (!(prop in task)) {
+        return count;
+      }
     }
-    let tasksArray = Array.isArray(tasks) ? tasks : Object.values(tasks);
-    let doneCount = tasksArray.filter(task => task.column === "done").length;
-    updateCounter(doneCount, ".counter-done");
-  } catch (error) {}
+    if (filterFn(task)) {
+      count++;
+    }
+    return count;
+  }, 0);
 }
 
 /**
- * Fetches tasks from Firebase and updates the urgent task counter.
+ * Loads a task counter by filtering tasks based on the provided filter function
+ * and updates the counter element specified by the selector.
+ * @param {function(Object): boolean} filterFn - The filter function for tasks.
+ * @param {string} selector - The CSS selector for the counter element.
+ * @param {string[]} requiredProps - Keys that must exist on each task.
  */
-async function loadUrgentTaskCounterFromFirebase() {
-  const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
+async function loadTaskCounter(filterFn, selector, requiredProps = []) {
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Load error: ${response.status} ${response.statusText}`);
-    let tasks = await response.json();
-    if (!tasks) {
-      updateCounter(0, ".urgent-counter");
-      return;
-    }
-    let tasksArray = Array.isArray(tasks) ? tasks : Object.values(tasks);
-    let urgentCount = tasksArray.filter(task => task.priority === "../../img/priority-img/urgent.png").length;
-    updateCounter(urgentCount, ".urgent-counter");
-  } catch (error) {}
-}
-
-/**
- * Fetches all tasks from Firebase and updates the total task counter.
- */
-async function loadTotalTaskCount() {
-  const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Load error: ${response.status} ${response.statusText}`);
-    let tasks = await response.json();
-    if (!tasks) {
-      updateCounter(0, ".counter-tasks-in-board");
-      return;
-    }
-    let tasksArray = Array.isArray(tasks) ? tasks : Object.values(tasks);
-    let totalCount = tasksArray.length;
-    updateCounter(totalCount, ".counter-tasks-in-board");
-  } catch (error) {}
-}
-
-/**
- * Fetches tasks from Firebase and updates the in-progress task counter.
- */
-async function loadInProgressTaskCounterFromFirebase() {
-  const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Load error: ${response.status} ${response.statusText}`);
-    let tasks = await response.json();
-    if (!tasks) {
-      updateCounter(0, ".counter-in-progress");
-      return;
-    }
-    let tasksArray = Array.isArray(tasks) ? tasks : Object.values(tasks);
-    let inProgressCount = tasksArray.filter(task => task.column === "inProgress").length;
-    updateCounter(inProgressCount, ".counter-in-progress");
-  } catch (error) {}
-}
-
-/**
- * Fetches tasks from Firebase and updates the "await feedback" task counter.
- */
-async function loadAwaitFeedbackTaskCounterFromFirebase() {
-  const url = "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Load error: ${response.status} ${response.statusText}`);
-    let tasks = await response.json();
-    if (!tasks) {
-      updateCounter(0, ".counter-await-feedback");
-      return;
-    }
-    let tasksArray = Array.isArray(tasks) ? tasks : Object.values(tasks);
-    let awaitFeedbackCount = tasksArray.filter(task => task.column === "awaitFeedback").length;
-    updateCounter(awaitFeedbackCount, ".counter-await-feedback");
-  } catch (error) {}
+    const tasksArray = await fetchTasks();
+    const count = countWithSafeFilter(tasksArray, filterFn, requiredProps);
+    updateCounter(count, selector);
+  } catch (error) {
+    // Errors are silently ignored.
+  }
 }
 
 /**
@@ -126,38 +70,63 @@ function updateCounter(count, selector) {
 }
 
 /**
+ * Loads task counters that depend on the task's column property.
+ */
+function loadColumnBasedCounters() {
+  loadTaskCounter(task => task.column === "toDoColumn", ".counter", ["column"]);
+  loadTaskCounter(task => task.column === "done", ".counter-done", ["column"]);
+  loadTaskCounter(task => task.column === "inProgress", ".counter-in-progress", ["column"]);
+  loadTaskCounter(task => task.column === "awaitFeedback", ".counter-await-feedback", ["column"]);
+}
+
+/**
+ * Loads task counters that do not depend solely on the column property.
+ */
+function loadOtherCounters() {
+  loadTaskCounter(task => task.priority === "../../img/priority-img/urgent.png", ".urgent-counter", ["priority"]);
+  loadTaskCounter(() => true, ".counter-tasks-in-board");
+}
+
+/**
  * Loads all task counters after the DOM content is loaded.
  */
+function loadAllTaskCounters() {
+  loadColumnBasedCounters();
+  loadOtherCounters();
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
-  loadTaskCounterFromFirebase();
-  loadDoneTaskCounterFromFirebase();
-  loadUrgentTaskCounterFromFirebase();
-  loadTotalTaskCount();
-  loadInProgressTaskCounterFromFirebase();
-  loadAwaitFeedbackTaskCounterFromFirebase();
+  loadAllTaskCounters();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const greetingText = document.querySelector('.greeting-section');
-  const greetingContainer = document.querySelector('.greeting-section-container');
-    if (greetingText && greetingContainer) {
-    greetingText.addEventListener('animationend', (e) => {
-      if (e.animationName === 'slideText') {
-        greetingContainer.style.display = 'none';
+/* -------------------------------------------------------------------------- */
+/*                         Greeting Section Setup                             */
+/* -------------------------------------------------------------------------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const greetingText = document.querySelector(".greeting-section");
+  const greetingContainer = document.querySelector(".greeting-section-container");
+  if (greetingText && greetingContainer) {
+    greetingText.addEventListener("animationend", (e) => {
+      if (e.animationName === "slideText") {
+        greetingContainer.style.display = "none";
       }
     });
   }
 });
 
-
+/* -------------------------------------------------------------------------- */
+/*                       Viewport Height Setup                                */
+/* -------------------------------------------------------------------------- */
 
 /**
  * Sets the --vh CSS variable based on the current viewport height.
  */
 function setViewportHeight() {
-  let vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
 
-window.addEventListener('resize', setViewportHeight);
+window.addEventListener("resize", setViewportHeight);
 setViewportHeight();

@@ -4,25 +4,40 @@ document.addEventListener("DOMContentLoaded", initAddModalInteractions);
  * Initializes modal interactions and event listeners for adding a contact.
  */
 function initAddModalInteractions() {
-  const createBtn = document.querySelector(".create-btn");
+  setupModalToggleListeners();
+  setupCreateContactListener();
+}
+
+/**
+ * Sets up event listeners for opening and closing the add-contact modal.
+ */
+function setupModalToggleListeners() {
   const openBtn = document.querySelector(".Contact-button");
   const modal = document.querySelector(".modal-overlay");
   const closeBtn = document.querySelector(".close-modal-button");
   const clearBtn = document.querySelector(".clear-btn");
-
   openBtn.addEventListener("click", openAddModal);
   closeBtn.addEventListener("click", closeAddModal);
   clearBtn.addEventListener("click", closeAddModal);
   modal.addEventListener("click", handleAddModalOverlayClick);
+}
 
+/**
+ * Sets up the event listener for creating a new contact.
+ */
+function setupCreateContactListener() {
+  const createBtn = document.querySelector(".create-btn");
   createBtn.addEventListener("click", async function (e) {
     e.preventDefault();
     const { name, email, phone } = getContactFormValues();
     if (!validateContactInputs(name, email, phone)) return;
     const success = await saveContactToFirebase();
-    if (success) closeAddModal();
+    if (success) {
+      closeAddModal();
+    }
   });
 }
+
 
 /**
  * Opens the contact modal for adding a new contact.
@@ -86,7 +101,6 @@ function showSuccessPopup() {
     <img src="../img/contactsuccesfullycreated.png" alt="Success" style="width: 100%;">
   `;
   document.body.appendChild(popup);
-
   setTimeout(() => popup.classList.add("slide-in"), 50);
   setTimeout(() => {
     popup.classList.remove("slide-in");
@@ -101,7 +115,6 @@ function showSuccessPopup() {
  */
 async function saveContactToFirebase() {
   const { name, email, phone } = getContactFormValues();
-  // Die Validierung erfolgt in validateContactInputs
   try {
     await postContactToFirebase({ name, email, phone });
     showSuccessPopup();

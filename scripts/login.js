@@ -40,29 +40,53 @@ function handlePasswordValidation(passwordInput) {
  */
 function handleLogin(event, emailInput, passwordInput) {
   event.preventDefault();
-  removeError(emailInput);
-  removeError(passwordInput);
+  clearLoginErrors(emailInput, passwordInput);
   const emailValue = emailInput.value.trim();
   const passwordValue = passwordInput.value.trim();
-  let hasError = false;
-  if (!validateEmail(emailValue)) {
-    showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
-    hasError = true;
+  if (!validateLoginInputs(emailInput, passwordInput, emailValue, passwordValue)) {
+    return;
   }
-  if (passwordValue === '') {
-    showError(passwordInput, 'Bitte ein Passwort eingeben.');
-    hasError = true;
-  }
-  if (hasError) return;
   authenticateUser(emailValue, passwordValue, emailInput, passwordInput);
 }
 
 /**
- * Authenticates the user by checking Firebase for matching credentials.
- * @param {string} email - The entered email.
- * @param {string} password - The entered password.
- * @param {HTMLInputElement} emailInput - The email input element.
- * @param {HTMLInputElement} passwordInput - The password input element.
+ * Clears error messages for the login inputs.
+ * @param {HTMLInputElement} emailInput - The email input field.
+ * @param {HTMLInputElement} passwordInput - The password input field.
+ */
+function clearLoginErrors(emailInput, passwordInput) {
+  removeError(emailInput);
+  removeError(passwordInput);
+}
+
+/**
+ * Validates the login inputs and displays error messages if necessary.
+ * @param {HTMLInputElement} emailInput - The email input field.
+ * @param {HTMLInputElement} passwordInput - The password input field.
+ * @param {string} emailValue - The trimmed email value.
+ * @param {string} passwordValue - The trimmed password value.
+ * @returns {boolean} True if both inputs are valid, false otherwise.
+ */
+function validateLoginInputs(emailInput, passwordInput, emailValue, passwordValue) {
+  let isValid = true;
+    if (!validateEmail(emailValue)) {
+    showError(emailInput, 'Bitte eine gültige E-Mail-Adresse eingeben.');
+    isValid = false;
+  }
+    if (passwordValue === '') {
+    showError(passwordInput, 'Bitte ein Passwort eingeben.');
+    isValid = false;
+  }
+    return isValid;
+}
+
+
+/**
+ * Authenticates the user by fetching data from Firebase.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @param {HTMLInputElement} emailInput - The email input field.
+ * @param {HTMLInputElement} passwordInput - The password input field.
  */
 function authenticateUser(email, password, emailInput, passwordInput) {
   const dbUrl = 'https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/contacts.json';
@@ -79,10 +103,10 @@ function authenticateUser(email, password, emailInput, passwordInput) {
       }
     })
     .catch(error => {
-      console.error(error);
       alert('Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.');
     });
 }
+
 
 /**
  * Searches for a user in the Firebase data by email.
