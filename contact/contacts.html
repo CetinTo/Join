@@ -18,13 +18,13 @@
     <link rel="stylesheet" href="../contact/styles/contacts.css" />
     <link rel="stylesheet" href="../contact/styles/contacts-section.css" />
     <link rel="stylesheet" href="../contact/styles/edit-contact-modal.css" />
-    <script src="./scripts/contacts.js"></script>
-    <script src="./scripts/contactsEventListener.js"></script>
-    <script src="./scripts/contactAdd.js"></script>  
-    <script src="../script/user.js"></script>
-    <script src="../script/logout.js"></script>
+    <script src="../scripts/contacts.js"></script>
+    <script src="../scripts/contactsEventListener.js"></script>
+    <script src="../scripts/contactAdd.js"></script>  
+    <script src="../scripts/user.js"></script>
     <script src="../scripts/logout.js"></script>
-    <script src="../script/dropdown.js"></script>
+    <script src="../scripts/indexLogout.js"></script>
+    <script src="../scripts/dropdown.js"></script>
     <title>Join</title>
     <style>
 
@@ -324,35 +324,33 @@
 
 
     
-    <script src="../contact/scripts/contacts.js"></script>
+    <!-- <script src="../contact/scripts/contacts.js"></script> -->
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const formInputs = document.querySelectorAll("input");
-        const createBtn = document.querySelector(".create-btn");
-      
-        formInputs.forEach(input => {
-          input.addEventListener("input", () => {
-            if (input.checkValidity()) {
-              input.style.borderColor = "green";
-            } else {
-              input.style.borderColor = "red";
-            }
-          });
-        });
-      
-        createBtn.addEventListener("click", (e) => {
-          const isValid = Array.from(formInputs).every(input => input.checkValidity());
-          if (!isValid) {
-            e.preventDefault(); 
-           
-          } else {
-            
-            console.log("Alle Felder gültig, weiter geht's!");
-          }
-        });
-      });
-      </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const formInputs = document.querySelectorAll("input");
+  const createBtn = document.querySelector(".create-btn");
+
+  formInputs.forEach(input => {
+    input.addEventListener("input", () => {
+      if (input.checkValidity()) {
+        input.style.borderColor = "green";
+      } else {
+        input.style.borderColor = "red";
+      }
+    });
+});
+  
+createBtn.addEventListener("click", (e) => {
+    const isValid = Array.from(formInputs).every(input => input.checkValidity());
+    if (!isValid) {
+      e.preventDefault();      
+     } else {
+      console.log("Alle Felder gültig, weiter geht's!");
+    }
+  });
+});
+</script>
       
     
 
