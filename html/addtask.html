@@ -319,10 +319,30 @@ function setupDeleteIcon(subtaskInput, addIcon, iconsDiv, deleteIcon) {
  * @param {string} text - The subtask text.
  * @returns {HTMLElement} The new subtask element.
  */
-function createSubtaskElement(text) {
-  const newSubtask = document.createElement("div");
-  newSubtask.className = "added-subtasks";
-  newSubtask.innerHTML = `
+ function createSubtaskElement(text) {
+  const newSubtask = createSubtaskContainer();
+  newSubtask.innerHTML = generateSubtaskInnerHTML(text);
+  attachTrashEvent(newSubtask);
+  return newSubtask;
+}
+
+/**
+ * Creates the container element for the subtask.
+ * @returns {HTMLElement} The container element.
+ */
+function createSubtaskContainer() {
+  const element = document.createElement("div");
+  element.className = "added-subtasks";
+  return element;
+}
+
+/**
+ * Generates the inner HTML for the subtask.
+ * @param {string} text - The subtask text.
+ * @returns {string} The HTML string.
+ */
+function generateSubtaskInnerHTML(text) {
+  return `
     <div class="flexrow">
       <div>•</div>
       <div class="subtask-added-tasks">${text}</div>
@@ -333,12 +353,20 @@ function createSubtaskElement(text) {
       <div class="trash-icon"><img src="../img/trash.png" alt="trash"></div>
     </div>
   `;
-  newSubtask.querySelector(".trash-icon").addEventListener("click", () => {
+}
+
+/**
+ * Attaches the click event to the trash icon for removing the subtask.
+ * @param {HTMLElement} newSubtask - The subtask element.
+ */
+function attachTrashEvent(newSubtask) {
+  const trashIcon = newSubtask.querySelector(".trash-icon");
+  trashIcon.addEventListener("click", () => {
     newSubtask.remove();
     validateForm();
   });
-  return newSubtask;
 }
+
 
 /**
  * Sets up the check icon click event to add a new subtask.
