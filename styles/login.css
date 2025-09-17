@@ -204,14 +204,14 @@ header {
 
 
 .input-email {
-  background-image: url(../../img/mail.png);
+  background-image: url(../img/mail.png);
   background-repeat: no-repeat;
   background-position: 95% center; 
 }
 
 
 .icon-lock{
-  background-image: url(../../img/lock.png);
+  background-image: url(../img/lock.png);
   background-repeat: no-repeat;
   background-position: 95% center;
 }

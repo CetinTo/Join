@@ -254,8 +254,8 @@
               <div class="custom-dropdown">
                 <div class="dropdown-search-container">
                   <input type="text" class="dropdown-search" placeholder="Select to assign" >
-                  <img src="../img/arrow_drop_down.png" alt="Search Icon" class="search-icon" onclick="toggleDropdown()">
-                  <img src="../img/arrow_drop_down_aktive.png" alt="Search Icon" class="search-icon-active" onclick="toggleDropdown()">
+                  <img src="../img/arrow_drop_down.png" alt="Search Icon" class="search-icon" onclick="toggleModalDropdown(this)">
+                  <img src="../img/arrow_drop_down_aktive.png" alt="Search Icon" class="search-icon-active" onclick="toggleModalDropdown(this)">
                 </div>
                 <div class="dropdown-list"></div>
                 <div class="assigned-to-profiles-container"></div>
@@ -321,7 +321,7 @@
             </div>
             <div class="footer-btn">
               <div class="clear-btn clear-btn-board-add-task" onclick="toggleModal()">Clear x</div>
-              <div class="create-btn">Create <img src="../img/icon/check.png" alt=""></div>
+              <div class="create-btn" onclick="createTaskNow()">Create <img src="../img/icon/check.png" alt=""></div>
             </div>
           </div>
         </div>
@@ -457,6 +457,169 @@
   <script src="../scripts/floatingBoard.js"></script>
   <script src="../scripts/task-overlay.js"></script>
   <script src="../scripts/draganddrop.js"></script>
+  
+  <!-- Robuste Modal Lösung -->
+  <script>
+    // Warte bis DOM geladen ist
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Setting up board modal...');
+      
+      // Add Task Button
+      const addTaskBtn = document.getElementById('addTaskButton');
+      if (addTaskBtn) {
+        addTaskBtn.onclick = function() {
+          console.log('Add Task button clicked');
+          const modal = document.getElementById('taskModal');
+          if (modal) {
+            modal.style.display = 'block';
+            console.log('Modal opened');
+          }
+        };
+      }
+      
+      console.log('Modal setup complete');
+    });
+    
+    // Modal schließen Funktionen
+    function closeModalAndReload() {
+      const modal = document.getElementById('taskModal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+    
+    function toggleModal() {
+      closeModalAndReload();
+    }
+    
+    // Dropdown Funktion für Modal
+    function toggleModalDropdown(icon) {
+      const dropdown = icon.closest('.custom-dropdown').querySelector('.dropdown-list');
+      if (dropdown) {
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+      }
+    }
+    
+    // EINFACHE CREATE FUNKTION
+    async function createTaskNow() {
+      console.log('CREATE BUTTON CLICKED!');
+      
+      const title = document.querySelector('#taskModal .input').value.trim();
+      const dueDate = document.querySelector('#taskModal .date-input').value;
+      
+      console.log('Title:', title);
+      console.log('Date:', dueDate);
+      
+      if (!title) {
+        alert('Bitte Titel eingeben!');
+        return;
+      }
+      
+      if (!dueDate) {
+        alert('Bitte Datum eingeben!');
+        return;
+      }
+      
+      try {
+        const taskData = {
+          column: "toDoColumn",
+          title: title,
+          description: "No description provided",
+          dueDate: dueDate,
+          priority: "../../img/priority-img/low.png",
+          users: [],
+          subtasks: [],
+          category: "Technical task",
+          id: null
+        };
+        
+        console.log('Sending to Firebase:', taskData);
+        
+        const response = await fetch(
+          "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(taskData)
+          }
+        );
+        
+        if (response.ok) {
+          alert('Task erstellt!');
+          document.getElementById('taskModal').style.display = 'none';
+          location.reload();
+        } else {
+          alert('Fehler beim Speichern!');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Fehler: ' + error.message);
+      }
+    }
+    
+    // Funktionierende Task-Erstellung (kopiert von addTask.js)
+    async function createTaskFromModal() {
+      // Daten aus Modal sammeln
+      const title = document.querySelector('#taskModal .input').value.trim();
+      const description = document.querySelector('#taskModal .description').value.trim() || "No description provided";
+      const dueDate = document.querySelector('#taskModal .date-input').value;
+      const category = document.querySelector('#taskModal .category-item.selected')?.dataset.value || "Technical task";
+      
+      console.log('Modal form data:', { title, description, dueDate, category });
+      
+      // Validierung
+      if (!title) {
+        throw new Error('Bitte geben Sie einen Titel ein.');
+      }
+      if (!dueDate) {
+        throw new Error('Bitte wählen Sie ein Datum aus.');
+      }
+      
+      // Task-Daten erstellen
+      const taskData = {
+        column: "toDoColumn",
+        description: description,
+        dueDate: dueDate,
+        id: null,
+        priority: "../../img/priority-img/low.png",
+        title: title,
+        users: [],
+        subtasks: [],
+        category: category
+      };
+      
+      console.log('Creating task with data:', taskData);
+      
+      // An Firebase senden
+      const response = await fetch(
+        "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(taskData)
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error('Fehler beim Speichern in Firebase');
+      }
+      
+      const result = await response.json();
+      console.log('Firebase response:', result);
+      
+      // Formular zurücksetzen
+      document.querySelector('#taskModal .input').value = '';
+      document.querySelector('#taskModal .description').value = '';
+      document.querySelector('#taskModal .date-input').value = '';
+      
+      // Modal schließen
+      document.getElementById('taskModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+      
+      // Seite neu laden um Task anzuzeigen
+      location.reload();
+    }
+  </script>
 
 
   <script>

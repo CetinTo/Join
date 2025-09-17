@@ -187,16 +187,22 @@ function toggleCheckboxState(contact, checkboxImg, itemElement) {
  */
 function updateAssignedToProfile() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
+  const dropdownSearch = document.querySelector(".dropdown-search");
+  
   if (!assignedContainer) return;
   assignedContainer.innerHTML = "";
-  selectedContacts.forEach(contact => {
-    const initials = getInitials(contact.name);
-    const colorClass = getColorClass(contact.name, contactsArray);
-    const profileBubble = document.createElement("div");
-    profileBubble.classList.add("profile-badge", colorClass);
-    profileBubble.textContent = initials;
-    assignedContainer.appendChild(profileBubble);
-  });
+  
+  // Zeige Kürzel im Dropdown-Search Feld an
+  if (selectedContacts.length > 0 && dropdownSearch) {
+    const initials = selectedContacts.map(contact => getInitials(contact.name)).join(', ');
+    dropdownSearch.value = initials;
+    dropdownSearch.placeholder = "Select to assign";
+  } else if (dropdownSearch) {
+    dropdownSearch.value = "";
+    dropdownSearch.placeholder = "Select to assign";
+  }
+  
+  // Container bleibt leer - Kürzel werden nur im Dropdown-Search angezeigt
 }
 
 /* =============================== */

@@ -24,6 +24,21 @@
     <script src="./scripts/logout.js"></script>
   </head>
   <body>
+    <script>
+      // Prüfung beim Laden der Seite, ob Benutzer eingeloggt ist
+      // Falls nicht eingeloggt, Weiterleitung zur Login-Seite
+      // Prüfe ob eingeloggt
+      const isLoggedIn = localStorage.getItem('userLoggedIn');
+      
+      if (isLoggedIn) {
+        // Eingeloggt - bleibe auf Summary
+        console.log('✅ Eingeloggt - bleibe auf Summary');
+      } else {
+        // Nicht eingeloggt - gehe zu Login
+        console.log('❌ Nicht eingeloggt - gehe zu Login');
+        window.location.href = './html/login.html';
+      }
+    </script>
     <div class="side-menu">
       <div class="logo-content-container">
         
@@ -110,7 +125,7 @@
           <div class="dropdown-content-div" onclick="logout()">
             <div class="dropdown-content-div-text">
               <div>
-                <a href="http://join-419.developerakademie.net/join/html/login.html" >Logout</a>
+                <a href="./html/login.html" >Logout</a>
               </div>
             </div>
           </div>

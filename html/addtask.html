@@ -412,5 +412,48 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
     </script>
+    
+    <script>
+// Account dropdown functionality
+document.querySelector('.account').addEventListener('click', function(event) {
+  event.stopPropagation();
+  document.querySelector('.dropdown-menu').classList.toggle('show');
+});
+
+document.addEventListener('click', function(event) {
+  const dropdown = document.querySelector('.dropdown-menu');
+  if (!dropdown.contains(event.target) && dropdown.classList.contains('show')) {
+    dropdown.classList.remove('show');
+  }
+});
+
+// Alternative method for account button
+window.onload = function() {
+    var accountButton = document.querySelector('.account');
+    var dropdownMenu = document.querySelector('.dropdown-menu');
+    if (accountButton && dropdownMenu) {
+        accountButton.outerHTML = accountButton.outerHTML;
+        accountButton = document.querySelector('.account');
+        accountButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            console.log('Account-Button wurde geklickt');
+            if (dropdownMenu.style.display === 'block') {
+                dropdownMenu.style.display = 'none';
+            } else {
+                dropdownMenu.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('click', function() {
+            dropdownMenu.style.display = 'none';
+        });
+
+        dropdownMenu.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
+};
+</script>
   </body>
 </html>

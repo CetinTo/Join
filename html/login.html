@@ -67,7 +67,7 @@
             <div class="button-div">
               <div class="button-group">
                 <button type="submit" class="btn login-btn">Log in</button>
-                <a class="btn guest-btn" href="../index.html">Guest Log in</a>
+                <a class="btn guest-btn" href="../index.html" onclick="localStorage.setItem('userLoggedIn', 'true'); localStorage.setItem('currentUser', JSON.stringify({name: 'Guest'}));">Guest Log in</a>
               </div>
             </div>
           </form>
@@ -94,6 +94,17 @@
     <script>
       function reload() {
         location.reload();
+      }
+      
+      function setGuestLogin() {
+        console.log('Guest Login clicked');
+        // Setze den Login-Status für Guest User
+        localStorage.setItem('userLoggedIn', 'true');
+        localStorage.setItem('currentUser', JSON.stringify({ name: 'Guest', email: 'guest@example.com', isGuest: true }));
+        console.log('Login status set, redirecting...');
+        setTimeout(function() {
+          window.location.href = '../index.html?loggedIn=true';
+        }, 100);
       }
     </script>
   </body>

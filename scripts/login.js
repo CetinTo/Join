@@ -130,6 +130,7 @@ function findUserByEmail(data, email) {
  */
 function loginUser(user) {
   localStorage.setItem('currentUser', JSON.stringify(user));
+  localStorage.setItem('userLoggedIn', 'true'); // Login-Status setzen
   window.location.href = '../index.html';
 }
 

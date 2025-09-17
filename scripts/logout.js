@@ -4,13 +4,15 @@
  */
 function logout() {
   localStorage.removeItem('currentUser'); 
-  window.location.href = 'http://join-419.developerakademie.net/join/html/login.html';
+  localStorage.removeItem('userLoggedIn'); // Login-Status entfernen
+  window.location.href = './html/login.html'; // Lokale Login-Seite verwenden
 
 }
 
 
 function logoutToLogin() {
   localStorage.removeItem('currentUser'); 
-  window.location.href = 'http://join-419.developerakademie.net/join/html/login.html';
+  localStorage.removeItem('userLoggedIn'); // Login-Status entfernen
+  window.location.href = './html/login.html'; // Lokale Login-Seite verwenden
 
 }

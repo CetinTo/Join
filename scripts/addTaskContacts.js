@@ -188,15 +188,22 @@ function createExtraBubble(extraCount) {
  */
 function updateAssignedToProfile() {
   const assignedContainer = document.querySelector(".assigned-to-profiles-container");
+  const dropdownSearch = document.querySelector(".dropdown-search");
+  
+  // Leere den Container
   clearContainer(assignedContainer);
-  const maxVisible = 3;
-  if (selectedContacts.length <= maxVisible) {
-    renderProfileBubbles(assignedContainer, selectedContacts);
-  } else {
-    renderProfileBubbles(assignedContainer, selectedContacts.slice(0, maxVisible));
-    const extraCount = selectedContacts.length - maxVisible;
-    renderExtraBubble(assignedContainer, extraCount);
+  
+  // Zeige Kürzel im Dropdown-Search Feld an
+  if (selectedContacts.length > 0 && dropdownSearch) {
+    const initials = selectedContacts.map(contact => getInitials(contact.name)).join(', ');
+    dropdownSearch.value = initials;
+    dropdownSearch.placeholder = "Select to assign";
+  } else if (dropdownSearch) {
+    dropdownSearch.value = "";
+    dropdownSearch.placeholder = "Select to assign";
   }
+  
+  // Container bleibt leer - Kürzel werden nur im Dropdown-Search angezeigt
 }
 
 /**

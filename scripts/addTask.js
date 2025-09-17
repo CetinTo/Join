@@ -200,8 +200,12 @@ function getTaskData(mainInputValue) {
   const users = [...document.querySelectorAll(".assigned-to-profiles-container div")].map(
     user => ({ name: user.innerText.trim() })
   );
+  // Subtasks korrekt erfassen
   const subtasks = [...document.querySelectorAll(".subtasks-scroll-container .added-subtasks")].map(
-    () => ({ completed: false, text: mainInputValue })
+    subtaskElement => ({ 
+      completed: false, 
+      text: subtaskElement.innerText.trim() || "Unnamed subtask"
+    })
   );
   const category = document.querySelector(".category-item.selected")?.dataset.value || "Technical task";
   return { column: "toDoColumn", description, dueDate, id: null, priority, title: mainInputValue, users, subtasks, category };
@@ -279,8 +283,10 @@ function checkRequiredFields() {
   return [
     !!document.querySelector(".input").value.trim(),
     !!document.querySelector(".date-input").value,
-    document.querySelectorAll(".assigned-to-profiles-container div").length > 0,
-    Boolean(document.querySelector(".priority-container .active")),
+    // Assigned to ist optional, daher entfernt
+    // document.querySelectorAll(".assigned-to-profiles-container div").length > 0,
+    // Priority ist optional, daher entfernt
+    // Boolean(document.querySelector(".priority-container .active")),
     Boolean(document.querySelector(".category-item.selected")),
   ].every(Boolean);
 }
