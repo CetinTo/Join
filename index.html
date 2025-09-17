@@ -32,10 +32,8 @@
       
       if (isLoggedIn) {
         // Eingeloggt - bleibe auf Summary
-        console.log('✅ Eingeloggt - bleibe auf Summary');
       } else {
         // Nicht eingeloggt - gehe zu Login
-        console.log('❌ Nicht eingeloggt - gehe zu Login');
         window.location.href = './html/login.html';
       }
     </script>
@@ -263,7 +261,6 @@ window.onload = function() {
       accountButton.addEventListener('click', function(event) {
         event.stopPropagation();
         event.preventDefault();
-        console.log('Account-Button wurde geklickt');
           if (dropdownMenu.style.display === 'block') {
             dropdownMenu.style.display = 'none';
           } else {

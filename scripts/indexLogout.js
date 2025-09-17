@@ -67,7 +67,6 @@ function setupDropdownLinks(menu) {
  */
 function handleLogout(event, redirectUrl) {
   event.preventDefault();
-  console.log('Performing logout...');
   localStorage.removeItem('userEmail');
   localStorage.removeItem('userName');
   localStorage.removeItem('currentUser');

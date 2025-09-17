@@ -97,14 +97,9 @@
       }
       
       function setGuestLogin() {
-        console.log('Guest Login clicked');
         // Setze den Login-Status für Guest User
         localStorage.setItem('userLoggedIn', 'true');
         localStorage.setItem('currentUser', JSON.stringify({ name: 'Guest', email: 'guest@example.com', isGuest: true }));
-        console.log('Login status set, redirecting...');
-        setTimeout(function() {
-          window.location.href = '../index.html?loggedIn=true';
-        }, 100);
       }
     </script>
   </body>

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  console.log('Dropdown script loaded.');
   const accountButton = document.querySelector('.account');
   const dropdownMenu = document.querySelector('.dropdown-menu');
   const logoutLink = dropdownMenu?.querySelector('a[href*="https://join-419.developerakademie.net/join/html/login.html"]');
@@ -45,7 +44,6 @@ if (logoutLink) {
     logoutLink.addEventListener('click', function (event) {
       event.preventDefault();
       event.stopPropagation();
-      console.log('Performing logout...');
       localStorage.removeItem('currentUser');
       localStorage.removeItem('userEmail');
       localStorage.removeItem('userName');

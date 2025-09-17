@@ -462,22 +462,16 @@
   <script>
     // Warte bis DOM geladen ist
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('Setting up board modal...');
-      
       // Add Task Button
       const addTaskBtn = document.getElementById('addTaskButton');
       if (addTaskBtn) {
         addTaskBtn.onclick = function() {
-          console.log('Add Task button clicked');
           const modal = document.getElementById('taskModal');
           if (modal) {
             modal.style.display = 'block';
-            console.log('Modal opened');
           }
         };
       }
-      
-      console.log('Modal setup complete');
     });
     
     // Modal schließen Funktionen
@@ -502,13 +496,8 @@
     
     // EINFACHE CREATE FUNKTION
     async function createTaskNow() {
-      console.log('CREATE BUTTON CLICKED!');
-      
       const title = document.querySelector('#taskModal .input').value.trim();
       const dueDate = document.querySelector('#taskModal .date-input').value;
-      
-      console.log('Title:', title);
-      console.log('Date:', dueDate);
       
       if (!title) {
         alert('Bitte Titel eingeben!');
@@ -533,8 +522,6 @@
           id: null
         };
         
-        console.log('Sending to Firebase:', taskData);
-        
         const response = await fetch(
           "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json",
           {
@@ -552,7 +539,6 @@
           alert('Fehler beim Speichern!');
         }
       } catch (error) {
-        console.error('Error:', error);
         alert('Fehler: ' + error.message);
       }
     }
@@ -564,8 +550,6 @@
       const description = document.querySelector('#taskModal .description').value.trim() || "No description provided";
       const dueDate = document.querySelector('#taskModal .date-input').value;
       const category = document.querySelector('#taskModal .category-item.selected')?.dataset.value || "Technical task";
-      
-      console.log('Modal form data:', { title, description, dueDate, category });
       
       // Validierung
       if (!title) {
@@ -588,8 +572,6 @@
         category: category
       };
       
-      console.log('Creating task with data:', taskData);
-      
       // An Firebase senden
       const response = await fetch(
         "https://join-360-1d879-default-rtdb.europe-west1.firebasedatabase.app/taskData.json",
@@ -605,7 +587,6 @@
       }
       
       const result = await response.json();
-      console.log('Firebase response:', result);
       
       // Formular zurücksetzen
       document.querySelector('#taskModal .input').value = '';
@@ -628,7 +609,6 @@
       const dropdownList = document.getElementById('assigneeDropdownList');
       dropdownSelected.addEventListener('click', event => {
         event.stopPropagation();
-        console.log('assigneeDropdownSelected clicked');
         dropdownList.classList.toggle('hidden');
       });
     });
